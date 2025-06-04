@@ -30,29 +30,31 @@ N 590 30 620 30 {lab=#net5}
 N 590 -40 670 -40 {lab=#net5}
 N 590 -40 590 30 {lab=#net5}
 N 560 30 590 30 {lab=#net5}
-N -240 -30 -210 -30 {lab=#net6}
-N -240 -170 -240 -30 {lab=#net6}
-N -240 -170 820 -170 {lab=#net6}
-N 800 60 820 60 {lab=#net6}
-N 820 -40 820 60 {lab=#net6}
-N 730 -40 820 -40 {lab=#net6}
-N 820 -170 820 -40 {lab=#net6}
+N -240 -30 -210 -30 {lab=out}
+N -240 -170 -240 -30 {lab=out}
+N -240 -170 830 -170 {lab=out}
+N 800 60 830 60 {lab=out}
+N 730 -40 830 -40 {lab=out}
 N 140 -0 140 270 {lab=#net2}
 N 140 270 160 270 {lab=#net2}
-N 250 270 280 270 {lab=#net7}
-N 250 190 350 190 {lab=#net7}
-N 250 190 250 270 {lab=#net7}
-N 220 270 250 270 {lab=#net7}
+N 250 270 280 270 {lab=#net6}
+N 250 190 350 190 {lab=#net6}
+N 250 190 250 270 {lab=#net6}
+N 220 270 250 270 {lab=#net6}
 N 260 330 280 330 {lab=GND}
 N 260 330 260 370 {lab=GND}
-N 250 270 250 330 {lab=#net7}
-N 220 330 250 330 {lab=#net7}
-N 480 190 500 190 {lab=#net8}
-N 460 300 480 300 {lab=#net8}
-N 480 190 480 300 {lab=#net8}
-N 410 190 480 190 {lab=#net8}
+N 250 270 250 330 {lab=#net6}
+N 220 330 250 330 {lab=#net6}
+N 480 190 500 190 {lab=#net7}
+N 460 300 480 300 {lab=#net7}
+N 480 190 480 300 {lab=#net7}
+N 410 190 480 190 {lab=#net7}
 N 590 30 590 190 {lab=#net5}
 N 560 190 590 190 {lab=#net5}
+N 110 330 110 340 {lab=#net8}
+N 110 330 160 330 {lab=#net8}
+N 830 -40 830 60 {lab=out}
+N 830 -170 830 -40 {lab=out}
 C {opamp.sym} -10 0 2 1 {}
 C {res.sym} -180 -30 1 0 {name=R1
 value=1k
@@ -84,11 +86,6 @@ value=1k
 footprint=1206
 device=resistor
 m=1}
-C {res.sym} 530 30 1 0 {name=R5
-value=1k
-footprint=1206
-device=resistor
-m=1}
 C {gnd.sym} -90 70 0 0 {name=l1 lab=GND}
 C {gnd.sym} 260 100 0 0 {name=l2 lab=GND}
 C {gnd.sym} 600 130 0 0 {name=l3 lab=GND}
@@ -116,3 +113,70 @@ footprint=1206
 device=resistor
 m=1}
 C {gnd.sym} 260 370 0 0 {name=l4 lab=GND}
+C {code_shown.sym} -780 -160 0 0 {name=NGSPICE only_toplevel=true 
+value="
+.temp 27
+.control
+option sparse
+save all
+
+* DC Operating Point Analysis
+op
+write ideal_ota_dc.raw
+set appendwrite
+
+* Debug: Print DC operating point
+print all
+
+* AC Analysis with proper input source
+ac dec 101 1k 100MEG
+write ideal_ota_ac.raw
+
+* Debug: Print available vectors
+print all
+
+* Plot magnitude and phase with debug info
+plot v(out) vs frequency
+plot vdb(out) vs frequency
+plot vp(out) vs frequency
+
+* DC Gain and Bandwidth Measurements
+* First check if we have valid output
+let mag_out = mag(v(out))
+print mag_out
+
+* Modified gain measurement
+meas ac gain_dc MAX mag_out FROM=1k TO=10k
+print gain_dc
+let gain_dc_db = 20*log10(gain_dc)
+print gain_dc_db
+let f3db = gain_dc_db-3
+print f3db
+meas ac bandwidth WHEN mag_out=gain_dc/1.414 FALL=1
+print bandwidth
+
+* Phase Margin Calculation
+meas ac phase_margin FIND vp(out) WHEN mag_out=gain_dc/1.414
+print phase_margin
+
+* Noise Analysis with proper AC source
+noise v(out) Vin dec 101 1k 100MEG 1000
+print onoise_total
+print inoise_total
+
+.endc
+"}
+C {launcher.sym} 40 510 0 0 {name=h1
+descr="simulate" 
+tclcommand="xschem save; xschem netlist; xschem simulate"}
+C {launcher.sym} 290 510 0 0 {name=h3
+descr="annotate OP" 
+tclcommand="set show_hidden_texts 1; xschem annotate_op"}
+C {vsource.sym} 110 370 0 0 {name=Vin
+value=1
+type=ac
+ac_mag=1
+ac_phase=0
+m=1}
+C {gnd.sym} 110 400 0 0 {name=l5 lab=GND}
+C {lab_pin.sym} 830 60 0 1 {name=p1 sig_type=std_logic lab=out}
