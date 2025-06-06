@@ -14,47 +14,54 @@ N -100 -30 -70 -30 {lab=#net1}
 N -100 -120 -20 -120 {lab=#net1}
 N -100 -120 -100 -30 {lab=#net1}
 N -150 -30 -100 -30 {lab=#net1}
-N 40 -120 140 -120 {lab=#net2}
-N 140 -120 140 -0 {lab=#net2}
-N 140 -0 160 -0 {lab=#net2}
-N 110 -0 140 -0 {lab=#net2}
-N 250 -0 280 -0 {lab=#net3}
-N 250 -80 340 -80 {lab=#net3}
-N 250 -80 250 -0 {lab=#net3}
-N 220 -0 250 -0 {lab=#net3}
-N 400 -80 480 -80 {lab=#net4}
-N 480 30 500 30 {lab=#net4}
-N 480 -80 480 30 {lab=#net4}
-N 460 30 480 30 {lab=#net4}
-N 590 30 620 30 {lab=#net5}
-N 590 -40 670 -40 {lab=#net5}
-N 590 -40 590 30 {lab=#net5}
-N 560 30 590 30 {lab=#net5}
-N -240 -30 -210 -30 {lab=out}
-N -240 -170 -240 -30 {lab=out}
-N -240 -170 830 -170 {lab=out}
-N 800 60 830 60 {lab=out}
-N 730 -40 830 -40 {lab=out}
-N 140 -0 140 270 {lab=#net2}
-N 140 270 160 270 {lab=#net2}
-N 250 270 280 270 {lab=#net6}
-N 250 190 350 190 {lab=#net6}
-N 250 190 250 270 {lab=#net6}
-N 220 270 250 270 {lab=#net6}
+N 40 -120 140 -120 {lab=bpf_out}
+N 140 -120 140 -0 {lab=bpf_out}
+N 140 -0 160 -0 {lab=bpf_out}
+N 110 -0 140 -0 {lab=bpf_out}
+N 250 -0 280 -0 {lab=#net2}
+N 250 -80 340 -80 {lab=#net2}
+N 250 -80 250 -0 {lab=#net2}
+N 220 -0 250 -0 {lab=#net2}
+N 400 -80 480 -80 {lab=lpf_out}
+N 490 30 500 30 {lab=lpf_out}
+N 480 -80 480 30 {lab=lpf_out}
+N 460 30 480 30 {lab=lpf_out}
+N 590 30 620 30 {lab=#net3}
+N 590 -40 670 -40 {lab=#net3}
+N 590 -40 590 30 {lab=#net3}
+N 560 30 590 30 {lab=#net3}
+N -240 -30 -210 -30 {lab=hpf_out}
+N -240 -170 -240 -30 {lab=hpf_out}
+N -240 -170 830 -170 {lab=hpf_out}
+N 730 -40 830 -40 {lab=hpf_out}
+N 140 80 140 270 {lab=bpf_out}
+N 140 270 160 270 {lab=bpf_out}
+N 250 270 280 270 {lab=#net4}
+N 250 190 350 190 {lab=#net4}
+N 250 190 250 270 {lab=#net4}
+N 220 270 250 270 {lab=#net4}
 N 260 330 280 330 {lab=GND}
 N 260 330 260 370 {lab=GND}
-N 250 270 250 330 {lab=#net6}
-N 220 330 250 330 {lab=#net6}
-N 480 190 500 190 {lab=#net7}
-N 460 300 480 300 {lab=#net7}
-N 480 190 480 300 {lab=#net7}
-N 410 190 480 190 {lab=#net7}
-N 590 30 590 190 {lab=#net5}
-N 560 190 590 190 {lab=#net5}
-N 110 330 110 340 {lab=#net8}
-N 110 330 160 330 {lab=#net8}
-N 830 -40 830 60 {lab=out}
-N 830 -170 830 -40 {lab=out}
+N 250 270 250 330 {lab=#net4}
+N 220 330 250 330 {lab=#net4}
+N 480 190 500 190 {lab=bsf_out}
+N 460 300 480 300 {lab=bsf_out}
+N 480 190 480 300 {lab=bsf_out}
+N 410 190 480 190 {lab=bsf_out}
+N 590 30 590 190 {lab=#net3}
+N 560 190 590 190 {lab=#net3}
+N 110 330 110 340 {lab=#net5}
+N 110 330 160 330 {lab=#net5}
+N 830 -40 830 60 {lab=hpf_out}
+N 830 -170 830 -40 {lab=hpf_out}
+N 830 60 880 60 {lab=hpf_out}
+N 800 60 830 60 {lab=hpf_out}
+N 490 90 510 90 {lab=lpf_out}
+N 490 30 490 90 {lab=lpf_out}
+N 480 30 490 30 {lab=lpf_out}
+N 480 300 530 300 {lab=bsf_out}
+N 140 80 160 80 {lab=bpf_out}
+N 140 -0 140 80 {lab=bpf_out}
 C {opamp.sym} -10 0 2 1 {}
 C {res.sym} -180 -30 1 0 {name=R1
 value=1k
@@ -128,7 +135,10 @@ set appendwrite
 * Debug: Print DC operating point
 print all
 
-* AC Analysis with proper input source
+tran 0.1lu 10 u
+write ideal_ota_tran.raw
+
+AC Analysis with proper input source
 ac dec 101 1k 100MEG
 write ideal_ota_ac.raw
 
@@ -174,9 +184,16 @@ descr="annotate OP"
 tclcommand="set show_hidden_texts 1; xschem annotate_op"}
 C {vsource.sym} 110 370 0 0 {name=Vin
 value=1
-type=ac
+type=pulse
+pulse_width=1u
+pulse_period=2u
+rise_time=0.1u
+fall_time=0.1u
 ac_mag=1
 ac_phase=0
 m=1}
 C {gnd.sym} 110 400 0 0 {name=l5 lab=GND}
-C {lab_pin.sym} 830 60 0 1 {name=p1 sig_type=std_logic lab=out}
+C {lab_pin.sym} 880 60 0 1 {name=p1 sig_type=std_logic lab=hpf_out}
+C {lab_pin.sym} 510 90 0 1 {name=p2 sig_type=std_logic lab=lpf_out}
+C {lab_pin.sym} 530 300 0 1 {name=p3 sig_type=std_logic lab=bsf_out}
+C {lab_pin.sym} 160 80 0 1 {name=p4 sig_type=std_logic lab=bpf_out}
