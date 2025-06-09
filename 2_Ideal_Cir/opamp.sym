@@ -5,7 +5,7 @@ V {}
 S {type=primitive
 format="@name @pinlist @symname"
 template="name=x1"
-spice_sym_def=".include opamp.cir}
+spice_sym_def=".include opamp.cir"}
 E {}
 L 4 -40 -60 -40 60 {}
 L 4 -40 60 100 0 {}
