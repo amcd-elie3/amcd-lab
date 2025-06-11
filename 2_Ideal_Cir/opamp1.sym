@@ -3,7 +3,7 @@ G {}
 K {type=subcircuit
 format="@name @pinlist @symname"
 template="name=x1"
-spice_sym_def=".include /foss/designs/AMCD_Group3/2_Ideal_Cir/opamp1.cir"}
+spice_sym_def=".include /foss/designs/amcd-lab/2_Ideal_Cir/opamp1.cir"}
 E {}
 L 4 -40 -60 -40 60 {}
 L 4 -40 60 100 0 {}
