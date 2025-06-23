@@ -1,4 +1,4 @@
-v {xschem version=3.4.6 file_version=1.2}
+v {xschem version=3.4.7 file_version=1.2}
 G {}
 K {}
 V {}
@@ -119,7 +119,7 @@ lab=tail}
 N 360 -250 360 -210 {
 lab=ena_n}
 N 640 -440 640 -310 {
-lab=ibias_20u}
+lab=ibias}
 N 540 -390 700 -390 {
 lab=ena}
 N 420 -210 480 -210 {
@@ -127,7 +127,7 @@ lab=vss}
 N 480 -210 480 -160 {
 lab=vss}
 N 740 -440 740 -420 {
-lab=ibias_20u}
+lab=ibias}
 N 740 -390 820 -390 {
 lab=vss}
 N 820 -390 820 -210 {
@@ -146,8 +146,8 @@ N 480 -360 480 -310 {lab=vdd}
 N 420 -310 480 -310 {lab=vdd}
 N 420 -860 420 -360 {lab=vdd}
 N 420 -860 760 -860 {lab=vdd}
-N 640 -440 740 -440 {lab=ibias_20u}
-N 160 -440 640 -440 {lab=ibias_20u}
+N 640 -440 740 -440 {lab=ibias}
+N 160 -440 640 -440 {lab=ibias}
 N 160 -590 780 -590 {lab=vinp}
 N 260 -180 260 -160 {
 lab=vss}
@@ -260,7 +260,7 @@ m=1
 model=sg13_lv_pmos
 spiceprefix=X
 }
-C {devices/ipin.sym} 160 -440 0 0 {name=p1 lab=ibias_20u}
+C {devices/ipin.sym} 160 -440 0 0 {name=p1 lab=ibias}
 C {devices/iopin.sym} 160 -860 0 1 {name=p2 lab=vdd}
 C {devices/iopin.sym} 160 -160 0 1 {name=p3 lab=vss}
 C {devices/ipin.sym} 160 -590 0 0 {name=p4 lab=vinp}
