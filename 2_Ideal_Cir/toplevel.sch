@@ -1,4 +1,4 @@
-v {xschem version=3.4.7 file_version=1.2}
+v {xschem version=3.4.6 file_version=1.2}
 G {}
 K {}
 V {}
@@ -107,12 +107,6 @@ write toplevel.raw
 plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
 .endc
 "}
-C {launcher.sym} 40 510 0 0 {name=h1
-descr="simulate" 
-tclcommand="xschem save; xschem netlist; xschem simulate"}
-C {launcher.sym} 290 510 0 0 {name=h3
-descr="annotate OP" 
-tclcommand="set show_hidden_texts 1; xschem annotate_op"}
 C {vsource.sym} 110 370 0 1 {name=Vin
 value="
 + PULSE(-0.2 0.2 0 0.1u 0.1u 0.5m 1m 10)
@@ -127,3 +121,4 @@ C {opamp1.sym} -10 0 2 1 {name=x1}
 C {opamp1.sym} 340 30 2 1 {name=x2}
 C {opamp1.sym} 680 60 2 1 {name=x3}
 C {opamp1.sym} 340 300 2 1 {name=x4}
+C {title.sym} -160 510 0 0 {name=l8 author="Aditya Ranjan S., Merlin Anitha A., Varun Kumar C.V."}
