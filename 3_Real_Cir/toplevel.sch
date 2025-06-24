@@ -44,17 +44,6 @@ N 250 310 250 370 {lab=#net3}
 N 220 310 250 310 {lab=#net3}
 N 250 370 280 370 {lab=#net3}
 N 220 370 250 370 {lab=#net3}
-N -10 -160 -10 -80 {lab=v_dd}
-N -10 -160 30 -160 {lab=v_dd}
-N 30 -160 30 -140 {lab=v_dd}
-N 360 -130 360 -40 {lab=v_dd}
-N 360 -130 400 -130 {lab=v_dd}
-N 400 -130 400 -110 {lab=v_dd}
-N 760 -100 760 -20 {lab=v_dd}
-N 760 -100 800 -100 {lab=v_dd}
-N 800 -100 800 -80 {lab=v_dd}
-N 360 260 360 320 {lab=v_dd}
-N 360 260 400 260 {lab=v_dd}
 N -120 -220 -120 -90 {lab=#net5}
 N 140 -220 140 -0 {lab=bpf}
 N 230 430 230 470 {lab=GND}
@@ -71,14 +60,14 @@ N 410 200 480 200 {lab=bsf}
 N -150 -90 -120 -90 {lab=#net5}
 N -120 -30 -90 -30 {lab=#net5}
 N -120 -220 -20 -220 {lab=#net5}
-N -150 640 -150 650 {lab=GND}
-N -270 640 -270 650 {lab=GND}
-N -150 570 -150 580 {lab=v_dd}
-N -270 570 -270 580 {lab=v_ss}
+N 830 380 830 390 {lab=GND}
+N 710 380 710 390 {lab=GND}
+N 830 310 830 320 {lab=v_dd}
+N 710 310 710 320 {lab=v_ss}
 N 400 480 400 510 {lab=v_en}
 N 400 510 410 510 {lab=v_en}
-N -30 570 -30 580 {lab=v_en}
-N -30 640 -30 650 {lab=v_ss}
+N 710 460 710 470 {lab=v_en}
+N 710 530 710 540 {lab=v_ss}
 N 360 480 360 510 {lab=v_ss}
 N 350 510 360 510 {lab=v_ss}
 N 400 110 400 140 {lab=v_en}
@@ -93,6 +82,16 @@ N 800 140 800 170 {lab=v_en}
 N 800 170 810 170 {lab=v_en}
 N 760 140 760 170 {lab=v_ss}
 N 750 170 760 170 {lab=v_ss}
+N 30 -140 30 -80 {lab=i_bias}
+N -10 -140 -10 -80 {lab=v_dd}
+N 830 460 830 470 {lab=v_dd}
+N 830 530 830 540 {lab=i_bias}
+N 360 -110 360 -50 {lab=v_dd}
+N 400 -110 400 -50 {lab=i_bias}
+N 760 -80 760 -20 {lab=v_dd}
+N 800 -80 800 -20 {lab=i_bias}
+N 360 270 360 320 {lab=v_dd}
+N 400 270 400 320 {lab=i_bias}
 C {res.sym} -180 -90 1 0 {name=R1
 value=\{R\}
 footprint=1206
@@ -132,6 +131,7 @@ value=\{RH\}}
 C {gnd.sym} 230 470 0 0 {name=l4 lab=GND}
 C {code_shown.sym} -500 160 0 0 {name=NGSPICE only_toplevel=true 
 value="
+.temp 27
 .param R=1.6k C=100n RH=R/1.0 RQ=4.7k
 .control
 save all
@@ -141,12 +141,6 @@ write toplevel.raw
 plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
 .endc
 "}
-C {launcher.sym} 80 710 0 0 {name=h1
-descr="simulate" 
-tclcommand="xschem save; xschem netlist; ngspice -b simulations/toplevel.spice"}
-C {launcher.sym} 290 710 0 0 {name=h3
-descr="annotate OP" 
-tclcommand="set show_hidden_texts 1; xschem annotate_op"}
 C {vsource.sym} 110 410 0 1 {name=Vin
 value="
 + PULSE(-0.2 0.2 0 0.1u 0.1u 0.5m 1m 10)
@@ -161,24 +155,20 @@ C {ota-5t.sym} -10 0 0 0 {name=x1}
 C {ota-5t.sym} 360 30 0 0 {name=x2}
 C {ota-5t.sym} 760 60 0 0 {name=x3}
 C {ota-5t.sym} 360 400 0 0 {name=x4}
-C {devices/isource.sym} 30 -110 0 0 {name=I1 value=20u pwl(0 0 10u 0 11u 20u)"}
-C {devices/isource.sym} 400 -80 0 0 {name=I2 value=20u pwl(0 0 10u 0 11u 20u)"}
-C {devices/isource.sym} 800 -50 0 0 {name=I3 value=20u pwl(0 0 10u 0 11u 20u)"}
-C {devices/isource.sym} 400 290 0 0 {name=I4 value=20u pwl(0 0 10u 0 11u 20u)"}
-C {devices/lab_pin.sym} -10 -160 0 0 {name=p1 sig_type=std_logic lab=v_dd}
-C {devices/lab_pin.sym} 760 -100 0 0 {name=p7 sig_type=std_logic lab=v_dd}
-C {devices/lab_pin.sym} 360 260 0 0 {name=p8 sig_type=std_logic lab=v_dd}
-C {devices/vsource.sym} -150 610 0 0 {name=Vdd value=1.5}
-C {devices/lab_pin.sym} -150 570 0 0 {name=p6 sig_type=std_logic lab=v_dd}
-C {devices/lab_pin.sym} 360 -130 0 0 {name=p9 sig_type=std_logic lab=v_dd}
-C {devices/vsource.sym} -270 610 0 0 {name=Vss value=0}
-C {devices/gnd.sym} -270 650 0 0 {name=l6 lab=GND}
-C {devices/vsource.sym} -30 610 0 0 {name=Venable value="1.5" savecurrent=false}
-C {gnd.sym} -150 650 0 0 {name=l7 lab=GND}
-C {devices/lab_pin.sym} -270 570 0 0 {name=p10 sig_type=std_logic lab=v_ss}
+C {devices/lab_pin.sym} -10 -140 0 0 {name=p1 sig_type=std_logic lab=v_dd}
+C {devices/lab_pin.sym} 760 -80 0 0 {name=p7 sig_type=std_logic lab=v_dd}
+C {devices/lab_pin.sym} 360 270 0 0 {name=p8 sig_type=std_logic lab=v_dd}
+C {devices/vsource.sym} 830 350 0 0 {name=Vdd value=1.5}
+C {devices/lab_pin.sym} 830 310 0 0 {name=p6 sig_type=std_logic lab=v_dd}
+C {devices/lab_pin.sym} 360 -110 0 0 {name=p9 sig_type=std_logic lab=v_dd}
+C {devices/vsource.sym} 710 350 0 0 {name=Vss value=0}
+C {devices/gnd.sym} 710 390 0 0 {name=l6 lab=GND}
+C {devices/vsource.sym} 710 500 0 0 {name=Venable value="1.5" savecurrent=false}
+C {gnd.sym} 830 390 0 0 {name=l7 lab=GND}
+C {devices/lab_pin.sym} 710 310 0 0 {name=p10 sig_type=std_logic lab=v_ss}
 C {devices/lab_pin.sym} 410 510 0 1 {name=p11 sig_type=std_logic lab=v_en}
-C {devices/lab_pin.sym} -30 570 0 0 {name=p12 sig_type=std_logic lab=v_en}
-C {devices/lab_pin.sym} -30 650 0 0 {name=p13 sig_type=std_logic lab=v_ss}
+C {devices/lab_pin.sym} 710 460 0 0 {name=p12 sig_type=std_logic lab=v_en}
+C {devices/lab_pin.sym} 710 540 0 0 {name=p13 sig_type=std_logic lab=v_ss}
 C {devices/lab_pin.sym} 350 510 0 0 {name=p14 sig_type=std_logic lab=v_ss}
 C {devices/lab_pin.sym} 410 140 0 1 {name=p15 sig_type=std_logic lab=v_en}
 C {devices/lab_pin.sym} 350 140 0 0 {name=p16 sig_type=std_logic lab=v_ss}
@@ -191,3 +181,11 @@ format="tcleval( @value )"
 value="
 .lib cornerMOSlv.lib mos_tt
 "}
+C {title.sym} -220 620 0 0 {name=l8 author="Aditya Ranjan S., Merlin Anitha A., Varun Kumar C.V."}
+C {devices/isource.sym} 830 500 0 0 {name=I1 value=20u pwl(0 0 10u 0 11u 20u)"}
+C {devices/lab_pin.sym} 30 -140 0 1 {name=p21 sig_type=std_logic lab=i_bias}
+C {devices/lab_pin.sym} 830 460 0 0 {name=p22 sig_type=std_logic lab=v_dd}
+C {devices/lab_pin.sym} 830 540 0 0 {name=p23 sig_type=std_logic lab=i_bias}
+C {devices/lab_pin.sym} 400 -110 0 1 {name=p24 sig_type=std_logic lab=i_bias}
+C {devices/lab_pin.sym} 800 -80 0 1 {name=p25 sig_type=std_logic lab=i_bias}
+C {devices/lab_pin.sym} 400 270 0 1 {name=p26 sig_type=std_logic lab=i_bias}
