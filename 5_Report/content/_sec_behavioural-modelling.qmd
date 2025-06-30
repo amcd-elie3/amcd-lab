@@ -1,0 +1,7 @@
+# Behavioural Modelling in Python
+
+## Introduction to Macro Modelling
+
+## Ideal Transfer Function Implementation
+
+## Simulation and Visualization
