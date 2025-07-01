@@ -2,11 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.7.28">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-06-04">
+<meta name="author" content="Aditya Ranjan Shandilya">
+<meta name="author" content="Merlin Anitha Athisayaraj">
+<meta name="author" content="Varun Kumar">
+<meta name="dcterms.date" content="2025-06-30">
 
 <title>IC Design of a Universal Biquad Filter</title>
 <style>
@@ -50,38 +53,41 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-769b268fb290e116fe386cf5612ac759.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6e5ff12f349f7d7ee99023e5a7f49be9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 <meta name="citation_title" content="IC Design of a Universal Biquad Filter">
 <meta name="citation_abstract" content="Lorem ipsum
 ">
-<meta name="citation_publication_date" content="2025-06-04">
-<meta name="citation_cover_date" content="2025-06-04">
+<meta name="citation_author" content="Aditya Ranjan Shandilya">
+<meta name="citation_author" content="Merlin Anitha Athisayaraj">
+<meta name="citation_author" content="Varun Kumar">
+<meta name="citation_publication_date" content="2025-06-30">
+<meta name="citation_cover_date" content="2025-06-30">
 <meta name="citation_year" content="2025">
-<meta name="citation_online_date" content="2025-06-04">
+<meta name="citation_online_date" content="2025-06-30">
 <meta name="citation_language" content="en">
-<meta name="citation_reference" content="citation_title=CMOS: Circuit Design, Layout, and Simulation;,citation_author=R. Jacob Baker;,citation_publication_date=2010-10;,citation_cover_date=2010-10;,citation_year=2010;,citation_doi=10.1002/9780470891179;,citation_isbn=9780470891179;">
+<meta name="citation_reference" content="citation_title=CMOS: Circuit design, layout, and simulation;,citation_author=R. Jacob Baker;,citation_publication_date=2010-10;,citation_cover_date=2010-10;,citation_year=2010;,citation_doi=10.1002/9780470891179;,citation_isbn=9780470891179;">
 <meta name="citation_reference" content="citation_title=CMOSedu;,citation_author=R. Jacob Baker;,citation_publication_date=2015;,citation_cover_date=2015;,citation_year=2015;,citation_fulltext_html_url=http://www.cmosedu.com;,citation_publisher=Website;">
-<meta name="citation_reference" content="citation_title=Switch-Mode Power Supplies: SPICE Simulations and Practical Designs;,citation_author=Christophe P. Basso;,citation_publication_date=2008;,citation_cover_date=2008;,citation_year=2008;,citation_isbn=9780071508582;,citation_series_title=Electronic Engineering;">
-<meta name="citation_reference" content="citation_title=Op Amps for Everyone;,citation_author=Bruce Carter;,citation_publication_date=2013;,citation_cover_date=2013;,citation_year=2013;,citation_fulltext_html_url=http://www.sciencedirect.com/science/article/pii/B9780123914958000015;,citation_doi=10.1016/B978-0-12-391495-8.00001-5;,citation_isbn=978-0-12-391495-8;">
-<meta name="citation_reference" content="citation_title=Open-source design of integrated circuits: Ein quelloffener 1,44-MS/s 703-μW 12-bit nichtbinärer SAR-ADC mit 448-aF Kondensatoren in einem 130-nm CMOS-Prozess;,citation_author=Patrick Fath;,citation_author=Manuel Moser;,citation_author=Georg Zachl;,citation_author=Harald Pretl;,citation_publication_date=2024-01;,citation_cover_date=2024-01;,citation_year=2024;,citation_issue=1;,citation_doi=10.1007/s00502-023-01195-5;,citation_issn=1613-7620;,citation_volume=141;,citation_journal_title=Elektrotechnik und Informationstechnik;,citation_publisher=Springer Science; Business Media LLC;">
+<meta name="citation_reference" content="citation_title=Switch-mode power supplies: SPICE simulations and practical designs;,citation_author=Christophe P. Basso;,citation_publication_date=2008;,citation_cover_date=2008;,citation_year=2008;,citation_isbn=9780071508582;,citation_series_title=Electronic engineering;">
+<meta name="citation_reference" content="citation_title=Op amps for everyone;,citation_author=Bruce Carter;,citation_publication_date=2013;,citation_cover_date=2013;,citation_year=2013;,citation_fulltext_html_url=http://www.sciencedirect.com/science/article/pii/B9780123914958000015;,citation_doi=10.1016/B978-0-12-391495-8.00001-5;,citation_isbn=978-0-12-391495-8;">
+<meta name="citation_reference" content="citation_title=Open-source design of integrated circuits: Ein quelloffener 1,44-MS/s 703-μW 12-bit nichtbinärer SAR-ADC mit 448-aF kondensatoren in einem 130-nm CMOS-prozess;,citation_author=Patrick Fath;,citation_author=Manuel Moser;,citation_author=Georg Zachl;,citation_author=Harald Pretl;,citation_publication_date=2024-01;,citation_cover_date=2024-01;,citation_year=2024;,citation_issue=1;,citation_doi=10.1007/s00502-023-01195-5;,citation_issn=1613-7620;,citation_volume=141;,citation_journal_title=Elektrotechnik und Informationstechnik;,citation_publisher=Springer Science; Business Media LLC;">
 <meta name="citation_reference" content="citation_title=Tiny Tapeout hit as eFabless closes;,citation_author=Nick Flaherty;,citation_publication_date=2025-03;,citation_cover_date=2025-03;,citation_year=2025;,citation_fulltext_html_url=https://www.eenewseurope.com/en/tiny-tapeout-hit-as-efabless-closes/;,citation_journal_title=eeNews EUROPE;">
-<meta name="citation_reference" content="citation_title=Fundamentals of Layout Design for Electronic Circuits;,citation_author=Jens Lienig;,citation_author=Juergen Scheible;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_doi=10.1007/978-3-030-39284-0;,citation_isbn=9783030392840;">
-<meta name="citation_reference" content="citation_title=Grundlagen des Layoutentwurfs elektronischer Schaltungen;,citation_author=Jens Lienig;,citation_author=Jürgen Scheible;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_doi=10.1007/978-3-031-15768-4;,citation_isbn=9783031157684;">
-<meta name="citation_reference" content="citation_title=Op Amps for Everyone;,citation_author=Ron Mancini;,citation_publication_date=2002-08;,citation_cover_date=2002-08;,citation_year=2002;,citation_fulltext_html_url=https://web.mit.edu/6.101/www/reference/op_amps_everyone.pdf;,citation_technical_report_institution=Texas Instruments Incorporation;,citation_technical_report_number=SLOD006B;">
-<meta name="citation_reference" content="citation_title=Leistungselektronik: Einführung in Schaltungen und deren Verhalten;,citation_author=Manfred Michel;,citation_publication_date=2011;,citation_cover_date=2011;,citation_year=2011;,citation_doi=10.1007/978-3-642-15984-8;,citation_isbn=978-3-642-15983-1;">
+<meta name="citation_reference" content="citation_title=Fundamentals of layout design for electronic circuits;,citation_author=Jens Lienig;,citation_author=Juergen Scheible;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_doi=10.1007/978-3-030-39284-0;,citation_isbn=9783030392840;">
+<meta name="citation_reference" content="citation_title=Grundlagen des layoutentwurfs elektronischer schaltungen;,citation_author=Jens Lienig;,citation_author=Jürgen Scheible;,citation_publication_date=2023;,citation_cover_date=2023;,citation_year=2023;,citation_doi=10.1007/978-3-031-15768-4;,citation_isbn=9783031157684;">
+<meta name="citation_reference" content="citation_title=Op amps for everyone;,citation_author=Ron Mancini;,citation_publication_date=2002-08;,citation_cover_date=2002-08;,citation_year=2002;,citation_fulltext_html_url=https://web.mit.edu/6.101/www/reference/op_amps_everyone.pdf;,citation_technical_report_institution=Texas Instruments Incorporation;,citation_technical_report_number=SLOD006B;">
+<meta name="citation_reference" content="citation_title=Leistungselektronik: Einführung in schaltungen und deren verhalten;,citation_author=Manfred Michel;,citation_publication_date=2011;,citation_cover_date=2011;,citation_year=2011;,citation_doi=10.1007/978-3-642-15984-8;,citation_isbn=978-3-642-15983-1;">
 <meta name="citation_reference" content="citation_title=Analog Circuit Design;,citation_author=Harald Pretl;,citation_author=Michael Koefinger;,citation_author=Simon Dorrer;,citation_publication_date=2024-12;,citation_cover_date=2024-12;,citation_year=2024;,citation_fulltext_html_url=https://iic-jku.github.io/analog-circuit-design;,citation_doi=10.5281/zenodo.14387481;,citation_language=en-us;">
 <meta name="citation_reference" content="citation_title=GitHub repository of the IIC-OSIC-TOOLS;,citation_author=Harald Pretl;,citation_author=Georg Zachl;,citation_publication_date=2025-01;,citation_cover_date=2025-01;,citation_year=2025;,citation_fulltext_html_url=https://github.com/iic-jku/IIC-OSIC-TOOLS;,citation_doi=10.5281/zenodo.14634518;,citation_publisher=Zenodo;">
-<meta name="citation_reference" content="citation_title=From Code to Chip: Open-Source Automated Analog Layout Design;,citation_author=Jakob Ratschenberger;,citation_author=Harald Pretl;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_doi=10.1007/978-3-031-68562-0;,citation_isbn=9783031685620;,citation_issn=2690-0327;,citation_book_title=Synthesis Lectures on Engineering, Science, and Technology;,citation_series_title=Synthesis Lectures on Engineering, Science, and Technology;">
-<meta name="citation_reference" content="citation_title=Schaltnetzteile und ihre Peripherie: Dimensionierung, Einsatz, EMV;,citation_author=Ulrich Schlienz;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_doi=10.1007/978-3-658-29490-8;,citation_isbn=9783658294908;">
-<meta name="citation_reference" content="citation_title=Leistungselektronische Schaltungen;,citation_editor=Dierk Schröder;,citation_editor=Rainer Marquardt;,citation_publication_date=2019;,citation_cover_date=2019;,citation_year=2019;,citation_doi=10.1007/978-3-662-55325-1;">
+<meta name="citation_reference" content="citation_title=From code to chip: Open-source automated analog layout design;,citation_author=Jakob Ratschenberger;,citation_author=Harald Pretl;,citation_publication_date=2025;,citation_cover_date=2025;,citation_year=2025;,citation_doi=10.1007/978-3-031-68562-0;,citation_isbn=9783031685620;,citation_issn=2690-0327;,citation_book_title=Synthesis Lectures on Engineering, Science, and Technology;,citation_series_title=Synthesis lectures on engineering, science, and technology;">
+<meta name="citation_reference" content="citation_title=Schaltnetzteile und ihre peripherie: Dimensionierung, einsatz, EMV;,citation_author=Ulrich Schlienz;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_doi=10.1007/978-3-658-29490-8;,citation_isbn=9783658294908;">
+<meta name="citation_reference" content="citation_title=Leistungselektronische schaltungen;,citation_editor=Dierk Schröder;,citation_editor=Rainer Marquardt;,citation_publication_date=2019;,citation_cover_date=2019;,citation_year=2019;,citation_doi=10.1007/978-3-662-55325-1;">
 <meta name="citation_reference" content="citation_publication_date=2024;,citation_cover_date=2024;,citation_year=2024;,citation_issue=2;,citation_doi=10.1109/mssc.2024.3400568;,citation_issn=1943-0590;,citation_volume=16;,citation_journal_title=IEEE Solid-State Circuits Magazine;,citation_publisher=Institute of Electrical; Electronics Engineers (IEEE);">
-<meta name="citation_reference" content="citation_title=Analog Building Blocks of dc-dc Converters: Examining Fundamental Concepts;,citation_author=Bernhard Wicht;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_issue=3;,citation_doi=10.1109/mssc.2020.3002141;,citation_volume=12;,citation_journal_title=IEEE Solid-State Circuits Magazine;,citation_publisher=institution of Electrical; Electronics Engineers (IEEE);">
-<meta name="citation_reference" content="citation_title=Design of Power Management Integrated Circuits;,citation_author=Bernhard Wicht;,citation_publication_date=2024-05;,citation_cover_date=2024-05;,citation_year=2024;,citation_doi=10.1002/9781119123095;,citation_isbn=9781119123095;">
+<meta name="citation_reference" content="citation_title=Analog building blocks of dc-dc converters: Examining fundamental concepts;,citation_author=Bernhard Wicht;,citation_publication_date=2020;,citation_cover_date=2020;,citation_year=2020;,citation_issue=3;,citation_doi=10.1109/mssc.2020.3002141;,citation_volume=12;,citation_journal_title=IEEE Solid-State Circuits Magazine;,citation_publisher=institution of Electrical; Electronics Engineers (IEEE);">
+<meta name="citation_reference" content="citation_title=Design of power management integrated circuits;,citation_author=Bernhard Wicht;,citation_publication_date=2024-05;,citation_cover_date=2024-05;,citation_year=2024;,citation_doi=10.1002/9781119123095;,citation_isbn=9781119123095;">
 </head>
 
 <body class="quarto-light">
@@ -95,14 +101,35 @@ div.csl-indent {
     
     <div class="quarto-title-meta-container">
       <div class="quarto-title-meta-column-start">
+            <div class="quarto-title-meta-author">
+          <div class="quarto-title-meta-heading">Authors</div>
+          <div class="quarto-title-meta-heading">Affiliation</div>
+          
+                <div class="quarto-title-meta-contents">
+            <p class="author">Aditya Ranjan Shandilya <a href="mailto:ashandilya@stud.hs-bremen.de" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+          </div>
+                <div class="quarto-title-meta-contents">
+                    <p class="affiliation">
+                        <a href="https://www.hs-bremen.de">
+                        Hochschule Bremen - City University of Applied Sciences (HSB)
+                        </a>
+                      </p>
+                  </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Merlin Anitha Athisayaraj <a href="mailto:mathisayaraj@stud.hs-bremen.de" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> </p>
+          </div>
+                      <div class="quarto-title-meta-contents">
+            <p class="author">Varun Kumar </p>
+          </div>
+                    </div>
         
         <div class="quarto-title-meta">
 
-                
+                      
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">June 4, 2025</p>
+              <p class="date">June 30, 2025</p>
             </div>
           </div>
           
@@ -129,15 +156,35 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#toc-only-temporary" id="toc-toc-only-temporary" class="nav-link active" data-scroll-target="#toc-only-temporary">TOC (only temporary)</a></li>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link" data-scroll-target="#abstract">Abstract</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">2</span> Introduction</a></li>
-  <li><a href="#filter-design" id="toc-filter-design" class="nav-link" data-scroll-target="#filter-design"><span class="header-section-number">3</span> Filter Design</a></li>
-  <li><a href="#characterisation" id="toc-characterisation" class="nav-link" data-scroll-target="#characterisation"><span class="header-section-number">4</span> Characterisation</a></li>
-  <li><a href="#literaturverzeichnis" id="toc-literaturverzeichnis" class="nav-link" data-scroll-target="#literaturverzeichnis">Literaturverzeichnis</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#objective-of-the-lab" id="toc-objective-of-the-lab" class="nav-link" data-scroll-target="#objective-of-the-lab"><span class="header-section-number">1.1</span> Objective of the lab</a></li>
+  <li><a href="#motivation-importance-of-second-order-biquad-filters-in-analog-design" id="toc-motivation-importance-of-second-order-biquad-filters-in-analog-design" class="nav-link" data-scroll-target="#motivation-importance-of-second-order-biquad-filters-in-analog-design"><span class="header-section-number">1.2</span> Motivation: importance of second-order (biquad) filters in analog design</a></li>
+  </ul></li>
+  <li><a href="#filter-design-fundamentals" id="toc-filter-design-fundamentals" class="nav-link" data-scroll-target="#filter-design-fundamentals"><span class="header-section-number">2</span> Filter Design Fundamentals</a>
+  <ul class="collapse">
+  <li><a href="#filter-theory-and-approximation" id="toc-filter-theory-and-approximation" class="nav-link" data-scroll-target="#filter-theory-and-approximation"><span class="header-section-number">2.1</span> Filter Theory and Approximation</a></li>
+  <li><a href="#second-order-systems-and-biquads" id="toc-second-order-systems-and-biquads" class="nav-link" data-scroll-target="#second-order-systems-and-biquads"><span class="header-section-number">2.2</span> Second-Order Systems and Biquads</a></li>
+  </ul></li>
+  <li><a href="#behavioural-modelling-in-python" id="toc-behavioural-modelling-in-python" class="nav-link" data-scroll-target="#behavioural-modelling-in-python"><span class="header-section-number">3</span> Behavioural Modelling in Python</a>
+  <ul class="collapse">
+  <li><a href="#introduction-to-macro-modelling" id="toc-introduction-to-macro-modelling" class="nav-link" data-scroll-target="#introduction-to-macro-modelling"><span class="header-section-number">3.1</span> Introduction to Macro Modelling</a></li>
+  <li><a href="#ideal-transfer-function-implementation" id="toc-ideal-transfer-function-implementation" class="nav-link" data-scroll-target="#ideal-transfer-function-implementation"><span class="header-section-number">3.2</span> Ideal Transfer Function Implementation</a></li>
+  <li><a href="#simulation-and-visualization" id="toc-simulation-and-visualization" class="nav-link" data-scroll-target="#simulation-and-visualization"><span class="header-section-number">3.3</span> Simulation and Visualization</a></li>
+  </ul></li>
+  <li><a href="#signals-and-systems-analysis" id="toc-signals-and-systems-analysis" class="nav-link" data-scroll-target="#signals-and-systems-analysis"><span class="header-section-number">4</span> Signals and Systems Analysis</a></li>
+  <li><a href="#circuit-design-and-simulation-in-xschem" id="toc-circuit-design-and-simulation-in-xschem" class="nav-link" data-scroll-target="#circuit-design-and-simulation-in-xschem"><span class="header-section-number">5</span> Circuit Design and Simulation in Xschem</a>
+  <ul class="collapse">
+  <li><a href="#ideal-circuit-design" id="toc-ideal-circuit-design" class="nav-link" data-scroll-target="#ideal-circuit-design"><span class="header-section-number">5.1</span> Ideal Circuit Design</a></li>
+  <li><a href="#real-circuit-design" id="toc-real-circuit-design" class="nav-link" data-scroll-target="#real-circuit-design"><span class="header-section-number">5.2</span> Real Circuit Design</a></li>
+  <li><a href="#simulation-results" id="toc-simulation-results" class="nav-link" data-scroll-target="#simulation-results"><span class="header-section-number">5.3</span> Simulation Results</a></li>
+  </ul></li>
+  <li><a href="#layout-design-with-klayout" id="toc-layout-design-with-klayout" class="nav-link" data-scroll-target="#layout-design-with-klayout"><span class="header-section-number">6</span> Layout Design with KLayout</a></li>
+  <li><a href="#comparison-and-discussion" id="toc-comparison-and-discussion" class="nav-link" data-scroll-target="#comparison-and-discussion"><span class="header-section-number">7</span> Comparison and Discussion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">8</span> Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="content/references-preview.html"><i class="bi bi-journal-code"></i>Literaturverzeichnis</a></li></ul></div></nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="content\references-preview.html"><i class="bi bi-journal-code"></i>References</a></li></ul></div></nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
@@ -148,53 +195,65 @@ div.csl-indent {
   
 
 
-<section id="toc-only-temporary" class="level1 unnumbered">
-<h1 class="unnumbered">TOC (only temporary)</h1>
-<ul>
-<li>abstract</li>
-<li>introduction (motivation, goals, requirements, restrictions)</li>
-<li>theoretical background (not sure what exactly we could talk about, eg. biquad filter, opamps ’n more)</li>
-<li>methods (overview over pdk, tools, and more)</li>
-<li>design (ideal circuit, real circuit)</li>
-<li>simulation and measurements (prob not achieving measurement)</li>
-<li>discussion and conclusion (conclusion could alaso be seperate chapter)</li>
-</ul>
-</section>
-<section id="abstract" class="level1 unnumbered">
-<h1 class="unnumbered">Abstract</h1>
-<ul>
-<li>An abstract should provide a self-contained summary of your entire paper or research project.</li>
-<li>It aims to give readers a quick understanding of what you did, why it’s important, and what you found.</li>
-<li>It should be a good starting point for anyone considering reading your full work.</li>
-<li>Introduction: Briefly introduce the topic and its significance.</li>
-<li>Research Question/Aim: State the problem you are addressing and the purpose of your research.</li>
-<li>Methodology: Briefly describe how you conducted your research (e.g., experiments, interviews, analysis).</li>
-<li>Key Findings: Summarize the main results or conclusions of your study.</li>
-<li>Significance/Implications: Explain why your findings are important and what they contribute to the field.</li>
-<li>Be concise: Use short, clear sentences and avoid unnecessary jargon.</li>
-<li>Use keywords: Include relevant keywords that will help readers find your abstract in databases.</li>
-<li>Follow formatting guidelines: Check for any specific requirements or guidelines for your specific journal or conference.</li>
-<li>Revise and edit: Make sure your abstract is clear, accurate, and within the word limit.</li>
-<li>Consider the audience: Tailor your language to your target audience (e.g., other researchers in your field, or a wider audience).</li>
-</ul>
-</section>
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-</section>
-<section id="introduction-1" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Introduction</h1>
 <p>As the availability of standardized integrated circuit solutions continues to diminish, the demand for tailored, application-specific analog and mixed-signal designs is steadily increasing <span class="citation" data-cites="Dobkin2011">(<a href="#ref-Dobkin2011" role="doc-biblioref"><strong>Dobkin2011?</strong></a>)</span>. Reflecting this shift, students enrolled in the “Concept Engineering Mixed-Technology Systems” course, taught by Professor Meiners at The City University of Applied Sciences, have been tasked with designing a biquadratic filter. The goal is to create a high-performance, application-specific solution suitable for integration within a defined analog front-end system.</p>
 <p>Analog signal processing remains a foundational element of modern electronic design. Despite rapid advancements in digital technology—characterized by nanometer-scale fabrication and Gigahertz-level processing speeds—the real world continues to present signals in analog form. Therefore, analog circuitry, particularly in the front-end of many systems, plays a critical role in conditioning signals before digitization <span class="citation" data-cites="kester2005data">(<a href="#ref-kester2005data" role="doc-biblioref"><strong>kester2005data?</strong></a>)</span>.</p>
 <p>In mixed-signal systems, analog signal processing is increasingly being paired with powerful digital post-processing techniques. This synergy allows engineers to rely on cost-effective analog components while compensating for their limitations through digital correction and enhancement methods <span class="citation" data-cites="Baker2008">(<a href="#ref-Baker2008" role="doc-biblioref"><strong>Baker2008?</strong></a>)</span>. However, before digital techniques can be applied, analog filtering remains essential for tasks such as noise suppression, anti-aliasing, and band selection. Biquadratic filters—due to their versatile frequency response characteristics and relatively simple implementation—are widely used in these contexts.</p>
+<section id="objective-of-the-lab" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="objective-of-the-lab"><span class="header-section-number">1.1</span> Objective of the lab</h2>
 </section>
-<section id="filter-design" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Filter Design</h1>
+<section id="motivation-importance-of-second-order-biquad-filters-in-analog-design" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="motivation-importance-of-second-order-biquad-filters-in-analog-design"><span class="header-section-number">1.2</span> Motivation: importance of second-order (biquad) filters in analog design</h2>
 </section>
-<section id="characterisation" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Characterisation</h1>
 </section>
-<section id="literaturverzeichnis" class="level1 unnumbered">
-<h1 class="unnumbered">Literaturverzeichnis</h1>
+<section id="filter-design-fundamentals" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Filter Design Fundamentals</h1>
+<section id="filter-theory-and-approximation" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="filter-theory-and-approximation"><span class="header-section-number">2.1</span> Filter Theory and Approximation</h2>
+</section>
+<section id="second-order-systems-and-biquads" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="second-order-systems-and-biquads"><span class="header-section-number">2.2</span> Second-Order Systems and Biquads</h2>
+</section>
+</section>
+<section id="behavioural-modelling-in-python" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Behavioural Modelling in Python</h1>
+<section id="introduction-to-macro-modelling" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction-to-macro-modelling"><span class="header-section-number">3.1</span> Introduction to Macro Modelling</h2>
+</section>
+<section id="ideal-transfer-function-implementation" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="ideal-transfer-function-implementation"><span class="header-section-number">3.2</span> Ideal Transfer Function Implementation</h2>
+</section>
+<section id="simulation-and-visualization" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="simulation-and-visualization"><span class="header-section-number">3.3</span> Simulation and Visualization</h2>
+</section>
+</section>
+<section id="signals-and-systems-analysis" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Signals and Systems Analysis</h1>
+</section>
+<section id="circuit-design-and-simulation-in-xschem" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Circuit Design and Simulation in Xschem</h1>
+<section id="ideal-circuit-design" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="ideal-circuit-design"><span class="header-section-number">5.1</span> Ideal Circuit Design</h2>
+</section>
+<section id="real-circuit-design" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="real-circuit-design"><span class="header-section-number">5.2</span> Real Circuit Design</h2>
+</section>
+<section id="simulation-results" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="simulation-results"><span class="header-section-number">5.3</span> Simulation Results</h2>
+</section>
+</section>
+<section id="layout-design-with-klayout" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Layout Design with KLayout</h1>
+</section>
+<section id="comparison-and-discussion" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Comparison and Discussion</h1>
+</section>
+<section id="conclusion" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Conclusion</h1>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
 <div id="refs" role="list">
 
 </div>
