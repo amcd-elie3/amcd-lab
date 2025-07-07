@@ -32,10 +32,10 @@ N 190 290 240 290 {lab=#net2}
 N 580 290 600 290 {lab=#net1}
 N 740 230 780 230 {lab=outn}
 N 740 290 780 290 {lab=#net3}
-N 240 290 310 290 {lab=#net2}
+N 240 290 310 230 {lab=#net2}
 N 320 230 340 230 {lab=#net2}
 N 320 290 340 290 {lab=#net1}
-N 240 230 310 230 {lab=#net1}
+N 240 230 310 290 {lab=#net1}
 N 860 230 880 230 {lab=#net3}
 N 860 290 880 290 {lab=outn}
 N 780 230 860 290 {lab=outn}
@@ -211,3 +211,9 @@ C {devices/vsource.sym} 547 -171 0 0 {name=Vdd value=1.5}
 C {opin.sym} 547 -221 0 0 {name=p15 lab=vdd}
 C {devices/gnd.sym} 547 -132 0 0 {name=l7 lab=GND}
 C {opin.sym} 463 -117 0 0 {name=p17 lab=vdd}
+C {devices/code_shown.sym} 910 -350 0 0 {name=MODEL only_toplevel=true
+format="tcleval( @value )"
+value="
+.lib cornerMOSlv.lib mos_tt
+.lib cornerRES.lib res_typ
+"}
