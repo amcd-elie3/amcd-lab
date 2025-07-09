@@ -9,7 +9,8 @@ Q = 10                 # Quality factor
 H0 = 1                 # Gain
 
 # ----- Frequency Domain Analysis (AC) -----
-w = np.logspace(1, 5, 1000)  # Frequency range: 10 Hz to 100 kHz
+f = np.logspace(1, 5, 1000)  # Frequency range: 10 Hz to 100 kHz
+w = 2 * np.pi * f            # Angular frequency (rad/s) 
 s = 1j * w
 
 # Common denominator
@@ -33,10 +34,10 @@ plt.figure(figsize=(12, 8))
 
 # Magnitude
 plt.subplot(2, 1, 1)
-plt.semilogx(w, db(H_lpf), label='LPF')
-plt.semilogx(w, db(H_hpf), label='HPF')
-plt.semilogx(w, db(H_bpf), label='BPF')
-plt.semilogx(w, db(H_bsf), label='BSF')
+plt.semilogx(f, db(H_lpf), label='LPF')
+plt.semilogx(f, db(H_hpf), label='HPF')
+plt.semilogx(f, db(H_bpf), label='BPF')
+plt.semilogx(f, db(H_bsf), label='BSF')
 plt.title('AC Analysis - Magnitude Response')
 plt.ylabel('Magnitude (dB)')
 plt.grid(True, which='both', linestyle='--')
