@@ -1,7 +1,164 @@
 # Circuit Design and Simulation in Xschem
 
-## Ideal Circuit Design
+This section details the process of designing and simulating the second-order biquad filter using Xschem and ngspice. Our methodology progressed from an ideal, op-amp-based circuit to a more practical, transistor-level implementation, allowing for a comparative analysis of ideal and real-world performance.
 
-## Real Circuit Design
+## Ideal Circuit: Universal Active Filter
 
-## Simulation Results
+Our initial approach was to implement a universal second-order biquad filter based on the topology described in Experiment 4 of the Texas Instruments ASLK Pro Manual. This architecture is valuable because it simultaneously provides low-pass (LPF), high-pass (HPF), band-pass (BPF), and band-stop (BSF) outputs from a single circuit.
+
+### Circuit Topology and Theory
+
+The filter is based on the Tow-Thomas biquad topology, which uses two integrators and an inverter to realize the filter transfer functions. The general schematic is shown in @fig-ideal-uni.
+
+![Schematic of the ideal universal second-order active filter, based on the ASLK Pro manual.](images/ideal-biquad-uni.png){#fig-ideal-uni}
+
+The transfer functions for each output are defined by the standard second-order filter equations:
+
+-   **Low-Pass (LPF):** $H_{LPF}(s) = \frac{H_0}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}$
+-   **High-Pass (HPF):** $H_{HPF}(s) = \frac{H_0 \frac{s^2}{\omega_0^2}}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}$
+-   **Band-Pass (BPF):** $H_{BPF}(s) = \frac{-H_0 \frac{s}{\omega_0 Q}}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}$
+-   **Band-Stop (BSF):** $H_{BSF}(s) = \frac{H_0 (1 + \frac{s^2}{\omega_0^2})}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}$
+
+Where the center frequency $\omega_0$ and the quality factor $Q$ are determined by the external resistors and capacitors:
+
+-   **Center Frequency:** $\omega_0 = \frac{1}{RC}$
+-   **Quality Factor:** $Q = \frac{R_Q}{R}$
+
+### Ideal Op-Amp Model and Symbol Creation
+
+To simulate the ideal behavior of this circuit, we first required an ideal operational amplifier model. We used a standard single-pole op-amp SPICE model from eCircuit Center, shown in @lst-opamp-subckt.
+
+```spice
+#| label: lst-opamp-subckt
+#| lst-cap: "SPICE subcircuit for the single-pole ideal op-amp."
+
+* OPAMP MACRO MODEL, SINGLE-POLE
+* connections:      non-inverting input
+* |  inverting input
+* |  |  output
+* |  |  |
+.SUBCKT OPAMP1      1  2  6
+* INPUT IMPEDANCE
+RIN 1 2 10MEG
+* DC GAIN=100K AND POLE1=100HZ
+* UNITY GAIN = DCGAIN X POLE1 = 10MHZ
+EGAIN   3 0   1 2   100K
+RP1     3 4   1K
+CP1     4 0   1.5915UF
+* OUTPUT BUFFER AND RESISTANCE
+EBUFFER 5 0   4 0   1
+ROUT    5 6   10
+.ENDS
+```
+
+We saved this code as `OPAMP1.cir` and created a corresponding symbol in Xschem. A critical step was ensuring that the pinout of the symbol (`vin+`, `vin-`, `vout`) matched the node connections in the `.SUBCKT` definition (nodes 1, 2, and 6).
+
+**Implementation Note:** A common pitfall during setup is the path configuration for custom models. Xschem initially searches for model files in the project's home directory. We had to configure the simulation settings to ensure Xschem could locate the `OPAMP1.cir` file in our circuit's working directory.
+
+### Simulation and Results
+
+With the ideal op-amp symbol and model in place, we constructed the schematic for the universal biquad filter. We then wrote an ngspice script (@lst-ideal-uni-sim) to perform an AC analysis.
+
+```spice
+#| label: lst-ideal-uni-sim
+#| lst-cap: "ngspice code for AC analysis of the ideal universal filter."
+
+.param R=1.6k C=100n RH=R/1.0 RQ=4.7k
+.control
+  save all
+  ac lin 1000 0.8 2k
+  write toplevel.raw
+  plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
+.endc
+```
+
+Based on our parameters ($R=1.6k\Omega$, $C=100nF$), the expected center frequency is $f_0 = \frac{1}{2\pi RC} \approx 995 Hz$. The simulation results, shown in @fig-ideal-uni-output, confirm this theoretical calculation.
+
+![Frequency response of the ideal universal biquad filter, showing the LPF, HPF, BPF, and BSF outputs.](images/ideal-biquad-uni-output.png){#fig-ideal-uni-output}
+
+The plot clearly shows the expected behavior for each filter type, centered around 1 kHz. The BPF peaks at the center frequency, while the BSF shows a notch at the same point.
+
+## Real Circuit: Gm-C Biquad Filter
+
+While the active RC filter is excellent for demonstrating theory, it is less practical for monolithic IC design due to its reliance on large, precise resistors and capacitors. A more suitable approach for IC implementation is the **Gm-C filter**, which uses transconductors (OTAs) and capacitors.
+
+### Initial Attempt with a 5T OTA
+
+Our first step towards a real circuit was to replace the ideal op-amps in the universal filter with a 5-transistor OTA (Operational Transconductance Amplifier). We used a 5T OTA design from Professor Pretl (@fig-ota-5t).
+
+![Schematic of the 5T OTA used in the initial real-circuit implementation.](images/ota-5t-pretl.png){#fig-ota-5t}
+
+We implemented this OTA in the universal active filter topology, as shown in the schematic in @fig-real-uni-ota.
+
+![Universal active filter schematic using the 5T OTA.](images/real-biquad-uni.png){#fig-real-uni-ota}
+
+The circuit was simulated using the ngspice code in @lst-real-uni-ota-sim.
+
+```spice
+#| label: lst-real-uni-ota-sim
+#| lst-cap: "ngspice code for AC analysis of the universal filter with the 5T OTA."
+
+.temp 27
+.param R=1.6k C=100n RH=R/1.0 RQ=4.7k
+.control
+save all
+ac lin 1000 0.8 2k
+* tran 0.1m 10m 5m
+write toplevel.raw
+plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
+.endc
+```
+
+The simulation results, shown in @fig-real-uni-ota-output, were far from ideal.
+
+![Frequency response of the universal filter using the 5T OTA.](images/real-biquad-uni-output.png){#fig-real-uni-ota-output}
+
+The plot shows a significant loss of gain across all filter outputs, and the characteristic filter shapes (e.g., the peak of the BPF or the notch of the BSF) are completely absent. This poor performance confirmed our hypothesis: the 5T OTA, with its low driving current of 20µA and high output impedance, is incapable of driving the resistive feedback network of the Tow-Thomas topology. The OTA's output voltage is heavily loaded down, leading to the observed attenuation and loss of filter function. This result was pivotal in our decision to abandon this topology in favor of a true Gm-C design.
+
+### Transition to a Gm-C Biquad Topology
+
+Given the limitations of our initial approach, we shifted to a design more amenable to IC fabrication. We selected a second-order Gm-C biquad filter topology from Chapter 3 of "CMOS Mixed-Signal Circuit Design" by R. Jacob Baker. This topology realizes the filter using OTAs as transconductance ($g_m$) elements and capacitors.
+
+The fundamental building block of a Gm-C filter is the integrator, where the integration time constant is set by the ratio $\frac{C}{g_m}$. The biquad is constructed by cascading two such integrators, as seen in the ideal schematic in @fig-ideal-gmc.
+
+![Ideal Gm-C biquad filter schematic from Professor Meiners' reference library.](images/ideal-biquad_gm_c.png){#fig-ideal-gmc}
+
+### Custom 100µA OTA Design
+
+A key requirement for this new topology was an OTA with a higher driving capability. We designed the fully differential OTA shown in @fig-ota-100u to provide a target driving current of **100µA**.
+
+![Schematic of the custom 100µA OTA designed for the Gm-C biquad.](images/real-ota_gm_100u.png){#fig-ota-100u}
+
+This circuit is a single-stage, fully differential OTA. Its key components are:
+-   An **NMOS input differential pair** (M1, M2) that converts the differential input voltage into a current.
+-   A **PMOS active current mirror load** (M3, M4, M7, M8) which provides high output impedance for improved voltage gain.
+-   A **biasing network** (M9-M12) that sets the tail current for the differential pair and other operating points, controlled by the external `ibias` current.
+-   Because the OTA is fully differential, it requires an external **Common-Mode Feedback (CMFB)** circuit to set the DC voltage level of its outputs (`outp`, `outn`). The `cm` pin is provided as an input for the CMFB control voltage, which adjusts the resistance of the PMOS load.
+
+### Gm-C Biquad Implementation and Simulation
+
+With the custom OTA designed, we modified the `biquad_gm_c` schematic, replacing the ideal OTA symbols with our newly designed 100µA OTA (@fig-biquad-with-ota).
+
+![The biquad_gm_c circuit modified to use our custom-designed 100µA OTA.](images/real-biquad_gm_c.png){#fig-biquad-with-ota}
+
+We simulated the final Gm-C biquad circuit using an AC analysis. The ngspice code (@lst-biquad-ota-sim) included the appropriate semiconductor model libraries.
+
+```spice
+#| label: lst-biquad-ota-sim
+#| lst-cap: "ngspice code for AC analysis of the real Gm-C biquad filter."
+
+.temp 27
+.control
+  save all
+  ac dec 100 1k 100MEG
+  write biquad_gm_c.raw
+  let vod=v(outp)-v(outn)
+  plot db(v(vod))
+.endc
+```
+
+The simulation produced the frequency response shown in @fig-biquad-ota-output.
+
+![Frequency response of the real Gm-C biquad filter using the custom 100µA OTA.](images/real-biquad_gm_c-output.png){#fig-biquad-ota-output}
+
+The output shows a low-pass characteristic with a peak before the roll-off, which is typical for a biquad filter with a moderate Q-factor. The -3dB frequency and the peak location are determined by the transconductance ($g_m$) of our OTA and the values of the capacitors. This result validates that our custom OTA is functioning correctly within the Gm-C topology and that the filter behaves as expected, providing a solid foundation for the subsequent layout design phase.
