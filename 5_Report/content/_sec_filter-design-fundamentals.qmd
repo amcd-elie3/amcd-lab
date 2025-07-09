@@ -3,3 +3,29 @@
 ## Filter Theory and Approximation
 
 ## Second-Order Systems and Biquads
+
+The biquadratic filter, or "biquad," is a second-order filter widely used in analog filter design. Its general transfer function is given by:
+$$H(s)=\frac{a_{1}s^{2}+b_{1}s+c_{1}}{a_{2}s^{2}+b_{2}s+c_{2}}$$
+
+The numerator coefficients can be chosen to achieve low-pass, band-pass, or high-pass responses. For example, setting $a_{1}=b_{1}=0$ leads to a low-pass filter (LPF). Higher-order filters can be constructed by cascading biquad sections.
+
+A low-pass biquad can be characterized by the following equivalent transfer functions:
+$$H(s)=\frac{\omega_{n}^{2}}{s^{2}+\frac{\omega_{n}}{Q}s+\omega_{n}^{2}}$$
+$$H(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta\omega_{n}s+\omega_{n}^{2}}$$
+Here, $\omega_n$ is the natural frequency, Q is the quality factor (or pole Q), and $\zeta$ is the damping factor. It's important to note that $Q = 1/(2\zeta)$.
+
+Second-order filters can realize four types of filters, with their transfer functions typically shown below. For instance, in an Analog System Lab Kit PRO experiment, the transfer functions for different filter types are provided where $\omega_{0}=1/RC$ and $H_{0}$ is the low frequency gain.
+
+Here are the transfer functions for common second-order active filters:
+* **Low Pass Filter (LPF)**:
+    $$\frac{V_{03}}{V_{i}}=\frac{+H_{0}}{(1+\frac{s}{\omega_{0}Q}+\frac{s^{2}}{\omega_{0}^{2}})}$$
+
+* **High Pass Filter (HPF)**:
+    $$\frac{V_{01}}{V_{i}}=\frac{(H_{0}\cdot\frac{S^{2}}{G_{i}^{2}})}{(1+\frac{S}{a_{0}Q}+\frac{S^{2}}{a_{0}^{2}})}$$
+
+* **Band Pass Filter (BPF)**:
+    $$\frac{V_{02}}{V_{i}}=\frac{(-H_{0}\cdot\frac{S}{Q_{0}})}{(1+\frac{S}{Q_{0}Q}+\frac{S^{2}}{Q_{0}^{2}})}$$
+
+* **Band Stop Filter (BSF)**:
+    $$\frac{V_{o4}}{V_{i}}=\frac{(1+\frac{s^{2}}{Q_{o}^{2}})\cdot H_{0}}{(1+\frac{s}{Q_{o}Q}+\frac{s^{2}}{Q_{o}^{2}})}$$
+

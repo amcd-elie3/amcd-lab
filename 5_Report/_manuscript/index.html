@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.28">
+<meta name="generator" content="quarto-1.7.29">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Aditya Ranjan Shandilya">
 <meta name="author" content="Merlin Anitha Athisayaraj">
 <meta name="author" content="Varun Kumar">
-<meta name="dcterms.date" content="2025-06-30">
+<meta name="dcterms.date" content="2025-07-09">
 
 <title>IC Design of a Universal Biquad Filter</title>
 <style>
@@ -53,11 +53,43 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-0815c480559380816a4d1ea211a47e91.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6e5ff12f349f7d7ee99023e5a7f49be9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <meta name="citation_title" content="IC Design of a Universal Biquad Filter">
 <meta name="citation_abstract" content="Lorem ipsum
@@ -65,10 +97,10 @@ div.csl-indent {
 <meta name="citation_author" content="Aditya Ranjan Shandilya">
 <meta name="citation_author" content="Merlin Anitha Athisayaraj">
 <meta name="citation_author" content="Varun Kumar">
-<meta name="citation_publication_date" content="2025-06-30">
-<meta name="citation_cover_date" content="2025-06-30">
+<meta name="citation_publication_date" content="2025-07-09">
+<meta name="citation_cover_date" content="2025-07-09">
 <meta name="citation_year" content="2025">
-<meta name="citation_online_date" content="2025-06-30">
+<meta name="citation_online_date" content="2025-07-09">
 <meta name="citation_language" content="en">
 <meta name="citation_reference" content="citation_title=CMOS: Circuit design, layout, and simulation;,citation_author=R. Jacob Baker;,citation_publication_date=2010-10;,citation_cover_date=2010-10;,citation_year=2010;,citation_doi=10.1002/9780470891179;,citation_isbn=9780470891179;">
 <meta name="citation_reference" content="citation_title=CMOSedu;,citation_author=R. Jacob Baker;,citation_publication_date=2015;,citation_cover_date=2015;,citation_year=2015;,citation_fulltext_html_url=http://www.cmosedu.com;,citation_publisher=Website;">
@@ -129,7 +161,7 @@ div.csl-indent {
                 <div>
             <div class="quarto-title-meta-heading">Published</div>
             <div class="quarto-title-meta-contents">
-              <p class="date">June 30, 2025</p>
+              <p class="date">July 9, 2025</p>
             </div>
           </div>
           
@@ -159,18 +191,23 @@ div.csl-indent {
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
   <ul class="collapse">
   <li><a href="#objective-of-the-lab" id="toc-objective-of-the-lab" class="nav-link" data-scroll-target="#objective-of-the-lab"><span class="header-section-number">1.1</span> Objective of the lab</a></li>
-  <li><a href="#motivation-importance-of-second-order-biquad-filters-in-analog-design" id="toc-motivation-importance-of-second-order-biquad-filters-in-analog-design" class="nav-link" data-scroll-target="#motivation-importance-of-second-order-biquad-filters-in-analog-design"><span class="header-section-number">1.2</span> Motivation: importance of second-order (biquad) filters in analog design</a></li>
+  <li><a href="#motivation-importance-of-second-order-biquad-filters" id="toc-motivation-importance-of-second-order-biquad-filters" class="nav-link" data-scroll-target="#motivation-importance-of-second-order-biquad-filters"><span class="header-section-number">1.2</span> Motivation: importance of second-order (biquad) filters</a></li>
   </ul></li>
   <li><a href="#filter-design-fundamentals" id="toc-filter-design-fundamentals" class="nav-link" data-scroll-target="#filter-design-fundamentals"><span class="header-section-number">2</span> Filter Design Fundamentals</a>
   <ul class="collapse">
   <li><a href="#filter-theory-and-approximation" id="toc-filter-theory-and-approximation" class="nav-link" data-scroll-target="#filter-theory-and-approximation"><span class="header-section-number">2.1</span> Filter Theory and Approximation</a></li>
   <li><a href="#second-order-systems-and-biquads" id="toc-second-order-systems-and-biquads" class="nav-link" data-scroll-target="#second-order-systems-and-biquads"><span class="header-section-number">2.2</span> Second-Order Systems and Biquads</a></li>
   </ul></li>
-  <li><a href="#behavioural-modelling-in-python" id="toc-behavioural-modelling-in-python" class="nav-link" data-scroll-target="#behavioural-modelling-in-python"><span class="header-section-number">3</span> Behavioural Modelling in Python</a>
+  <li><a href="#behavioral-model-analysis-using-python" id="toc-behavioral-model-analysis-using-python" class="nav-link" data-scroll-target="#behavioral-model-analysis-using-python"><span class="header-section-number">3</span> Behavioral Model Analysis using python</a>
   <ul class="collapse">
-  <li><a href="#introduction-to-macro-modelling" id="toc-introduction-to-macro-modelling" class="nav-link" data-scroll-target="#introduction-to-macro-modelling"><span class="header-section-number">3.1</span> Introduction to Macro Modelling</a></li>
-  <li><a href="#ideal-transfer-function-implementation" id="toc-ideal-transfer-function-implementation" class="nav-link" data-scroll-target="#ideal-transfer-function-implementation"><span class="header-section-number">3.2</span> Ideal Transfer Function Implementation</a></li>
-  <li><a href="#simulation-and-visualization" id="toc-simulation-and-visualization" class="nav-link" data-scroll-target="#simulation-and-visualization"><span class="header-section-number">3.3</span> Simulation and Visualization</a></li>
+  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective"><span class="header-section-number">3.1</span> 1. Objective</a></li>
+  <li><a href="#frequency-response-analysis" id="toc-frequency-response-analysis" class="nav-link" data-scroll-target="#frequency-response-analysis"><span class="header-section-number">3.2</span> 2. Frequency Response Analysis</a>
+  <ul class="collapse">
+  <li><a href="#magnitude-response" id="toc-magnitude-response" class="nav-link" data-scroll-target="#magnitude-response"><span class="header-section-number">3.2.1</span> 2.1 Magnitude Response</a></li>
+  <li><a href="#phase-response" id="toc-phase-response" class="nav-link" data-scroll-target="#phase-response"><span class="header-section-number">3.2.2</span> 2.2 Phase Response</a></li>
+  </ul></li>
+  <li><a href="#transient-analysis" id="toc-transient-analysis" class="nav-link" data-scroll-target="#transient-analysis"><span class="header-section-number">3.3</span> 3. Transient Analysis</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">3.4</span> 4. Conclusion</a></li>
   </ul></li>
   <li><a href="#signals-and-systems-analysis" id="toc-signals-and-systems-analysis" class="nav-link" data-scroll-target="#signals-and-systems-analysis"><span class="header-section-number">4</span> Signals and Systems Analysis</a></li>
   <li><a href="#circuit-design-and-simulation-in-xschem" id="toc-circuit-design-and-simulation-in-xschem" class="nav-link" data-scroll-target="#circuit-design-and-simulation-in-xschem"><span class="header-section-number">5</span> Circuit Design and Simulation in Xschem</a>
@@ -181,7 +218,7 @@ div.csl-indent {
   </ul></li>
   <li><a href="#layout-design-with-klayout" id="toc-layout-design-with-klayout" class="nav-link" data-scroll-target="#layout-design-with-klayout"><span class="header-section-number">6</span> Layout Design with KLayout</a></li>
   <li><a href="#comparison-and-discussion" id="toc-comparison-and-discussion" class="nav-link" data-scroll-target="#comparison-and-discussion"><span class="header-section-number">7</span> Comparison and Discussion</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">8</span> Conclusion</a></li>
+  <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1"><span class="header-section-number">8</span> Conclusion</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 <div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="content\references-preview.html"><i class="bi bi-journal-code"></i>References</a></li></ul></div></nav>
@@ -202,9 +239,16 @@ div.csl-indent {
 <p>In mixed-signal systems, analog signal processing is increasingly being paired with powerful digital post-processing techniques. This synergy allows engineers to rely on cost-effective analog components while compensating for their limitations through digital correction and enhancement methods <span class="citation" data-cites="Baker2008">(<a href="#ref-Baker2008" role="doc-biblioref"><strong>Baker2008?</strong></a>)</span>. However, before digital techniques can be applied, analog filtering remains essential for tasks such as noise suppression, anti-aliasing, and band selection. Biquadratic filters—due to their versatile frequency response characteristics and relatively simple implementation—are widely used in these contexts.</p>
 <section id="objective-of-the-lab" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="objective-of-the-lab"><span class="header-section-number">1.1</span> Objective of the lab</h2>
+<p>To design a biquad active filter with a corner frequency (ω0) of 1 kHz and a Q-factor of 10, and to understand its frequency characteristics.</p>
 </section>
-<section id="motivation-importance-of-second-order-biquad-filters-in-analog-design" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="motivation-importance-of-second-order-biquad-filters-in-analog-design"><span class="header-section-number">1.2</span> Motivation: importance of second-order (biquad) filters in analog design</h2>
+<section id="motivation-importance-of-second-order-biquad-filters" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="motivation-importance-of-second-order-biquad-filters"><span class="header-section-number">1.2</span> Motivation: importance of second-order (biquad) filters</h2>
+<p>Second-order filters, also known as biquad filters, are fundamental in constructing higher-order filters:</p>
+<ul>
+<li>They serve as building blocks for <span class="math inline">\(N^{\text{th}}\)</span> order filters when <span class="math inline">\(N &gt; 2\)</span>.</li>
+<li>For odd values of <span class="math inline">\(N\)</span>, an <span class="math inline">\(N^{\text{th}}\)</span> order filter can be implemented using <span class="math inline">\(\frac{N - 1}{2}\)</span> second-order filters and one first-order filter.</li>
+<li>For even values of <span class="math inline">\(N\)</span>, <span class="math inline">\(N - 1\)</span> second-order filters are required to realize an <span class="math inline">\(N^{\text{th}}\)</span> order filter.</li>
+</ul>
 </section>
 </section>
 <section id="filter-design-fundamentals" class="level1" data-number="2">
@@ -214,18 +258,69 @@ div.csl-indent {
 </section>
 <section id="second-order-systems-and-biquads" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="second-order-systems-and-biquads"><span class="header-section-number">2.2</span> Second-Order Systems and Biquads</h2>
+<p>The biquadratic filter, or “biquad,” is a second-order filter widely used in analog filter design. Its general transfer function is given by: <span class="math display">\[H(s)=\frac{a_{1}s^{2}+b_{1}s+c_{1}}{a_{2}s^{2}+b_{2}s+c_{2}}\]</span></p>
+<p>The numerator coefficients can be chosen to achieve low-pass, band-pass, or high-pass responses. For example, setting <span class="math inline">\(a_{1}=b_{1}=0\)</span> leads to a low-pass filter (LPF). Higher-order filters can be constructed by cascading biquad sections.</p>
+<p>A low-pass biquad can be characterized by the following equivalent transfer functions: <span class="math display">\[H(s)=\frac{\omega_{n}^{2}}{s^{2}+\frac{\omega_{n}}{Q}s+\omega_{n}^{2}}\]</span> <span class="math display">\[H(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta\omega_{n}s+\omega_{n}^{2}}\]</span> Here, <span class="math inline">\(\omega_n\)</span> is the natural frequency, Q is the quality factor (or pole Q), and <span class="math inline">\(\zeta\)</span> is the damping factor. It’s important to note that <span class="math inline">\(Q = 1/(2\zeta)\)</span>.</p>
+<p>Second-order filters can realize four types of filters, with their transfer functions typically shown below. For instance, in an Analog System Lab Kit PRO experiment, the transfer functions for different filter types are provided where <span class="math inline">\(\omega_{0}=1/RC\)</span> and <span class="math inline">\(H_{0}\)</span> is the low frequency gain.</p>
+<p>Here are the transfer functions for common second-order active filters: * <strong>Low Pass Filter (LPF)</strong>: <span class="math display">\[\frac{V_{03}}{V_{i}}=\frac{+H_{0}}{(1+\frac{s}{\omega_{0}Q}+\frac{s^{2}}{\omega_{0}^{2}})}\]</span></p>
+<ul>
+<li><p><strong>High Pass Filter (HPF)</strong>: <span class="math display">\[\frac{V_{01}}{V_{i}}=\frac{(H_{0}\cdot\frac{S^{2}}{G_{i}^{2}})}{(1+\frac{S}{a_{0}Q}+\frac{S^{2}}{a_{0}^{2}})}\]</span></p></li>
+<li><p><strong>Band Pass Filter (BPF)</strong>: <span class="math display">\[\frac{V_{02}}{V_{i}}=\frac{(-H_{0}\cdot\frac{S}{Q_{0}})}{(1+\frac{S}{Q_{0}Q}+\frac{S^{2}}{Q_{0}^{2}})}\]</span></p></li>
+<li><p><strong>Band Stop Filter (BSF)</strong>: <span class="math display">\[\frac{V_{o4}}{V_{i}}=\frac{(1+\frac{s^{2}}{Q_{o}^{2}})\cdot H_{0}}{(1+\frac{s}{Q_{o}Q}+\frac{s^{2}}{Q_{o}^{2}})}\]</span></p></li>
+</ul>
 </section>
 </section>
-<section id="behavioural-modelling-in-python" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Behavioural Modelling in Python</h1>
-<section id="introduction-to-macro-modelling" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="introduction-to-macro-modelling"><span class="header-section-number">3.1</span> Introduction to Macro Modelling</h2>
+<section id="behavioral-model-analysis-using-python" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Behavioral Model Analysis using python</h1>
+<p>This sectio presents the behavioral analysis of the designed system using Python. The analysis primarily includes the <strong>frequency response</strong> (magnitude and phase response) and <strong>transient analysis</strong>.</p>
+<hr>
+<section id="objective" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="objective"><span class="header-section-number">3.1</span> 1. Objective</h2>
+<p>To evaluate the performance of the behavioral model through simulation using Python, focusing on:</p>
+<ul>
+<li>Magnitude response</li>
+<li>Phase response</li>
+<li>Transient behavior</li>
+</ul>
+<hr>
 </section>
-<section id="ideal-transfer-function-implementation" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="ideal-transfer-function-implementation"><span class="header-section-number">3.2</span> Ideal Transfer Function Implementation</h2>
+<section id="frequency-response-analysis" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="frequency-response-analysis"><span class="header-section-number">3.2</span> 2. Frequency Response Analysis</h2>
+<section id="magnitude-response" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="magnitude-response"><span class="header-section-number">3.2.1</span> 2.1 Magnitude Response</h3>
+<p>The magnitude response of the system was plotted to observe how the system amplifies or attenuates input signals across different frequencies. The Bode magnitude plot gives a clear insight into the bandwidth and gain characteristics.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="path_to_your_plot_image.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Magnitude Response"><img src="path_to_your_plot_image.png" class="img-fluid figure-img" alt="Magnitude Response"></a></p>
+<figcaption>Magnitude Response</figcaption>
+</figure>
+</div>
 </section>
-<section id="simulation-and-visualization" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="simulation-and-visualization"><span class="header-section-number">3.3</span> Simulation and Visualization</h2>
+<section id="phase-response" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="phase-response"><span class="header-section-number">3.2.2</span> 2.2 Phase Response</h3>
+<p>The phase response of the system was analyzed to study the phase shift introduced at various frequencies. This is essential for understanding the signal integrity and phase margin.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="path_to_your_plot_image.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Phase Response"><img src="path_to_your_plot_image.png" class="img-fluid figure-img" alt="Phase Response"></a></p>
+<figcaption>Phase Response</figcaption>
+</figure>
+</div>
+<hr>
+</section>
+</section>
+<section id="transient-analysis" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="transient-analysis"><span class="header-section-number">3.3</span> 3. Transient Analysis</h2>
+<p>Transient analysis was performed to examine how the system responds to a time-domain input.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="path_to_your_plot_image.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Transient Response"><img src="path_to_your_plot_image.png" class="img-fluid figure-img" alt="Transient Response"></a></p>
+<figcaption>Transient Response</figcaption>
+</figure>
+</div>
+</section>
+<section id="conclusion" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">3.4</span> 4. Conclusion</h2>
+<p>The behavioral model demonstrates expected frequency and time-domain characteristics, validating the design for further implementation. The results align with theoretical expectations, making it suitable for the next stages of circuit/system development.</p>
 </section>
 </section>
 <section id="signals-and-systems-analysis" class="level1" data-number="4">
@@ -249,7 +344,7 @@ div.csl-indent {
 <section id="comparison-and-discussion" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Comparison and Discussion</h1>
 </section>
-<section id="conclusion" class="level1" data-number="8">
+<section id="conclusion-1" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Conclusion</h1>
 </section>
 <section id="references" class="level1 unnumbered">
@@ -661,6 +756,38 @@ div.csl-indent {
   });
   </script>
 </div> <!-- /content -->
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+(function() {
+  let previousOnload = window.onload;
+  window.onload = () => {
+    if (previousOnload) {
+      previousOnload();
+    }
+    lightboxQuarto.on('slide_before_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      const href = trigger.getAttribute('href');
+      if (href !== null) {
+        const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+        if (imgEl !== null) {
+          const srcAttr = imgEl.getAttribute("src");
+          if (srcAttr && srcAttr.startsWith("data:")) {
+            slideConfig.href = srcAttr;
+          }
+        }
+      } 
+    });
+  
+    lightboxQuarto.on('slide_after_load', (data) => {
+      const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(slideNode);
+      }
+    });
+  
+  };
+  
+})();
+          </script>
 
 
 

@@ -7,4 +7,12 @@ In mixed-signal systems, analog signal processing is increasingly being paired w
 
 ## Objective of the lab
 
-## Motivation: importance of second-order (biquad) filters in analog design
+To design a biquad active filter with a corner frequency (ω0) of 1 kHz and a Q-factor of 10, and to understand its frequency characteristics.
+
+## Motivation: importance of second-order (biquad) filters
+
+Second-order filters, also known as biquad filters, are fundamental in constructing higher-order filters:
+
+- They serve as building blocks for $N^{\text{th}}$ order filters when $N > 2$.
+- For odd values of $N$, an $N^{\text{th}}$ order filter can be implemented using $\frac{N - 1}{2}$ second-order filters and one first-order filter.
+- For even values of $N$, $N - 1$ second-order filters are required to realize an $N^{\text{th}}$ order filter.
