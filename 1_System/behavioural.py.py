@@ -6,23 +6,19 @@ from scipy import signal
 def get_tf(w0, Q=10, H0=1):
     
     
-    den_scipy = [1, w0/Q, w0**2] # This is s^2 + (w0/Q)s + w0^2, which we established matches the image's denominator after scaling.
+    den_scipy = [1, w0/Q, w0**2] 
 
-    # Transfer functions based directly on Table 4.1 after multiplying top and bottom by w0^2
-    # This ensures the denominator in scipy's TransferFunction is consistent and matches the form s^2 + (w0/Q)s + w0^2
-
-    # LPF: Numerator H0 / (1 + s/(w0*Q) + s^2/w0^2)  -> scaled to (H0 * w0^2) / (s^2 + (w0/Q)s + w0^2)
+    # LPF:
     tf_lpf = signal.TransferFunction([H0 * w0**2], den_scipy)
 
-    # HPF: Numerator (H0 * s^2/w0^2) / (1 + s/(w0*Q) + s^2/w0^2) -> scaled to (H0 * s^2) / (s^2 + (w0/Q)s + w0^2)
-    tf_hpf = signal.TransferFunction([H0, 0, 0], den_scipy) # Numerator: H0 * s^2
+    # HPF:
+    tf_hpf = signal.TransferFunction([H0, 0, 0], den_scipy) 
 
-    # BPF: Numerator (-H0 * s/w0) / (1 + s/(w0*Q) + s^2/w0^2) -> scaled to (-H0 * w0 * s) / (s^2 + (w0/Q)s + w0^2)
-    # Note the negative sign from the image's equation
-    tf_bpf = signal.TransferFunction([-H0 * w0, 0], den_scipy) # Numerator: -H0 * w0 * s
+    #BPF
+    tf_bpf = signal.TransferFunction([-H0 * w0, 0], den_scipy) 
 
-    # BSF: Numerator (H0 * (1 + s^2/w0^2)) / (1 + s/(w0*Q) + s^2/w0^2) -> scaled to (H0 * (w0^2 + s^2)) / (s^2 + (w0/Q)s + w0^2)
-    tf_bsf = signal.TransferFunction([H0, 0, H0 * w0**2], den_scipy) # Numerator: H0 * s^2 + H0 * w0^2
+    # BSF: 
+    tf_bsf = signal.TransferFunction([H0, 0, H0 * w0**2], den_scipy) 
 
     return tf_lpf, tf_hpf, tf_bpf, tf_bsf
 
@@ -52,7 +48,7 @@ def plot_frequency_response(systems, labels, w_range, title_suffix):
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig('frequency_response_1KHz_Q10_from_table.png') # Changed filename for clarity
+    plt.savefig('frequency_response_1KHz_Q10.png') # Changed filename for clarity
     plt.show()
 
 # Plot transient response to square wave
@@ -77,7 +73,7 @@ def plot_transient_response(systems, labels, t_end, f_input):
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig('transient_response_1KHz_Q10_from_table.png') # Changed filename for clarity
+    plt.savefig('transient_response_1KHz_Q10.png') # Changed filename for clarity
     plt.show()
 
 # Define corner frequency
@@ -93,13 +89,12 @@ systems = get_tf(w0, Q=Q_factor)
 labels = ['LPF', 'HPF', 'BPF', 'BSF']
 
 # Adjust w_range for plotting. The range covers frequencies around w0.
-# Example: from w0/100 to w0*100 in Hz
 w_range = np.logspace(np.log10(w0/100), np.log10(w0*100), 1000)
 
 plot_frequency_response(systems, labels, w_range, f'{f0_khz} KHz Corner Frequency (Q={Q_factor})')
 
 # Adjust t_end for transient response.
 # For 1 KHz, 1 cycle is 1 millisecond (1e-3 s).
-# Let's display 5 cycles for clear visualization.
+# 5 cycles for clear visualization.
 t_end_val = 5 * (1 / f0_hz) # 5 cycles
 plot_transient_response(systems, labels, t_end=t_end_val, f_input=f0_hz)
