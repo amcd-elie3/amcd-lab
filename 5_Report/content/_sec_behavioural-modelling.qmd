@@ -21,14 +21,13 @@ To evaluate the performance of the behavioral model through simulation using Pyt
 
 The magnitude response of the system was plotted to observe how the system amplifies or attenuates input signals across different frequencies. The Bode magnitude plot gives a clear insight into the bandwidth and gain characteristics.
 
-![Magnitude Response](path_to_your_plot_image)
+![Magnitude Response](images/transient_response_1KHz_Q10.png)
 
 ### 2.2 Phase Response
 
 The phase response of the system was analyzed to study the phase shift introduced at various frequencies. This is essential for understanding the signal integrity and phase margin.
 
 ![Phase Response](path_to_your_plot_image)
-
 ---
 
 ## 3. Transient Analysis

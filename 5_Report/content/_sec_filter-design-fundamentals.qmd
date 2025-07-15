@@ -1,8 +1,41 @@
 # Filter Design Fundamentals
 
-## Filter Theory and Approximation
+## Second order universal active filter
 
-## Second-Order Systems and Biquads
+image  
+## Filter Components Explained
+
+The circuit diagram shows a **universal active filter** capable of producing four different types of outputs simultaneously. It is constructed from four operational transcundactance amplifiers - two inverting intergrators, 2 inverting adders, resistors, and capacitors.
+
+* **BPF Output**: First Integrator (top-left op-amp) processes the input signal.
+* **LPF Output**: Second Integrator (top-middle op-amp) takes the BPF output as its input.
+* **HPF Output**: Inverting Adder 1 (top-right op-amp) sums the LPF output, the BPF output, and the original input signal.
+* **BSF Output**: Inverting Adder 2 (bottom op-amp) sums the LPF and HPF outputs.
+
+
+## The Inverting Adder
+
+An inverting adder (or summing amplifier) outputs a voltage that is the inverted, weighted sum of its input voltages.
+
+### Output Voltage Equation
+
+For an inverting adder with three inputs ($V_a, V_b, V_c$), input resistors ($R_a, R_b, R_c$), and a feedback resistor ($R_f$), the output voltage $V_o$ is:
+
+$$
+V_o = - \left( \frac{R_f}{R_a}V_a + \frac{R_f}{R_b}V_b + \frac{R_f}{R_c}V_c \right)
+$$
+
+## The Inverting Integrator
+
+An inverting integrator is an operational amplifier circuit that produces an output voltage proportional to the time integral of its input voltage, with an inverted sign. It's fundamentally an inverting amplifier with a capacitor in the feedback path.
+
+### Output Voltage Equation
+
+For an inverting integrator with an input voltage ($V_i$), an input resistor ($R_1$), and a feedback capacitor ($C_f$), the output voltage $V_o$ is:
+
+$$V_o = - \frac{1}{R_1 C_f} \int V_i \, dt + V_o(0)$$
+
+## Transfer function
 
 The biquadratic filter, or "biquad," is a second-order filter widely used in analog filter design. Its general transfer function is given by:
 $$H(s)=\frac{a_{1}s^{2}+b_{1}s+c_{1}}{a_{2}s^{2}+b_{2}s+c_{2}}$$
