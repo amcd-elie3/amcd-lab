@@ -80,7 +80,7 @@ The transconductance ($g_m$) of the OTA is primarily set by the characteristics 
 
 To determine the transistor dimensions (W/L), we used the modern `gm/ID` sizing methodology. This approach utilizes pre-characterized lookup tables from foundry data (in our case, SG13G2) to achieve an optimal balance between performance metrics like gain, speed, and power.
 
-The process was carried out using a Jupyter Notebook. Here is a summary of the design specifications and quantitative sizing process.
+The quantitative sizing process is summarized below.
 
 **Design Specifications & Key Parameters**
 
@@ -108,15 +108,6 @@ The process was carried out using a Jupyter Notebook. Here is a summary of the d
 
 4.  **Transistor Widths (W)**: The final step is to find the transistor widths that provide the required currents for the chosen `gm/ID` and `L`. This is done by looking up the current density (`ID/W`) and calculating $W = I_D / (I_D/W)$.
 
-**Final Sizing Summary for the 5T OTA**
-
-| Transistor | W/L (µm) | `gm/ID` (S/A) | Bias Current ($I_D$) |
-|:----------:|:----------:|:-------------:|:--------------------:|
-| M1, M2     | 2.0 / 5    | 10            | 2.0 µA               |
-| M3, M4     | 1.5 / 5    | 5             | 2.0 µA               |
-| M5         | 0.5 / 5    | 5             | 4.0 µA               |
-| M6         | 2.5 / 5    | 5             | 20 µA (Reference)    |
-
 Based on this quantitative sizing, the following schematic was created in Xschem, representing the physical implementation of our basic 5T OTA.
 
 ![Xschem implementation of the sized 5T OTA](images/basic-5T-OTA-xschem.png){#fig-Basic-5T-OTA-Xschem}
@@ -138,12 +129,6 @@ We then replaced the ideal op-amp blocks in our universal biquad filter with thi
 The AC analysis of the real-circuit universal biquad produced the following results, which represent a complete failure of the filter.
 
 ![AC simulation results for the Universal Biquad Filter.](images/real-biquad-uni-output.png){#fig-Universal-Biquad-Output}
-
-A detailed analysis of the plot reveals:
--   **Low-Pass Filter (LPF, red trace)**: The output is nearly flat. It completely lacks the expected flat passband followed by a -40 dB/decade roll-off.
--   **Band-Pass Filter (BPF, blue trace)**: The output shows no resonance or peaking at any frequency. A functioning BPF should rise to a peak at its center frequency and fall off on either side.
--   **High-Pass Filter (HPF, green trace)**: The output is also flat and fails to attenuate low frequencies as required.
--   **Overall Gain**: All outputs are clustered around -6 dB to -7 dB, indicating a systemic issue with the gain staging rather than a filtering action.
 
 The results unequivocally show that the circuit is not performing any filtering. This failure is a direct consequence of the OTA's poor performance, particularly its low DC gain (~35 dB) and insufficient drive current, which are unable to make the integrator loops in the biquad operate correctly.
 
@@ -168,50 +153,99 @@ The chosen architecture is a fully differential OTA designed to convert a differ
 
 *   **Main Amplifier Stage**: The core is a single-stage differential amplifier. Transistors **M1** and **M2** form the NMOS input differential pair. **M7** and **M8** are PMOS transistors acting as an active load, sourcing current into the output nodes (`vout+`, `vout-`) and providing high output resistance for gain. **M11** is a tail current source that sets the DC bias for the input pair.
 
-*   **Biasing Circuit**: The section on the left, with the **Tuning Current** source and diode-connected transistors **M9** and **M10**, is the master biasing circuit. The external tuning current establishes stable gate-to-source voltages that are then used to bias the gates of **M11** and **M12** via current mirroring. This makes the amplifier's performance robust against process and temperature variations.
+*   **Biasing Circuit**: The section on the left, with the **Tuning Current** source and diode-connected transistors **M9** and **M10**, is the master biasing circuit. The external tuning current establishes stable gate-to-source voltages that are then used to bias the gates of **M11** and **M12** via current mirroring.
 
-*   **Common-Mode Feedback (CMFB) Circuit**: In a fully differential amplifier, the DC level of the outputs must be precisely defined. The CMFB circuit (**M3-M6**, **M12**) serves this purpose. It senses the common-mode voltage of the outputs, compares it to a reference voltage (**VCM**), and creates a negative feedback loop by adjusting the gate voltage of the active load transistors (**M7, M8**). This locks the output common-mode voltage at a stable, desired level.
+*   **Common-Mode Feedback (CMFB) Circuit**: In a fully differential amplifier, the DC level of the outputs must be precisely defined. The CMFB circuit (**M3-M6**, **M12**) senses the common-mode voltage of the outputs, compares it to a reference voltage (**VCM**), and creates a negative feedback loop by adjusting the gate voltage of the active load transistors (**M7, M8**). This locks the output common-mode voltage at a stable, desired level.
 
 #### Sizing the High-Performance OTA
 
-We adapted the `gm/ID` methodology to size this more complex OTA. The sizing process was performed in a Jupyter Notebook (`ota_gm_100u_sizing.ipynb`), where we defined our design targets and operating points.
+We adapted the `gm/ID` methodology to size this more complex OTA. The design goals for this amplifier were significantly more ambitious than for the initial 5T OTA, targeting higher gain and drive current suitable for a high-performance filter.
 
-The primary goal was to achieve a DC gain of **60 dB** with a drive current of **100 µA**. We selected `gm/ID` ratios for the various transistors and set all channel lengths to `L = 0.5 µm` as an initial choice. However, the sizing process revealed significant challenges.
+**New Design Specifications**
 
-The notebook analysis yielded the following key results:
-*   **DC Gain**: The calculated DC gain was only **21.5 dB**, which is drastically lower than our 60 dB target.
-*   **Output Swing**: The headroom analysis showed that the **Output voltage requirement was NOT met!**, meaning the amplifier could not produce the required signal swing at the output without transistors leaving the saturation region.
+| Parameter             | Value                | Comparison with 5T OTA             |
+|-----------------------|----------------------|------------------------------------|
+| Target DC Gain        | 60 dB                | Much higher than the 35 dB achieved|
+| Input Bias Current    | 100 µA               | A 5x increase over the 20µA used  |
+| `gm/ID` (Input Pair)  | 18 S/A               | Higher efficiency (weaker inversion) |
+| Channel Length (L)    | 0.5 µm               | Shorter, for higher speed          |
 
-We attempted to improve the performance by experimenting with different `gm/ID` ratios and increasing the channel length `L`, which typically boosts intrinsic gain. However, we were still unable to reach the desired 60 dB gain target.
+**Quantitative Sizing Analysis**
 
-Faced with these results, we proceeded by implementing the OTA in Xschem using the values calculated from our sizing notebook, acknowledging the known performance limitations. This represents a realistic step in a design flow, where initial calculations may not meet all targets.
+The sizing began with the bandwidth requirement, which sets the needed transconductance.
+$$ g_{m1,2} = f_{bw} \times 2\pi C_{load} \times (\text{Safety Factor}) = 10\text{e}6 \times 2\pi \times 50\text{e-15} \times 3 \approx 10 \text{ µS} $$
+From this, the bias currents for the differential pair and the tail current were calculated:
+$$ I_{D1,2} = \frac{g_{m1,2}}{g_m/I_D} = \frac{10 \text{ µS}}{18 \text{ S/A}} \approx 0.52 \text{ µA} $$
+$$ I_{tail} = 2 \times I_{D1,2} \approx 1.05 \text{ µA} $$
+
+The crucial step was the DC gain calculation. The gain is set by the input transconductance and the total output resistance ($r_{o,total} = r_{o,nmos} || r_{o,pmos}$).
+$$ A_0 = g_{m1,2} \times (r_{o,1,2} || r_{o,7,8}) $$
+Using lookup tables to find the intrinsic gain (`gm/gds`) for each transistor at `L=0.5µm` and then calculating the output resistances, the analysis yielded a very low result:
+$$ A_0 \Rightarrow 20 \log_{10}(A_0) \approx 21.5 \text{ dB} $$
+
+**Analysis of Sizing Limitations**
+
+The sizing exercise exposed critical design trade-offs and challenges:
+1.  **Failure to Meet Gain Target**: The resulting **21.5 dB** of gain falls drastically short of the **60 dB** specification. This is a direct consequence of using a short channel length (`L=0.5µm`), which severely limits the transistor's intrinsic gain (`gm/gds`), making high DC gain unachievable.
+2.  **Headroom and Output Swing Failure**: The voltage headroom analysis revealed that the design could not support the required output voltage levels, stating explicitly: `[WARNING] Output voltage requirement is NOT met!`.
+
+Despite attempts to rectify this by exploring different `gm/ID` ratios and longer channel lengths, the 60 dB target remained elusive within the constraints of this specific topology and sizing choices. Faced with these results, we proceeded by implementing the OTA in Xschem using the values calculated from our analysis, acknowledging the known performance limitations.
 
 ![Xschem schematic of the sized high-performance OTA.](images/real-ota_gm_100u.png){#fig-Gm-100u-OTA}
 
-#### Component Sizing for the Final Filter
+### Component Sizing and Filter Design
 
-Despite the OTA's lower-than-desired gain, we proceeded with the filter design, using its achieved transconductance as the basis for our calculations.
+Despite the OTA's lower-than-desired gain, we proceeded to design the filter's passive network. The chosen topology is a Gm-C biquadratic filter, a versatile and tunable second-order architecture that uses integrators made from transconductors and capacitors.
 
-**Target Filter Specifications**
+![Schematic of the Gm-C Biquad Filter Topology](images/biquad-filter-ota-baker-book.png){#fig-Final-Filter-Topology}
 
-| Parameter             | Value                |
-|-----------------------|----------------------|
-| Filter Type           | Low-Pass             |
-| Center Frequency ($f_0$)| 1 kHz                |
-| Quality Factor (Q)    | 10                   |
-| Integrator Gm ($g_{m,int}$)| 100 µS               |
+This Gm-C biquad structure is essentially a cascade of two integrator blocks with feedback. The first stage (built around gm1, gm2, and associated capacitors) and the second stage (built around gm3, gm4, and capacitors) are interconnected. The feedback from the final output back to the input creates the second-order response necessary for achieving high Q-factors. A primary advantage of this topology is its **electronic tunability**; the filter's center frequency ($f_0$) and quality factor (Q) are set by gm and C values. Since the gm can be adjusted by changing bias currents, the filter can be tuned after fabrication, making it ideal for integrated circuits where precise resistor values are difficult to achieve.
 
-**Calculations**
+#### Design Calculations
 
-For a Gm-C biquad, the design equations are:
-$$ \omega_0 = 2\pi f_0 = \frac{g_{m,int}}{C} \quad \text{and} \quad Q = \frac{g_{m,Q}}{g_{m,int}} $$
+The design process involves mapping the desired filter characteristics onto the general biquad transfer function and then solving for the specific capacitance values.
 
-1.  **Capacitor Calculation**:
-    $$ C = \frac{g_{m,int}}{2\pi f_0} = \frac{100 \times 10^{-6} \text{ S}}{2\pi \times 1000 \text{ Hz}} \approx 15.9 \text{ nF} $$
+**1. Define Target Specifications**
+*   **Filter Type**: Low-Pass Filter
+*   **Center/Cutoff Frequency ($f_0$)**: 1 kHz
+*   **Quality Factor (Q)**: 10
+*   **Transconductance ($g_m$)**: 100 µS (for all transconductors, gm1 through gm4)
 
-2.  **Q-Factor Gm Calculation**: To achieve a Q of 10, the transconductance of the feedback OTA ($g_{m,Q}$) must be 10 times the integrator Gm.
-    $$ g_{m,Q} = Q \times g_{m,int} = 10 \times 100 \text{ µS} = 1 \text{ mS} $$
-    This requires using two different OTA versions in the filter: a 100µS OTA for the integrators and a 1mS OTA for the Q-path.
+**2. Simplify the Topology for a Low-Pass Filter**
+A standard second-order low-pass filter has a transfer function of the form $H(s) = a_0 / (s^2 + s(\omega_0/Q) + \omega_0^2)$. To achieve this, the numerator terms with 's' and 's²' must be zero. In the generalized topology, these terms are controlled by capacitors $C_1$ and $C_3$. To eliminate them, we must set their values to zero:
+*   $C_1 = 0$
+*   $C_3 = 0$
+This physically means removing these two capacitors from the schematic, simplifying the design significantly.
+
+**3. Use the Simplified Design Equations**
+With $C_1$ and $C_3$ removed, the design equations for the filter's characteristics simplify to:
+$$ (2\pi f_0)^2 = \frac{g_{m1}}{C_2} \frac{g_{m3}}{C_4} \frac{g_{m4}}{g_{m3}} $$
+$$ \frac{2\pi f_0}{Q} = \frac{g_{m1}}{C_2} \frac{g_{m2}}{g_{m1}} $$
+
+**4. Solve for the Capacitors**
+First, we calculate the angular frequency $\omega_0 = 2\pi f_0$:
+$$ \omega_0 = 2 \pi \times 1000 \text{ Hz} = 6283.2 \text{ rad/s} $$
+
+Next, we solve the equation for the Q-factor to find $C_2$. The equation simplifies nicely:
+$$ \frac{\omega_0}{Q} = \frac{g_{m2}}{C_2} $$
+$$ C_2 = \frac{g_{m2} \times Q}{\omega_0} = \frac{100 \times 10^{-6} \text{ S} \times 10}{6283.2 \text{ rad/s}} = 1.5915 \times 10^{-7} \text{ F} $$
+$$ \mathbf{C_2 = 159.2 \text{ nF}} $$
+
+Now, we solve the equation for the center frequency to find $C_4$. The equation simplifies to:
+$$ (\omega_0)^2 = \frac{g_{m1}}{C_2} \frac{g_{m4}}{C_4} $$
+We can substitute the term $\frac{g_{m1}}{C_2}$ with $\frac{\omega_0}{Q}$ (since $g_{m1}=g_{m2}$):
+$$ (\omega_0)^2 = \frac{\omega_0}{Q} \frac{g_{m4}}{C_4} \implies \omega_0 Q = \frac{g_{m4}}{C_4} $$
+$$ C_4 = \frac{g_{m4}}{\omega_0 Q} = \frac{100 \times 10^{-6} \text{ S}}{6283.2 \text{ rad/s} \times 10} = 1.5915 \times 10^{-9} \text{ F} $$
+$$ \mathbf{C_4 = 1.59 \text{ nF}} $$
+
+**Final Design Values**
+
+| Component | Value        | Purpose                               |
+|:----------|:-------------|:--------------------------------------|
+| $C_1$     | 0 (removed)  | Simplifies filter to low-pass response|
+| $C_2$     | 159.2 nF     | Sets the Q-factor                     |
+| $C_3$     | 0 (removed)  | Simplifies filter to low-pass response|
+| $C_4$     | 1.59 nF      | Sets the center frequency, $f_0$      |
 
 ### Final Implementation and Verification
 
