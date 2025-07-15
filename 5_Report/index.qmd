@@ -16,12 +16,6 @@ author:
     email: mathisayaraj@stud.hs-bremen.de
     corresponding: true
     roles: "Lead author"
-  - name: Varun Kumar 
-    orcid: 
-    email:
-    corresponding: true
-    roles: "Lead author"
-
 keyword:
   - Filter Design 
   - IC Design
