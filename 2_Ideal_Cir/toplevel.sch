@@ -116,7 +116,7 @@ plot ph(hpf) ph(bpf) ph(lpf) ph(bsf)
 
 * --- Transient Analysis ---
 tran 0.1m 10m 5m
-plot v(hpf) v(bpf) v(lpf) v(bsf) v(Vin)
+plot v(hpf) v(bpf) v(lpf) v(bsf)
 
 write toplevel.raw
 .endc
