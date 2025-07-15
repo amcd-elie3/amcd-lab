@@ -12,69 +12,34 @@ The filter is based on the Tow-Thomas biquad topology, which uses two integrator
 
 ![Schematic of the ideal universal second-order active filter, based on the ASLK Pro manual.](images/ideal-biquad-uni.png){#fig-ideal-uni}
 
-The transfer functions for each output are defined by the standard second-order filter equations:
-
--   **Low-Pass (LPF):** $H_{LPF}(s) = \frac{H_0}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}$
--   **High-Pass (HPF):** $H_{HPF}(s) = \frac{H_0 \frac{s^2}{\omega_0^2}}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}$
--   **Band-Pass (BPF):** $H_{BPF}(s) = \frac{-H_0 \frac{s}{\omega_0 Q}}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}$
--   **Band-Stop (BSF):** $H_{BSF}(s) = \frac{H_0 (1 + \frac{s^2}{\omega_0^2})}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}$
-
-Where the center frequency $\omega_0$ and the quality factor $Q$ are determined by the external resistors and capacitors:
-
--   **Center Frequency:** $\omega_0 = \frac{1}{RC}$
--   **Quality Factor:** $Q = \frac{R_Q}{R}$
 
 ### Ideal Op-Amp Model and Symbol Creation
 
 To simulate the ideal behavior of this circuit, we first required an ideal operational amplifier model. We used a standard single-pole op-amp SPICE model from eCircuit Center, shown in @lst-opamp-subckt.
 
-```spice
-#| label: lst-opamp-subckt
-#| lst-cap: "SPICE subcircuit for the single-pole ideal op-amp."
-
-* OPAMP MACRO MODEL, SINGLE-POLE
-* connections:      non-inverting input
-* |  inverting input
-* |  |  output
-* |  |  |
-.SUBCKT OPAMP1      1  2  6
-* INPUT IMPEDANCE
-RIN 1 2 10MEG
-* DC GAIN=100K AND POLE1=100HZ
-* UNITY GAIN = DCGAIN X POLE1 = 10MHZ
-EGAIN   3 0   1 2   100K
-RP1     3 4   1K
-CP1     4 0   1.5915UF
-* OUTPUT BUFFER AND RESISTANCE
-EBUFFER 5 0   4 0   1
-ROUT    5 6   10
-.ENDS
-```
-
-We saved this code as `OPAMP1.cir` and created a corresponding symbol in Xschem. A critical step was ensuring that the pinout of the symbol (`vin+`, `vin-`, `vout`) matched the node connections in the `.SUBCKT` definition (nodes 1, 2, and 6).
-
 **Implementation Note:** A common pitfall during setup is the path configuration for custom models. Xschem initially searches for model files in the project's home directory. We had to configure the simulation settings to ensure Xschem could locate the `OPAMP1.cir` file in our circuit's working directory.
 
 ### Simulation and Results
 
-With the ideal op-amp symbol and model in place, we constructed the schematic for the universal biquad filter. We then wrote an ngspice script (@lst-ideal-uni-sim) to perform an AC analysis.
+With the ideal op-amp symbol and model in place, we constructed the schematic for the universal biquad filter. We then wrote an ngspice script (@lst-ideal-uni-sim) to perform the analysis.
 
-```spice
-#| label: lst-ideal-uni-sim
-#| lst-cap: "ngspice code for AC analysis of the ideal universal filter."
+### Frequency Response Analysis - Magnitude Response
 
-.param R=1.6k C=100n RH=R/1.0 RQ=4.7k
-.control
-  save all
-  ac lin 1000 0.8 2k
-  write toplevel.raw
-  plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
-.endc
-```
+The magnitude response of the system was plotted to observe how the system amplifies or attenuates input signals across different frequencies. The Bode magnitude plot gives a clear insight into the bandwidth and gain characteristics.
 
-Based on our parameters ($R=1.6k\Omega$, $C=100nF$), the expected center frequency is $f_0 = \frac{1}{2\pi RC} \approx 995 Hz$. The simulation results, shown in @fig-ideal-uni-output, confirm this theoretical calculation.
+![Magnitude Response](images/mag_resp.png)
 
-![Frequency response of the ideal universal biquad filter, showing the LPF, HPF, BPF, and BSF outputs.](images/ideal-biquad-uni-output.png){#fig-ideal-uni-output}
+### Phase Response
+
+The phase response of the system was analyzed to study the phase shift introduced at various frequencies. This is essential for understanding the signal integrity and phase margin.
+
+![Phase Response](images/phase_resp.png)
+
+### Transient Analysis
+
+Transient analysis was performed to examine how the system responds to a time-domain input.
+
+![Transient Response](images/transient_response_ideal.png)
 
 The plot clearly shows the expected behavior for each filter type, centered around 1 kHz. The BPF peaks at the center frequency, while the BSF shows a notch at the same point.
 

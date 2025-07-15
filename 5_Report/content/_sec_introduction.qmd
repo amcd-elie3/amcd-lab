@@ -15,4 +15,4 @@ Second-order filters, also known as biquad filters, are fundamental in construct
 
 - They serve as building blocks for $N^{\text{th}}$ order filters when $N > 2$.
 - For odd values of $N$, an $N^{\text{th}}$ order filter can be implemented using $\frac{N - 1}{2}$ second-order filters and one first-order filter.
-- For even values of $N$, $N - 1$ second-order filters are required to realize an $N^{\text{th}}$ order filter.
+- For even values of $N$, $\frac{N}{2}$ second-order filters are required to realize an $N^{\text{th}}$ order filter.

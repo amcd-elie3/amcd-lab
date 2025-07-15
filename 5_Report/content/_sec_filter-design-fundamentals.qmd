@@ -2,8 +2,7 @@
 
 ## Second order universal active filter
 
-image  
-## Filter Components Explained
+![Second order universal active filter](images/Second order universal active filter.png)
 
 The circuit diagram shows a **universal active filter** capable of producing four different types of outputs simultaneously. It is constructed from four operational transcundactance amplifiers - two inverting intergrators, 2 inverting adders, resistors, and capacitors.
 
@@ -42,14 +41,10 @@ $$H(s)=\frac{a_{1}s^{2}+b_{1}s+c_{1}}{a_{2}s^{2}+b_{2}s+c_{2}}$$
 
 The numerator coefficients can be chosen to achieve low-pass, band-pass, or high-pass responses. For example, setting $a_{1}=b_{1}=0$ leads to a low-pass filter (LPF). Higher-order filters can be constructed by cascading biquad sections.
 
-A low-pass biquad can be characterized by the following equivalent transfer functions:
-$$H(s)=\frac{\omega_{n}^{2}}{s^{2}+\frac{\omega_{n}}{Q}s+\omega_{n}^{2}}$$
-$$H(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta\omega_{n}s+\omega_{n}^{2}}$$
-Here, $\omega_n$ is the natural frequency, Q is the quality factor (or pole Q), and $\zeta$ is the damping factor. It's important to note that $Q = 1/(2\zeta)$.
-
-Second-order filters can realize four types of filters, with their transfer functions typically shown below. For instance, in an Analog System Lab Kit PRO experiment, the transfer functions for different filter types are provided where $\omega_{0}=1/RC$ and $H_{0}$ is the low frequency gain.
+Second-order filters can realize four types of filters, with their transfer functions typically shown below. 
 
 Here are the transfer functions for common second-order active filters:
+
 * **Low Pass Filter (LPF)**:
     $$\frac{V_{03}}{V_{i}}=\frac{+H_{0}}{(1+\frac{s}{\omega_{0}Q}+\frac{s^{2}}{\omega_{0}^{2}})}$$
 

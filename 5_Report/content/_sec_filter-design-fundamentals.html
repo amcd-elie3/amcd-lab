@@ -80,8 +80,12 @@ window.Quarto = {
 <h1>Filter Design Fundamentals</h1>
 <section id="second-order-universal-active-filter" class="level2">
 <h2 class="anchored" data-anchor-id="second-order-universal-active-filter">Second order universal active filter</h2>
-<p>image<br>
-## Filter Components Explained</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/Second%20order%20universal%20active%20filter.png" class="img-fluid figure-img"></p>
+<figcaption>Second order universal active filter</figcaption>
+</figure>
+</div>
 <p>The circuit diagram shows a <strong>universal active filter</strong> capable of producing four different types of outputs simultaneously. It is constructed from four operational transcundactance amplifiers - two inverting intergrators, 2 inverting adders, resistors, and capacitors.</p>
 <ul>
 <li><strong>BPF Output</strong>: First Integrator (top-left op-amp) processes the input signal.</li>
@@ -114,10 +118,10 @@ V_o = - \left( \frac{R_f}{R_a}V_a + \frac{R_f}{R_b}V_b + \frac{R_f}{R_c}V_c \rig
 <h2 class="anchored" data-anchor-id="transfer-function">Transfer function</h2>
 <p>The biquadratic filter, or “biquad,” is a second-order filter widely used in analog filter design. Its general transfer function is given by: <span class="math display">\[H(s)=\frac{a_{1}s^{2}+b_{1}s+c_{1}}{a_{2}s^{2}+b_{2}s+c_{2}}\]</span></p>
 <p>The numerator coefficients can be chosen to achieve low-pass, band-pass, or high-pass responses. For example, setting <span class="math inline">\(a_{1}=b_{1}=0\)</span> leads to a low-pass filter (LPF). Higher-order filters can be constructed by cascading biquad sections.</p>
-<p>A low-pass biquad can be characterized by the following equivalent transfer functions: <span class="math display">\[H(s)=\frac{\omega_{n}^{2}}{s^{2}+\frac{\omega_{n}}{Q}s+\omega_{n}^{2}}\]</span> <span class="math display">\[H(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta\omega_{n}s+\omega_{n}^{2}}\]</span> Here, <span class="math inline">\(\omega_n\)</span> is the natural frequency, Q is the quality factor (or pole Q), and <span class="math inline">\(\zeta\)</span> is the damping factor. It’s important to note that <span class="math inline">\(Q = 1/(2\zeta)\)</span>.</p>
-<p>Second-order filters can realize four types of filters, with their transfer functions typically shown below. For instance, in an Analog System Lab Kit PRO experiment, the transfer functions for different filter types are provided where <span class="math inline">\(\omega_{0}=1/RC\)</span> and <span class="math inline">\(H_{0}\)</span> is the low frequency gain.</p>
-<p>Here are the transfer functions for common second-order active filters: * <strong>Low Pass Filter (LPF)</strong>: <span class="math display">\[\frac{V_{03}}{V_{i}}=\frac{+H_{0}}{(1+\frac{s}{\omega_{0}Q}+\frac{s^{2}}{\omega_{0}^{2}})}\]</span></p>
+<p>Second-order filters can realize four types of filters, with their transfer functions typically shown below.</p>
+<p>Here are the transfer functions for common second-order active filters:</p>
 <ul>
+<li><p><strong>Low Pass Filter (LPF)</strong>: <span class="math display">\[\frac{V_{03}}{V_{i}}=\frac{+H_{0}}{(1+\frac{s}{\omega_{0}Q}+\frac{s^{2}}{\omega_{0}^{2}})}\]</span></p></li>
 <li><p><strong>High Pass Filter (HPF)</strong>: <span class="math display">\[\frac{V_{01}}{V_{i}}=\frac{(H_{0}\cdot\frac{S^{2}}{G_{i}^{2}})}{(1+\frac{S}{a_{0}Q}+\frac{S^{2}}{a_{0}^{2}})}\]</span></p></li>
 <li><p><strong>Band Pass Filter (BPF)</strong>: <span class="math display">\[\frac{V_{02}}{V_{i}}=\frac{(-H_{0}\cdot\frac{S}{Q_{0}})}{(1+\frac{S}{Q_{0}Q}+\frac{S^{2}}{Q_{0}^{2}})}\]</span></p></li>
 <li><p><strong>Band Stop Filter (BSF)</strong>: <span class="math display">\[\frac{V_{o4}}{V_{i}}=\frac{(1+\frac{s^{2}}{Q_{o}^{2}})\cdot H_{0}}{(1+\frac{s}{Q_{o}Q}+\frac{s^{2}}{Q_{o}^{2}})}\]</span></p></li>
