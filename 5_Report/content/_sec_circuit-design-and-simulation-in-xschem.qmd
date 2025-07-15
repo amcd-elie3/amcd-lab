@@ -45,85 +45,182 @@ The plot clearly shows the expected behavior for each filter type, centered arou
 
 ## Real Circuit: Gm-C Biquad Filter
 
-While the active RC filter is excellent for demonstrating theory, it is less practical for monolithic IC design due to its reliance on large, precise resistors and capacitors. A more suitable approach for IC implementation is the **Gm-C filter**, which uses transconductors (OTAs) and capacitors.
+This section details the transition from an ideal circuit simulation to a practical, transistor-level implementation. The core of this process is replacing the ideal op-amp model with a custom-designed Operational Transconductance Amplifier (OTA) within the IHP Microelectronics SG13G2 130nm CMOS technology.
 
-### Initial Attempt with a 5T OTA
+### Initial Approach: The 5-Transistor OTA
 
-Our first step towards a real circuit was to replace the ideal op-amps in the universal filter with a 5-transistor OTA (Operational Transconductance Amplifier). We used a 5T OTA design from Professor Pretl (@fig-ota-5t).
+Our first step towards a real circuit was to design and size a fundamental analog building block: the 5-Transistor (5T) OTA.
 
-![Schematic of the 5T OTA used in the initial real-circuit implementation.](images/ota-5t-pretl.png){#fig-ota-5t}
+#### From an Ideal Model to a Transistor-Level Circuit
 
-We implemented this OTA in the universal active filter topology, as shown in the schematic in @fig-real-uni-ota.
+In the initial phase of the project, we used an ideal op-amp, which is a behavioral model in SPICE. It assumes infinite gain, infinite bandwidth, and zero output impedance. This is useful for verifying circuit topology and transfer functions at a conceptual level.
 
-![Universal active filter schematic using the 5T OTA.](images/real-biquad-uni.png){#fig-real-uni-ota}
+A real OTA, however, is built from transistors and has inherent physical limitations:
+*   **Finite Gain and Bandwidth**: The voltage gain is limited by the transistor's output impedance and transconductance.
+*   **Power Consumption**: It draws a finite DC current from the power supply.
+*   **Non-linearities**: Its behavior can deviate from the ideal linear model, especially with large input signals.
+*   **Noise**: The transistors introduce electronic noise into the circuit.
 
-The circuit was simulated using the ngspice code in @lst-real-uni-ota-sim.
+Transitioning to a transistor-level OTA is therefore essential for designing a circuit that can be physically manufactured and will perform predictably.
 
-```spice
-#| label: lst-real-uni-ota-sim
-#| lst-cap: "ngspice code for AC analysis of the universal filter with the 5T OTA."
+#### Anatomy of a 5T OTA
 
-.temp 27
-.param R=1.6k C=100n RH=R/1.0 RQ=4.7k
-.control
-save all
-ac lin 1000 0.8 2k
-* tran 0.1m 10m 5m
-write toplevel.raw
-plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
-.endc
-```
+The 5T OTA is a cornerstone of analog design due to its simplicity and efficiency. It consists of a differential input pair (M1, M2), a current-mirror active load (M3, M4), and a tail current source (M5) which sets the amplifier's bias point.
 
-The simulation results, shown in @fig-real-uni-ota-output, were far from ideal.
+![Basic 5T OTA Schematic](images/basic-5T-OTA.png){#fig-Basic-5T-OTA-Schematic}
 
-![Frequency response of the universal filter using the 5T OTA.](images/real-biquad-uni-output.png){#fig-real-uni-ota-output}
+In this circuit:
+-   **M1 and M2** form the input differential pair. They operate in the saturation region, where the drain current is controlled by the gate-source voltage ($V_{GS}$). The differential input voltage ($V_{in,p} - V_{in,n}$) creates a differential current between the two branches.
+-   **M3 and M4** form a PMOS current mirror that acts as the active load. This configuration provides a high output impedance, which helps achieve a higher voltage gain compared to a simple resistive load.
+-   **M5** is the tail current source, which provides a constant bias current ($I_{tail}$) to the differential pair. This current is mirrored from a reference current source via M6.
 
-The plot shows a significant loss of gain across all filter outputs, and the characteristic filter shapes (e.g., the peak of the BPF or the notch of the BSF) are completely absent. This poor performance confirmed our hypothesis: the 5T OTA, with its low driving current of 20µA and high output impedance, is incapable of driving the resistive feedback network of the Tow-Thomas topology. The OTA's output voltage is heavily loaded down, leading to the observed attenuation and loss of filter function. This result was pivotal in our decision to abandon this topology in favor of a true Gm-C design.
+The transconductance ($g_m$) of the OTA is primarily set by the characteristics of the input pair and its bias current.
 
-### Transition to a Gm-C Biquad Topology
+#### Sizing the 5T OTA with the `gm/ID` Methodology
 
-Given the limitations of our initial approach, we shifted to a design more amenable to IC fabrication. We selected a second-order Gm-C biquad filter topology from Chapter 3 of "CMOS Mixed-Signal Circuit Design" by R. Jacob Baker. This topology realizes the filter using OTAs as transconductance ($g_m$) elements and capacitors.
+To determine the transistor dimensions (W/L), we used the modern `gm/ID` sizing methodology. This approach utilizes pre-characterized lookup tables from foundry data (in our case, SG13G2) to achieve an optimal balance between performance metrics like gain, speed, and power.
 
-The fundamental building block of a Gm-C filter is the integrator, where the integration time constant is set by the ratio $\frac{C}{g_m}$. The biquad is constructed by cascading two such integrators, as seen in the ideal schematic in @fig-ideal-gmc.
+The process was carried out using a Jupyter Notebook. Here is a summary of the design specifications and quantitative sizing process.
 
-![Ideal Gm-C biquad filter schematic from Professor Meiners' reference library.](images/ideal-biquad_gm_c.png){#fig-ideal-gmc}
+**Design Specifications & Key Parameters**
 
-### Custom 100µA OTA Design
+| Parameter             | Value                | Description                             |
+|-----------------------|----------------------|-----------------------------------------|
+| Technology            | SG13G2 130nm         | IHP Microelectronics CMOS process       |
+| Load Capacitance      | 50 fF                | Assumed load for bandwidth calculation  |
+| Target Bandwidth      | 10 MHz               | -3dB bandwidth target for the OTA       |
+| Total Current Limit   | 10 µA                | Maximum allowed supply current          |
+| PMOS `gm/ID` (M3, M4) | 5 S/A                | Operating point for the active load     |
+| NMOS `gm/ID` (M1, M2) | 10 S/A               | Operating point for the differential pair|
+| Channel Length (L)    | 5 µm                 | Chosen for high intrinsic gain (`gm/gds`) |
 
-A key requirement for this new topology was an OTA with a higher driving capability. We designed the fully differential OTA shown in @fig-ota-100u to provide a target driving current of **100µA**.
+**Quantitative Sizing Analysis**
 
-![Schematic of the custom 100µA OTA designed for the Gm-C biquad.](images/real-ota_gm_100u.png){#fig-ota-100u}
+1.  **Required Transconductance ($g_m$)**: The target bandwidth ($f_{bw}$) for a given load ($C_{load}$) dictates the required transconductance of the input pair. We include a margin of 3x to account for parasitics.
+    $$ g_{m1,2} = f_{bw} \times 3 \times 4\pi C_{load} = 10 \text{ MHz} \times 3 \times 4\pi \times 50 \text{ fF} \approx 18.8 \text{ µS} $$
 
-This circuit is a single-stage, fully differential OTA. Its key components are:
--   An **NMOS input differential pair** (M1, M2) that converts the differential input voltage into a current.
--   A **PMOS active current mirror load** (M3, M4, M7, M8) which provides high output impedance for improved voltage gain.
--   A **biasing network** (M9-M12) that sets the tail current for the differential pair and other operating points, controlled by the external `ibias` current.
--   Because the OTA is fully differential, it requires an external **Common-Mode Feedback (CMFB)** circuit to set the DC voltage level of its outputs (`outp`, `outn`). The `cm` pin is provided as an input for the CMFB control voltage, which adjusts the resistance of the PMOS load.
+2.  **Bias Current Calculation**: With a target `gm/ID` of 10 S/A for the input pair, the required drain current per transistor is:
+    $$ I_{D1,2} = \frac{g_{m1,2}}{g_m/I_D} = \frac{18.8 \text{ µS}}{10 \text{ S/A}} = 1.88 \text{ µA} $$
+    The total tail current is $I_{tail} = 2 \times I_{D1,2} = 3.76 \text{ µA}$, which was rounded up to **4.0 µA**. This meets our power consumption target of < 10 µA.
 
-### Gm-C Biquad Implementation and Simulation
+3.  **DC Gain ($A_0$) Calculation**: The DC voltage gain is the transconductance divided by the total output conductance ($g_{ds1,2} + g_{ds3,4}$). Using the lookup tables to find the intrinsic gain (`gm/gds`) for our chosen operating points and `L=5µm`:
+    $$ A_0 = \frac{g_{m1,2}}{g_{ds1,2} + g_{ds3,4}} \Rightarrow 20 \log_{10}(A_0) \approx 34.8 \text{ dB} $$
 
-With the custom OTA designed, we modified the `biquad_gm_c` schematic, replacing the ideal OTA symbols with our newly designed 100µA OTA (@fig-biquad-with-ota).
+4.  **Transistor Widths (W)**: The final step is to find the transistor widths that provide the required currents for the chosen `gm/ID` and `L`. This is done by looking up the current density (`ID/W`) and calculating $W = I_D / (I_D/W)$.
 
-![The biquad_gm_c circuit modified to use our custom-designed 100µA OTA.](images/real-biquad_gm_c.png){#fig-biquad-with-ota}
+**Final Sizing Summary for the 5T OTA**
 
-We simulated the final Gm-C biquad circuit using an AC analysis. The ngspice code (@lst-biquad-ota-sim) included the appropriate semiconductor model libraries.
+| Transistor | W/L (µm) | `gm/ID` (S/A) | Bias Current ($I_D$) |
+|:----------:|:----------:|:-------------:|:--------------------:|
+| M1, M2     | 2.0 / 5    | 10            | 2.0 µA               |
+| M3, M4     | 1.5 / 5    | 5             | 2.0 µA               |
+| M5         | 0.5 / 5    | 5             | 4.0 µA               |
+| M6         | 2.5 / 5    | 5             | 20 µA (Reference)    |
 
-```spice
-#| label: lst-biquad-ota-sim
-#| lst-cap: "ngspice code for AC analysis of the real Gm-C biquad filter."
+Based on this quantitative sizing, the following schematic was created in Xschem, representing the physical implementation of our basic 5T OTA.
 
-.temp 27
-.control
-  save all
-  ac dec 100 1k 100MEG
-  write biquad_gm_c.raw
-  let vod=v(outp)-v(outn)
-  plot db(v(vod))
-.endc
-```
+![Xschem implementation of the sized 5T OTA](images/basic-5T-OTA-xschem.png){#fig-Basic-5T-OTA-Xschem}
 
-The simulation produced the frequency response shown in @fig-biquad-ota-output.
+### Implementation with the Universal Biquad Filter
 
-![Frequency response of the real Gm-C biquad filter using the custom 100µA OTA.](images/real-biquad_gm_c-output.png){#fig-biquad-ota-output}
+With a basic OTA designed, we moved to implement a filter. For this, we used an initial 5T OTA design from Professor Pretl's documentation as a reference, primarily because it included additional biasing circuitry for enable/disable functionality. For this implementation, a bias current (`I_bias`) of **20µA** was used.
 
-The output shows a low-pass characteristic with a peak before the roll-off, which is typical for a biquad filter with a moderate Q-factor. The -3dB frequency and the peak location are determined by the transconductance ($g_m$) of our OTA and the values of the capacitors. This result validates that our custom OTA is functioning correctly within the Gm-C topology and that the filter behaves as expected, providing a solid foundation for the subsequent layout design phase.
+The schematic below shows this specific OTA. In addition to the core 5T structure (M1-M5), it includes transistors (M7, M8, M12, M13) controlled by enable signals (`ena`, `d_ena`) that can shut down the bias currents to turn the OTA off.
+
+![Xschem schematic of the 5T OTA used in the filter.](images/ota-5t-pretl.png){#fig-Pretl-OTA}
+
+We then replaced the ideal op-amp blocks in our universal biquad filter with this real, transistor-level OTA. This is a critical step: while the ideal circuit verifies the mathematical correctness of the filter topology, the real circuit tests whether the design can function with the physical limitations (finite gain, low drive current) of the chosen OTA.
+
+![Xschem schematic of the Universal Biquad Filter using the real 5T OTA.](images/real-biquad-uni.png){#fig-Universal-Biquad}
+
+#### Simulation and Analysis of Failure
+
+The AC analysis of the real-circuit universal biquad produced the following results, which represent a complete failure of the filter.
+
+![AC simulation results for the Universal Biquad Filter.](images/real-biquad-uni-output.png){#fig-Universal-Biquad-Output}
+
+A detailed analysis of the plot reveals:
+-   **Low-Pass Filter (LPF, red trace)**: The output is nearly flat. It completely lacks the expected flat passband followed by a -40 dB/decade roll-off.
+-   **Band-Pass Filter (BPF, blue trace)**: The output shows no resonance or peaking at any frequency. A functioning BPF should rise to a peak at its center frequency and fall off on either side.
+-   **High-Pass Filter (HPF, green trace)**: The output is also flat and fails to attenuate low frequencies as required.
+-   **Overall Gain**: All outputs are clustered around -6 dB to -7 dB, indicating a systemic issue with the gain staging rather than a filtering action.
+
+The results unequivocally show that the circuit is not performing any filtering. This failure is a direct consequence of the OTA's poor performance, particularly its low DC gain (~35 dB) and insufficient drive current, which are unable to make the integrator loops in the biquad operate correctly.
+
+### Design Challenges and Pivot
+
+The unsuccessful simulation of the universal biquad filter highlighted critical flaws in our initial approach:
+
+1.  **Topology Unsuitability**: The universal biquad topology, while versatile in theory, proved overly complex and sensitive for a practical IC implementation with a simple OTA.
+2.  **OTA Performance Limitations**: The quantitative analysis and simulation results confirmed that the 5T OTA was the primary bottleneck. The DC gain was insufficient for a high-Q filter, and the drive current was too low.
+
+These findings necessitated a complete redesign of both the filter topology and the core amplifier.
+
+### A New Direction: Baker's Gm-C Biquad Filter
+
+We pivoted to a more robust design by referencing R. Jacob Baker's *CMOS Mixed-Signal Circuit Design*. We selected a **Gm-C biquad filter** topology and set out to design a high-performance, fully differential OTA to drive it.
+
+#### High-Performance Fully Differential OTA: Conceptual Architecture
+
+The chosen architecture is a fully differential OTA designed to convert a differential input voltage into a differential output current. It is composed of three main functional blocks.
+
+![Conceptual schematic of the fully differential OTA from Baker.](images/ota-baker-book.jpg){#fig-Baker-OTA}
+
+*   **Main Amplifier Stage**: The core is a single-stage differential amplifier. Transistors **M1** and **M2** form the NMOS input differential pair. **M7** and **M8** are PMOS transistors acting as an active load, sourcing current into the output nodes (`vout+`, `vout-`) and providing high output resistance for gain. **M11** is a tail current source that sets the DC bias for the input pair.
+
+*   **Biasing Circuit**: The section on the left, with the **Tuning Current** source and diode-connected transistors **M9** and **M10**, is the master biasing circuit. The external tuning current establishes stable gate-to-source voltages that are then used to bias the gates of **M11** and **M12** via current mirroring. This makes the amplifier's performance robust against process and temperature variations.
+
+*   **Common-Mode Feedback (CMFB) Circuit**: In a fully differential amplifier, the DC level of the outputs must be precisely defined. The CMFB circuit (**M3-M6**, **M12**) serves this purpose. It senses the common-mode voltage of the outputs, compares it to a reference voltage (**VCM**), and creates a negative feedback loop by adjusting the gate voltage of the active load transistors (**M7, M8**). This locks the output common-mode voltage at a stable, desired level.
+
+#### Sizing the High-Performance OTA
+
+We adapted the `gm/ID` methodology to size this more complex OTA. The sizing process was performed in a Jupyter Notebook (`ota_gm_100u_sizing.ipynb`), where we defined our design targets and operating points.
+
+The primary goal was to achieve a DC gain of **60 dB** with a drive current of **100 µA**. We selected `gm/ID` ratios for the various transistors and set all channel lengths to `L = 0.5 µm` as an initial choice. However, the sizing process revealed significant challenges.
+
+The notebook analysis yielded the following key results:
+*   **DC Gain**: The calculated DC gain was only **21.5 dB**, which is drastically lower than our 60 dB target.
+*   **Output Swing**: The headroom analysis showed that the **Output voltage requirement was NOT met!**, meaning the amplifier could not produce the required signal swing at the output without transistors leaving the saturation region.
+
+We attempted to improve the performance by experimenting with different `gm/ID` ratios and increasing the channel length `L`, which typically boosts intrinsic gain. However, we were still unable to reach the desired 60 dB gain target.
+
+Faced with these results, we proceeded by implementing the OTA in Xschem using the values calculated from our sizing notebook, acknowledging the known performance limitations. This represents a realistic step in a design flow, where initial calculations may not meet all targets.
+
+![Xschem schematic of the sized high-performance OTA.](images/real-ota_gm_100u.png){#fig-Gm-100u-OTA}
+
+#### Component Sizing for the Final Filter
+
+Despite the OTA's lower-than-desired gain, we proceeded with the filter design, using its achieved transconductance as the basis for our calculations.
+
+**Target Filter Specifications**
+
+| Parameter             | Value                |
+|-----------------------|----------------------|
+| Filter Type           | Low-Pass             |
+| Center Frequency ($f_0$)| 1 kHz                |
+| Quality Factor (Q)    | 10                   |
+| Integrator Gm ($g_{m,int}$)| 100 µS               |
+
+**Calculations**
+
+For a Gm-C biquad, the design equations are:
+$$ \omega_0 = 2\pi f_0 = \frac{g_{m,int}}{C} \quad \text{and} \quad Q = \frac{g_{m,Q}}{g_{m,int}} $$
+
+1.  **Capacitor Calculation**:
+    $$ C = \frac{g_{m,int}}{2\pi f_0} = \frac{100 \times 10^{-6} \text{ S}}{2\pi \times 1000 \text{ Hz}} \approx 15.9 \text{ nF} $$
+
+2.  **Q-Factor Gm Calculation**: To achieve a Q of 10, the transconductance of the feedback OTA ($g_{m,Q}$) must be 10 times the integrator Gm.
+    $$ g_{m,Q} = Q \times g_{m,int} = 10 \times 100 \text{ µS} = 1 \text{ mS} $$
+    This requires using two different OTA versions in the filter: a 100µS OTA for the integrators and a 1mS OTA for the Q-path.
+
+### Final Implementation and Verification
+
+The final Gm-C biquad filter was assembled in Xschem using the newly designed OTAs and calculated capacitors.
+
+![Final Xschem schematic of the Gm-C biquad filter.](images/real-biquad_gm_c.png){#fig-Final-Biquad}
+
+AC analysis was performed, with the expected output being a low-pass response with a sharp resonant peak at 1 kHz due to the high Q-factor, followed by a -40 dB/decade roll-off.
+
+![Simulated Bode plot of the final low-pass filter.](images/real-biquad_gm_c-output.png){#fig-Final-Bode}
+
+The simulation confirms the filter is operating as designed. The success of the final filter, even with a sub-optimal OTA, demonstrates the robustness of the Gm-C biquad topology. It suggests that while higher OTA gain would improve performance (e.g., Q-factor accuracy), the fundamental design is sound.
