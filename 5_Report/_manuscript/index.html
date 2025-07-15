@@ -214,9 +214,8 @@ window.Quarto = {
   <li><a href="#magnitude-response" id="toc-magnitude-response" class="nav-link" data-scroll-target="#magnitude-response"><span class="header-section-number">3.2.1</span> 2.1 Magnitude Response</a></li>
   <li><a href="#phase-response" id="toc-phase-response" class="nav-link" data-scroll-target="#phase-response"><span class="header-section-number">3.2.2</span> 2.2 Phase Response</a></li>
   </ul></li>
-  <li><a href="#phase-response-1" id="toc-phase-response-1" class="nav-link" data-scroll-target="#phase-response-1"><span class="header-section-number">3.3</span> <img src="path_to_your_plot_image.png" class="img-fluid" alt="Phase Response"></a></li>
-  <li><a href="#transient-analysis" id="toc-transient-analysis" class="nav-link" data-scroll-target="#transient-analysis"><span class="header-section-number">3.4</span> 3. Transient Analysis</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">3.5</span> 4. Conclusion</a></li>
+  <li><a href="#transient-analysis" id="toc-transient-analysis" class="nav-link" data-scroll-target="#transient-analysis"><span class="header-section-number">3.3</span> 3. Transient Analysis</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">3.4</span> 4. Conclusion</a></li>
   </ul></li>
   <li><a href="#signals-and-systems-analysis" id="toc-signals-and-systems-analysis" class="nav-link" data-scroll-target="#signals-and-systems-analysis"><span class="header-section-number">4</span> Signals and Systems Analysis</a></li>
   <li><a href="#circuit-design-and-simulation-in-xschem" id="toc-circuit-design-and-simulation-in-xschem" class="nav-link" data-scroll-target="#circuit-design-and-simulation-in-xschem"><span class="header-section-number">5</span> Circuit Design and Simulation in Xschem</a>
@@ -226,6 +225,9 @@ window.Quarto = {
   <li><a href="#circuit-topology-and-theory" id="toc-circuit-topology-and-theory" class="nav-link" data-scroll-target="#circuit-topology-and-theory"><span class="header-section-number">5.1.1</span> Circuit Topology and Theory</a></li>
   <li><a href="#ideal-op-amp-model-and-symbol-creation" id="toc-ideal-op-amp-model-and-symbol-creation" class="nav-link" data-scroll-target="#ideal-op-amp-model-and-symbol-creation"><span class="header-section-number">5.1.2</span> Ideal Op-Amp Model and Symbol Creation</a></li>
   <li><a href="#simulation-and-results" id="toc-simulation-and-results" class="nav-link" data-scroll-target="#simulation-and-results"><span class="header-section-number">5.1.3</span> Simulation and Results</a></li>
+  <li><a href="#frequency-response-analysis---magnitude-response" id="toc-frequency-response-analysis---magnitude-response" class="nav-link" data-scroll-target="#frequency-response-analysis---magnitude-response"><span class="header-section-number">5.1.4</span> Frequency Response Analysis - Magnitude Response</a></li>
+  <li><a href="#phase-response-1" id="toc-phase-response-1" class="nav-link" data-scroll-target="#phase-response-1"><span class="header-section-number">5.1.5</span> Phase Response</a></li>
+  <li><a href="#transient-analysis-1" id="toc-transient-analysis-1" class="nav-link" data-scroll-target="#transient-analysis-1"><span class="header-section-number">5.1.6</span> Transient Analysis</a></li>
   </ul></li>
   <li><a href="#real-circuit-gm-c-biquad-filter" id="toc-real-circuit-gm-c-biquad-filter" class="nav-link" data-scroll-target="#real-circuit-gm-c-biquad-filter"><span class="header-section-number">5.2</span> Real Circuit: Gm-C Biquad Filter</a>
   <ul class="collapse">
@@ -266,7 +268,7 @@ window.Quarto = {
 <ul>
 <li>They serve as building blocks for <span class="math inline">\(N^{\text{th}}\)</span> order filters when <span class="math inline">\(N &gt; 2\)</span>.</li>
 <li>For odd values of <span class="math inline">\(N\)</span>, an <span class="math inline">\(N^{\text{th}}\)</span> order filter can be implemented using <span class="math inline">\(\frac{N - 1}{2}\)</span> second-order filters and one first-order filter.</li>
-<li>For even values of <span class="math inline">\(N\)</span>, <span class="math inline">\(N - 1\)</span> second-order filters are required to realize an <span class="math inline">\(N^{\text{th}}\)</span> order filter.</li>
+<li>For even values of <span class="math inline">\(N\)</span>, <span class="math inline">\(\frac{N}{2}\)</span> second-order filters are required to realize an <span class="math inline">\(N^{\text{th}}\)</span> order filter.</li>
 </ul>
 </section>
 </section>
@@ -274,8 +276,12 @@ window.Quarto = {
 <h1 data-number="2"><span class="header-section-number">2</span> Filter Design Fundamentals</h1>
 <section id="second-order-universal-active-filter" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="second-order-universal-active-filter"><span class="header-section-number">2.1</span> Second order universal active filter</h2>
-<p>image<br>
-## Filter Components Explained</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/Second%20order%20universal%20active%20filter.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Second order universal active filter"><img src="images/Second%20order%20universal%20active%20filter.png" class="img-fluid figure-img" alt="Second order universal active filter"></a></p>
+<figcaption>Second order universal active filter</figcaption>
+</figure>
+</div>
 <p>The circuit diagram shows a <strong>universal active filter</strong> capable of producing four different types of outputs simultaneously. It is constructed from four operational transcundactance amplifiers - two inverting intergrators, 2 inverting adders, resistors, and capacitors.</p>
 <ul>
 <li><strong>BPF Output</strong>: First Integrator (top-left op-amp) processes the input signal.</li>
@@ -308,10 +314,10 @@ V_o = - \left( \frac{R_f}{R_a}V_a + \frac{R_f}{R_b}V_b + \frac{R_f}{R_c}V_c \rig
 <h2 data-number="2.4" class="anchored" data-anchor-id="transfer-function"><span class="header-section-number">2.4</span> Transfer function</h2>
 <p>The biquadratic filter, or “biquad,” is a second-order filter widely used in analog filter design. Its general transfer function is given by: <span class="math display">\[H(s)=\frac{a_{1}s^{2}+b_{1}s+c_{1}}{a_{2}s^{2}+b_{2}s+c_{2}}\]</span></p>
 <p>The numerator coefficients can be chosen to achieve low-pass, band-pass, or high-pass responses. For example, setting <span class="math inline">\(a_{1}=b_{1}=0\)</span> leads to a low-pass filter (LPF). Higher-order filters can be constructed by cascading biquad sections.</p>
-<p>A low-pass biquad can be characterized by the following equivalent transfer functions: <span class="math display">\[H(s)=\frac{\omega_{n}^{2}}{s^{2}+\frac{\omega_{n}}{Q}s+\omega_{n}^{2}}\]</span> <span class="math display">\[H(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta\omega_{n}s+\omega_{n}^{2}}\]</span> Here, <span class="math inline">\(\omega_n\)</span> is the natural frequency, Q is the quality factor (or pole Q), and <span class="math inline">\(\zeta\)</span> is the damping factor. It’s important to note that <span class="math inline">\(Q = 1/(2\zeta)\)</span>.</p>
-<p>Second-order filters can realize four types of filters, with their transfer functions typically shown below. For instance, in an Analog System Lab Kit PRO experiment, the transfer functions for different filter types are provided where <span class="math inline">\(\omega_{0}=1/RC\)</span> and <span class="math inline">\(H_{0}\)</span> is the low frequency gain.</p>
-<p>Here are the transfer functions for common second-order active filters: * <strong>Low Pass Filter (LPF)</strong>: <span class="math display">\[\frac{V_{03}}{V_{i}}=\frac{+H_{0}}{(1+\frac{s}{\omega_{0}Q}+\frac{s^{2}}{\omega_{0}^{2}})}\]</span></p>
+<p>Second-order filters can realize four types of filters, with their transfer functions typically shown below.</p>
+<p>Here are the transfer functions for common second-order active filters:</p>
 <ul>
+<li><p><strong>Low Pass Filter (LPF)</strong>: <span class="math display">\[\frac{V_{03}}{V_{i}}=\frac{+H_{0}}{(1+\frac{s}{\omega_{0}Q}+\frac{s^{2}}{\omega_{0}^{2}})}\]</span></p></li>
 <li><p><strong>High Pass Filter (HPF)</strong>: <span class="math display">\[\frac{V_{01}}{V_{i}}=\frac{(H_{0}\cdot\frac{S^{2}}{G_{i}^{2}})}{(1+\frac{S}{a_{0}Q}+\frac{S^{2}}{a_{0}^{2}})}\]</span></p></li>
 <li><p><strong>Band Pass Filter (BPF)</strong>: <span class="math display">\[\frac{V_{02}}{V_{i}}=\frac{(-H_{0}\cdot\frac{S}{Q_{0}})}{(1+\frac{S}{Q_{0}Q}+\frac{S^{2}}{Q_{0}^{2}})}\]</span></p></li>
 <li><p><strong>Band Stop Filter (BSF)</strong>: <span class="math display">\[\frac{V_{o4}}{V_{i}}=\frac{(1+\frac{s^{2}}{Q_{o}^{2}})\cdot H_{0}}{(1+\frac{s}{Q_{o}Q}+\frac{s^{2}}{Q_{o}^{2}})}\]</span></p></li>
@@ -337,33 +343,30 @@ V_o = - \left( \frac{R_f}{R_a}V_a + \frac{R_f}{R_b}V_b + \frac{R_f}{R_c}V_c \rig
 <section id="magnitude-response" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="magnitude-response"><span class="header-section-number">3.2.1</span> 2.1 Magnitude Response</h3>
 <p>The magnitude response of the system was plotted to observe how the system amplifies or attenuates input signals across different frequencies. The Bode magnitude plot gives a clear insight into the bandwidth and gain characteristics.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="images/transient_response_1KHz_Q10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Magnitude Response"><img src="images/transient_response_1KHz_Q10.png" class="img-fluid figure-img" alt="Magnitude Response"></a></p>
-<figcaption>Magnitude Response</figcaption>
-</figure>
-</div>
 </section>
 <section id="phase-response" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="phase-response"><span class="header-section-number">3.2.2</span> 2.2 Phase Response</h3>
 <p>The phase response of the system was analyzed to study the phase shift introduced at various frequencies. This is essential for understanding the signal integrity and phase margin.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/frequency_response_1KHz_Q10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Magnitude Response"><img src="images/frequency_response_1KHz_Q10.png" class="img-fluid figure-img" alt="Magnitude Response"></a></p>
+<figcaption>Magnitude Response</figcaption>
+</figure>
+</div>
 </section>
 </section>
-<section id="phase-response-1" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="phase-response-1"><span class="header-section-number">3.3</span> <img src="path_to_your_plot_image.png" class="img-fluid" alt="Phase Response"></h2>
-</section>
-<section id="transient-analysis" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="transient-analysis"><span class="header-section-number">3.4</span> 3. Transient Analysis</h2>
+<section id="transient-analysis" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="transient-analysis"><span class="header-section-number">3.3</span> 3. Transient Analysis</h2>
 <p>Transient analysis was performed to examine how the system responds to a time-domain input.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="path_to_your_plot_image.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Transient Response"><img src="path_to_your_plot_image.png" class="img-fluid figure-img" alt="Transient Response"></a></p>
+<p><a href="images/transient_response_1KHz_Q10.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Transient Response"><img src="images/transient_response_1KHz_Q10.png" class="img-fluid figure-img" alt="Transient Response"></a></p>
 <figcaption>Transient Response</figcaption>
 </figure>
 </div>
 </section>
-<section id="conclusion" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">3.5</span> 4. Conclusion</h2>
+<section id="conclusion" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">3.4</span> 4. Conclusion</h2>
 <p>The behavioral model demonstrates expected frequency and time-domain characteristics, validating the design for further implementation. The results align with theoretical expectations, making it suitable for the next stages of circuit/system development.</p>
 </section>
 </section>
@@ -382,74 +385,50 @@ V_o = - \left( \frac{R_f}{R_a}V_a + \frac{R_f}{R_b}V_b + \frac{R_f}{R_c}V_c \rig
 <div id="fig-ideal-uni" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ideal-uni-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/ideal-biquad-uni.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;1: Schematic of the ideal universal second-order active filter, based on the ASLK Pro manual."><img src="images/ideal-biquad-uni.png" class="img-fluid figure-img"></a>
+<a href="images/ideal-biquad-uni.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;1: Schematic of the ideal universal second-order active filter, based on the ASLK Pro manual."><img src="images/ideal-biquad-uni.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ideal-uni-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Schematic of the ideal universal second-order active filter, based on the ASLK Pro manual.
 </figcaption>
 </figure>
 </div>
-<p>The transfer functions for each output are defined by the standard second-order filter equations:</p>
-<ul>
-<li><strong>Low-Pass (LPF):</strong> <span class="math inline">\(H_{LPF}(s) = \frac{H_0}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}\)</span></li>
-<li><strong>High-Pass (HPF):</strong> <span class="math inline">\(H_{HPF}(s) = \frac{H_0 \frac{s^2}{\omega_0^2}}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}\)</span></li>
-<li><strong>Band-Pass (BPF):</strong> <span class="math inline">\(H_{BPF}(s) = \frac{-H_0 \frac{s}{\omega_0 Q}}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}\)</span></li>
-<li><strong>Band-Stop (BSF):</strong> <span class="math inline">\(H_{BSF}(s) = \frac{H_0 (1 + \frac{s^2}{\omega_0^2})}{1 + \frac{s}{\omega_0 Q} + \frac{s^2}{\omega_0^2}}\)</span></li>
-</ul>
-<p>Where the center frequency <span class="math inline">\(\omega_0\)</span> and the quality factor <span class="math inline">\(Q\)</span> are determined by the external resistors and capacitors:</p>
-<ul>
-<li><strong>Center Frequency:</strong> <span class="math inline">\(\omega_0 = \frac{1}{RC}\)</span></li>
-<li><strong>Quality Factor:</strong> <span class="math inline">\(Q = \frac{R_Q}{R}\)</span></li>
-</ul>
 </section>
 <section id="ideal-op-amp-model-and-symbol-creation" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="ideal-op-amp-model-and-symbol-creation"><span class="header-section-number">5.1.2</span> Ideal Op-Amp Model and Symbol Creation</h3>
 <p>To simulate the ideal behavior of this circuit, we first required an ideal operational amplifier model. We used a standard single-pole op-amp SPICE model from eCircuit Center, shown in <strong>?@lst-opamp-subckt</strong>.</p>
-<pre class="spice"><code>#| label: lst-opamp-subckt
-#| lst-cap: "SPICE subcircuit for the single-pole ideal op-amp."
-
-* OPAMP MACRO MODEL, SINGLE-POLE
-* connections:      non-inverting input
-* |  inverting input
-* |  |  output
-* |  |  |
-.SUBCKT OPAMP1      1  2  6
-* INPUT IMPEDANCE
-RIN 1 2 10MEG
-* DC GAIN=100K AND POLE1=100HZ
-* UNITY GAIN = DCGAIN X POLE1 = 10MHZ
-EGAIN   3 0   1 2   100K
-RP1     3 4   1K
-CP1     4 0   1.5915UF
-* OUTPUT BUFFER AND RESISTANCE
-EBUFFER 5 0   4 0   1
-ROUT    5 6   10
-.ENDS</code></pre>
-<p>We saved this code as <code>OPAMP1.cir</code> and created a corresponding symbol in Xschem. A critical step was ensuring that the pinout of the symbol (<code>vin+</code>, <code>vin-</code>, <code>vout</code>) matched the node connections in the <code>.SUBCKT</code> definition (nodes 1, 2, and 6).</p>
 <p><strong>Implementation Note:</strong> A common pitfall during setup is the path configuration for custom models. Xschem initially searches for model files in the project’s home directory. We had to configure the simulation settings to ensure Xschem could locate the <code>OPAMP1.cir</code> file in our circuit’s working directory.</p>
 </section>
 <section id="simulation-and-results" class="level3" data-number="5.1.3">
 <h3 data-number="5.1.3" class="anchored" data-anchor-id="simulation-and-results"><span class="header-section-number">5.1.3</span> Simulation and Results</h3>
-<p>With the ideal op-amp symbol and model in place, we constructed the schematic for the universal biquad filter. We then wrote an ngspice script (<strong>?@lst-ideal-uni-sim</strong>) to perform an AC analysis.</p>
-<pre class="spice"><code>#| label: lst-ideal-uni-sim
-#| lst-cap: "ngspice code for AC analysis of the ideal universal filter."
-
-.param R=1.6k C=100n RH=R/1.0 RQ=4.7k
-.control
-  save all
-  ac lin 1000 0.8 2k
-  write toplevel.raw
-  plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
-.endc</code></pre>
-<p>Based on our parameters (<span class="math inline">\(R=1.6k\Omega\)</span>, <span class="math inline">\(C=100nF\)</span>), the expected center frequency is <span class="math inline">\(f_0 = \frac{1}{2\pi RC} \approx 995 Hz\)</span>. The simulation results, shown in <a href="#fig-ideal-uni-output" class="quarto-xref">Figure&nbsp;2</a>, confirm this theoretical calculation.</p>
-<div id="fig-ideal-uni-output" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-ideal-uni-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/ideal-biquad-uni-output.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;2: Frequency response of the ideal universal biquad filter, showing the LPF, HPF, BPF, and BSF outputs."><img src="images/ideal-biquad-uni-output.png" class="img-fluid figure-img"></a>
+<p>With the ideal op-amp symbol and model in place, we constructed the schematic for the universal biquad filter. We then wrote an ngspice script (<strong>?@lst-ideal-uni-sim</strong>) to perform the analysis.</p>
+</section>
+<section id="frequency-response-analysis---magnitude-response" class="level3" data-number="5.1.4">
+<h3 data-number="5.1.4" class="anchored" data-anchor-id="frequency-response-analysis---magnitude-response"><span class="header-section-number">5.1.4</span> Frequency Response Analysis - Magnitude Response</h3>
+<p>The magnitude response of the system was plotted to observe how the system amplifies or attenuates input signals across different frequencies. The Bode magnitude plot gives a clear insight into the bandwidth and gain characteristics.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/mag_resp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Magnitude Response"><img src="images/mag_resp.png" class="img-fluid figure-img" alt="Magnitude Response"></a></p>
+<figcaption>Magnitude Response</figcaption>
+</figure>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ideal-uni-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Frequency response of the ideal universal biquad filter, showing the LPF, HPF, BPF, and BSF outputs.
-</figcaption>
+</section>
+<section id="phase-response-1" class="level3" data-number="5.1.5">
+<h3 data-number="5.1.5" class="anchored" data-anchor-id="phase-response-1"><span class="header-section-number">5.1.5</span> Phase Response</h3>
+<p>The phase response of the system was analyzed to study the phase shift introduced at various frequencies. This is essential for understanding the signal integrity and phase margin.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/phase_resp.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Phase Response"><img src="images/phase_resp.png" class="img-fluid figure-img" alt="Phase Response"></a></p>
+<figcaption>Phase Response</figcaption>
+</figure>
+</div>
+</section>
+<section id="transient-analysis-1" class="level3" data-number="5.1.6">
+<h3 data-number="5.1.6" class="anchored" data-anchor-id="transient-analysis-1"><span class="header-section-number">5.1.6</span> Transient Analysis</h3>
+<p>Transient analysis was performed to examine how the system responds to a time-domain input.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="images/transient_response_ideal.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Transient Response"><img src="images/transient_response_ideal.png" class="img-fluid figure-img" alt="Transient Response"></a></p>
+<figcaption>Transient Response</figcaption>
 </figure>
 </div>
 <p>The plot clearly shows the expected behavior for each filter type, centered around 1 kHz. The BPF peaks at the center frequency, while the BSF shows a notch at the same point.</p>
@@ -460,25 +439,25 @@ Figure&nbsp;2: Frequency response of the ideal universal biquad filter, showing 
 <p>While the active RC filter is excellent for demonstrating theory, it is less practical for monolithic IC design due to its reliance on large, precise resistors and capacitors. A more suitable approach for IC implementation is the <strong>Gm-C filter</strong>, which uses transconductors (OTAs) and capacitors.</p>
 <section id="initial-attempt-with-a-5t-ota" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="initial-attempt-with-a-5t-ota"><span class="header-section-number">5.2.1</span> Initial Attempt with a 5T OTA</h3>
-<p>Our first step towards a real circuit was to replace the ideal op-amps in the universal filter with a 5-transistor OTA (Operational Transconductance Amplifier). We used a 5T OTA design from Professor Pretl (<a href="#fig-ota-5t" class="quarto-xref">Figure&nbsp;3</a>).</p>
+<p>Our first step towards a real circuit was to replace the ideal op-amps in the universal filter with a 5-transistor OTA (Operational Transconductance Amplifier). We used a 5T OTA design from Professor Pretl (<a href="#fig-ota-5t" class="quarto-xref">Figure&nbsp;2</a>).</p>
 <div id="fig-ota-5t" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ota-5t-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/ota-5t-pretl.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;3: Schematic of the 5T OTA used in the initial real-circuit implementation."><img src="images/ota-5t-pretl.png" class="img-fluid figure-img"></a>
+<a href="images/ota-5t-pretl.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;2: Schematic of the 5T OTA used in the initial real-circuit implementation."><img src="images/ota-5t-pretl.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ota-5t-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Schematic of the 5T OTA used in the initial real-circuit implementation.
+Figure&nbsp;2: Schematic of the 5T OTA used in the initial real-circuit implementation.
 </figcaption>
 </figure>
 </div>
-<p>We implemented this OTA in the universal active filter topology, as shown in the schematic in <a href="#fig-real-uni-ota" class="quarto-xref">Figure&nbsp;4</a>.</p>
+<p>We implemented this OTA in the universal active filter topology, as shown in the schematic in <a href="#fig-real-uni-ota" class="quarto-xref">Figure&nbsp;3</a>.</p>
 <div id="fig-real-uni-ota" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-real-uni-ota-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/real-biquad-uni.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;4: Universal active filter schematic using the 5T OTA."><img src="images/real-biquad-uni.png" class="img-fluid figure-img"></a>
+<a href="images/real-biquad-uni.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;3: Universal active filter schematic using the 5T OTA."><img src="images/real-biquad-uni.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-real-uni-ota-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Universal active filter schematic using the 5T OTA.
+Figure&nbsp;3: Universal active filter schematic using the 5T OTA.
 </figcaption>
 </figure>
 </div>
@@ -495,14 +474,14 @@ ac lin 1000 0.8 2k
 write toplevel.raw
 plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
 .endc</code></pre>
-<p>The simulation results, shown in <a href="#fig-real-uni-ota-output" class="quarto-xref">Figure&nbsp;5</a>, were far from ideal.</p>
+<p>The simulation results, shown in <a href="#fig-real-uni-ota-output" class="quarto-xref">Figure&nbsp;4</a>, were far from ideal.</p>
 <div id="fig-real-uni-ota-output" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-real-uni-ota-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/real-biquad-uni-output.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;5: Frequency response of the universal filter using the 5T OTA."><img src="images/real-biquad-uni-output.png" class="img-fluid figure-img"></a>
+<a href="images/real-biquad-uni-output.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;4: Frequency response of the universal filter using the 5T OTA."><img src="images/real-biquad-uni-output.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-real-uni-ota-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Frequency response of the universal filter using the 5T OTA.
+Figure&nbsp;4: Frequency response of the universal filter using the 5T OTA.
 </figcaption>
 </figure>
 </div>
@@ -511,28 +490,28 @@ Figure&nbsp;5: Frequency response of the universal filter using the 5T OTA.
 <section id="transition-to-a-gm-c-biquad-topology" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="transition-to-a-gm-c-biquad-topology"><span class="header-section-number">5.2.2</span> Transition to a Gm-C Biquad Topology</h3>
 <p>Given the limitations of our initial approach, we shifted to a design more amenable to IC fabrication. We selected a second-order Gm-C biquad filter topology from Chapter 3 of “CMOS Mixed-Signal Circuit Design” by R. Jacob Baker. This topology realizes the filter using OTAs as transconductance (<span class="math inline">\(g_m\)</span>) elements and capacitors.</p>
-<p>The fundamental building block of a Gm-C filter is the integrator, where the integration time constant is set by the ratio <span class="math inline">\(\frac{C}{g_m}\)</span>. The biquad is constructed by cascading two such integrators, as seen in the ideal schematic in <a href="#fig-ideal-gmc" class="quarto-xref">Figure&nbsp;6</a>.</p>
+<p>The fundamental building block of a Gm-C filter is the integrator, where the integration time constant is set by the ratio <span class="math inline">\(\frac{C}{g_m}\)</span>. The biquad is constructed by cascading two such integrators, as seen in the ideal schematic in <a href="#fig-ideal-gmc" class="quarto-xref">Figure&nbsp;5</a>.</p>
 <div id="fig-ideal-gmc" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ideal-gmc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/ideal-biquad_gm_c.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;6: Ideal Gm-C biquad filter schematic from Professor Meiners’ reference library."><img src="images/ideal-biquad_gm_c.png" class="img-fluid figure-img"></a>
+<a href="images/ideal-biquad_gm_c.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;5: Ideal Gm-C biquad filter schematic from Professor Meiners’ reference library."><img src="images/ideal-biquad_gm_c.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ideal-gmc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Ideal Gm-C biquad filter schematic from Professor Meiners’ reference library.
+Figure&nbsp;5: Ideal Gm-C biquad filter schematic from Professor Meiners’ reference library.
 </figcaption>
 </figure>
 </div>
 </section>
 <section id="custom-100µa-ota-design" class="level3" data-number="5.2.3">
 <h3 data-number="5.2.3" class="anchored" data-anchor-id="custom-100µa-ota-design"><span class="header-section-number">5.2.3</span> Custom 100µA OTA Design</h3>
-<p>A key requirement for this new topology was an OTA with a higher driving capability. We designed the fully differential OTA shown in <a href="#fig-ota-100u" class="quarto-xref">Figure&nbsp;7</a> to provide a target driving current of <strong>100µA</strong>.</p>
+<p>A key requirement for this new topology was an OTA with a higher driving capability. We designed the fully differential OTA shown in <a href="#fig-ota-100u" class="quarto-xref">Figure&nbsp;6</a> to provide a target driving current of <strong>100µA</strong>.</p>
 <div id="fig-ota-100u" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ota-100u-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/real-ota_gm_100u.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;7: Schematic of the custom 100µA OTA designed for the Gm-C biquad."><img src="images/real-ota_gm_100u.png" class="img-fluid figure-img"></a>
+<a href="images/real-ota_gm_100u.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;6: Schematic of the custom 100µA OTA designed for the Gm-C biquad."><img src="images/real-ota_gm_100u.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ota-100u-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Schematic of the custom 100µA OTA designed for the Gm-C biquad.
+Figure&nbsp;6: Schematic of the custom 100µA OTA designed for the Gm-C biquad.
 </figcaption>
 </figure>
 </div>
@@ -540,14 +519,14 @@ Figure&nbsp;7: Schematic of the custom 100µA OTA designed for the Gm-C biquad.
 </section>
 <section id="gm-c-biquad-implementation-and-simulation" class="level3" data-number="5.2.4">
 <h3 data-number="5.2.4" class="anchored" data-anchor-id="gm-c-biquad-implementation-and-simulation"><span class="header-section-number">5.2.4</span> Gm-C Biquad Implementation and Simulation</h3>
-<p>With the custom OTA designed, we modified the <code>biquad_gm_c</code> schematic, replacing the ideal OTA symbols with our newly designed 100µA OTA (<a href="#fig-biquad-with-ota" class="quarto-xref">Figure&nbsp;8</a>).</p>
+<p>With the custom OTA designed, we modified the <code>biquad_gm_c</code> schematic, replacing the ideal OTA symbols with our newly designed 100µA OTA (<a href="#fig-biquad-with-ota" class="quarto-xref">Figure&nbsp;7</a>).</p>
 <div id="fig-biquad-with-ota" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-biquad-with-ota-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/real-biquad_gm_c.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;8: The biquad_gm_c circuit modified to use our custom-designed 100µA OTA."><img src="images/real-biquad_gm_c.png" class="img-fluid figure-img"></a>
+<a href="images/real-biquad_gm_c.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;7: The biquad_gm_c circuit modified to use our custom-designed 100µA OTA."><img src="images/real-biquad_gm_c.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-biquad-with-ota-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: The biquad_gm_c circuit modified to use our custom-designed 100µA OTA.
+Figure&nbsp;7: The biquad_gm_c circuit modified to use our custom-designed 100µA OTA.
 </figcaption>
 </figure>
 </div>
@@ -563,14 +542,14 @@ Figure&nbsp;8: The biquad_gm_c circuit modified to use our custom-designed 100µ
   let vod=v(outp)-v(outn)
   plot db(v(vod))
 .endc</code></pre>
-<p>The simulation produced the frequency response shown in <a href="#fig-biquad-ota-output" class="quarto-xref">Figure&nbsp;9</a>.</p>
+<p>The simulation produced the frequency response shown in <a href="#fig-biquad-ota-output" class="quarto-xref">Figure&nbsp;8</a>.</p>
 <div id="fig-biquad-ota-output" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-biquad-ota-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="images/real-biquad_gm_c-output.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;9: Frequency response of the real Gm-C biquad filter using the custom 100µA OTA."><img src="images/real-biquad_gm_c-output.png" class="img-fluid figure-img"></a>
+<a href="images/real-biquad_gm_c-output.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;8: Frequency response of the real Gm-C biquad filter using the custom 100µA OTA."><img src="images/real-biquad_gm_c-output.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-biquad-ota-output-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: Frequency response of the real Gm-C biquad filter using the custom 100µA OTA.
+Figure&nbsp;8: Frequency response of the real Gm-C biquad filter using the custom 100µA OTA.
 </figcaption>
 </figure>
 </div>
