@@ -109,6 +109,7 @@ C {gnd.sym} 267 -143 0 0 {name=l6 lab=GND}
 C {devices/code_shown.sym} 620 -380 0 0 {name=NGSPICE only_toplevel=true 
 value="
 .temp 27
+.param C1=2*0 C2=2*159.2n C3=2*0 C4=2*1.59n
 .control
 option sparse
 save all
@@ -136,7 +137,7 @@ C {opin.sym} 267 -223 0 0 {name=p6 lab=vcm}
 C {ota_gm_100u.sym} 130 260 0 0 {name=x1}
 C {capa.sym} 130 420 3 1 {name=C3
 m=1
-value=10p
+value=\{C1\}
 footprint=1206
 device="ceramic capacitor"}
 C {lab_wire.sym} 30 290 0 0 {name=p1 sig_type=std_logic lab=vinp}
@@ -158,42 +159,42 @@ C {lab_wire.sym} 963 350 0 1 {name=p33 sig_type=std_logic lab=vss}
 C {lab_wire.sym} 970 169 0 1 {name=p35 sig_type=std_logic lab=vdd}
 C {capa.sym} 860 70 2 1 {name=C6
 m=1
-value=10p
+value=\{C4\}
 footprint=1206
 device="ceramic capacitor"}
 C {capa.sym} 670 100 3 0 {name=C8
 m=1
-value=10p
+value=\{C3\}
 footprint=1206
 device="ceramic capacitor"}
 C {lab_wire.sym} 940 100 0 1 {name=p16 sig_type=std_logic lab=outp}
 C {capa.sym} 110 100 3 0 {name=C4
 m=1
-value=10p
+value=\{C1\}
 footprint=1206
 device="ceramic capacitor"}
 C {gnd.sym} 860 40 2 1 {name=l8 lab=GND}
 C {capa.sym} 530 180 2 1 {name=C2
 m=1
-value=10p
+value=\{C2\}
 footprint=1206
 device="ceramic capacitor"}
 C {gnd.sym} 530 140 2 1 {name=l9 lab=GND}
 C {capa.sym} 650 420 3 1 {name=C7
 m=1
-value=10p
+value=\{C3\}
 footprint=1206
 device="ceramic capacitor"}
 C {capa.sym} 860 450 0 0 {name=C5
 m=1
-value=10p
+value=\{C4\}
 footprint=1206
 device="ceramic capacitor"}
 C {gnd.sym} 860 480 0 0 {name=l10 lab=GND}
 C {lab_wire.sym} 940 420 0 1 {name=p18 sig_type=std_logic lab=outn}
 C {capa.sym} 530 320 0 0 {name=C1
 m=1
-value=10p
+value=\{C2\}
 footprint=1206
 device="ceramic capacitor"}
 C {gnd.sym} 530 350 0 0 {name=l1 lab=GND}
@@ -211,7 +212,7 @@ C {devices/vsource.sym} 547 -171 0 0 {name=Vdd value=1.5}
 C {opin.sym} 547 -221 0 0 {name=p15 lab=vdd}
 C {devices/gnd.sym} 547 -132 0 0 {name=l7 lab=GND}
 C {opin.sym} 463 -117 0 0 {name=p17 lab=vdd}
-C {devices/code_shown.sym} 910 -350 0 0 {name=MODEL only_toplevel=true
+C {devices/code_shown.sym} 1070 -380 0 0 {name=MODEL only_toplevel=true
 format="tcleval( @value )"
 value="
 .lib cornerMOSlv.lib mos_tt
