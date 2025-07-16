@@ -31,9 +31,6 @@ bibliography: references.bib
 {{< include content/_sec_introduction.qmd >}}
 {{< include content/_sec_filter-design-fundamentals.qmd >}}
 {{< include content/_sec_behavioural-modelling.qmd >}}
-{{< include content/_sec_signals-and-systems-analysis.qmd >}}
 {{< include content/_sec_circuit-design-and-simulation-in-xschem.qmd >}}
-{{< include content/_sec_layout-design-with-klayout.qmd >}}
-{{< include content/_sec_comparison-and-discussion.qmd >}}
 {{< include content/_sec_conclusion.qmd >}}
 {{< include content/references.qmd >}}
