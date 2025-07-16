@@ -203,49 +203,66 @@ This Gm-C biquad structure is essentially a cascade of two integrator blocks wit
 
 #### Design Calculations
 
-The design process involves mapping the desired filter characteristics onto the general biquad transfer function and then solving for the specific capacitance values.
-
-**1. Define Target Specifications**
-*   **Filter Type**: Low-Pass Filter
+The design process involves mapping the desired filter characteristics onto the general biquad transfer function and then solving for the specific capacitance values. Our goal is to find the values for capacitors C1, C2, C3, and C4 to create a low-pass filter with the following specifications:
 *   **Center/Cutoff Frequency ($f_0$)**: 1 kHz
 *   **Quality Factor (Q)**: 10
-*   **Transconductance ($g_m$)**: 100 µS (for all transconductors, gm1 through gm4)
+*   **Transconductance ($g_m$)**: 100 µS for gm1, gm2, gm3, and gm4.
 
-**2. Simplify the Topology for a Low-Pass Filter**
-A standard second-order low-pass filter has a transfer function of the form $H(s) = a_0 / (s^2 + s(\omega_0/Q) + \omega_0^2)$. To achieve this, the numerator terms with 's' and 's²' must be zero. In the generalized topology, these terms are controlled by capacitors $C_1$ and $C_3$. To eliminate them, we must set their values to zero:
-*   $C_1 = 0$
-*   $C_3 = 0$
-This physically means removing these two capacitors from the schematic, simplifying the design significantly.
+##### Step 1: Start with the General Biquad Transfer Function
+The design begins with the general transfer function for the biquad topology, which describes how the filter responds to any frequency `s`. The numerator of the function defines the filter's zeroes (frequencies it blocks), and the denominator defines its poles (the natural resonant frequencies that shape the response, like $f_0$ and Q). The general transfer function is given by:
+$$ \frac{V_{out}}{V_{in}} = \frac{s^2(G_1 G_3 G_4 G_6) + s(G_1 G_3 G_4 + G_1 G_4 G_6) + G_1 G_4}{s^2 + s(G_1 G_2 + G_1 G_4 G_5 G_6) + G_1 G_4 G_5} $$
 
-**3. Use the Simplified Design Equations**
-With $C_1$ and $C_3$ removed, the design equations for the filter's characteristics simplify to:
-$$ (2\pi f_0)^2 = \frac{g_{m1}}{C_2} \frac{g_{m3}}{C_4} \frac{g_{m4}}{g_{m3}} $$
-$$ \frac{2\pi f_0}{Q} = \frac{g_{m1}}{C_2} \frac{g_{m2}}{g_{m1}} $$
+##### Step 2: Simplify for a Low-Pass Filter
+An ideal second-order low-pass filter should only have a constant term in the numerator, representing the DC gain.
+$$ H(s)_{LP} = \frac{\text{DC Gain}}{s^2 + s\frac{\omega_0}{Q} + \omega_0^2} $$
+To make our general equation match this ideal form, we must eliminate the `s` and `s²` terms from the numerator. The simplest way to make the coefficients of both terms zero is to set $G_3 = 0$ and $G_6 = 0$. Physically, this corresponds to removing capacitors $C_1$ and $C_3$, as their definitions are $G_3 = C_1 / g_{m1}$ and $G_6 = C_3 / g_{m3}$.
 
-**4. Solve for the Capacitors**
-First, we calculate the angular frequency $\omega_0 = 2\pi f_0$:
-$$ \omega_0 = 2 \pi \times 1000 \text{ Hz} = 6283.2 \text{ rad/s} $$
+##### Step 3: Establish the Final Design Equations
+With $G_3=0$ and $G_6=0$, we can equate the denominators of our simplified transfer function and the ideal low-pass filter. This provides our final design equations:
+*   **Design Equation A ($f_0$)**: $(2\pi f_0)^2 = G_1 G_4 G_5$
+*   **Design Equation B (Q)**: $\frac{2\pi f_0}{Q} = G_1 G_2$
 
-Next, we solve the equation for the Q-factor to find $C_2$. The equation simplifies nicely:
-$$ \frac{\omega_0}{Q} = \frac{g_{m2}}{C_2} $$
-$$ C_2 = \frac{g_{m2} \times Q}{\omega_0} = \frac{100 \times 10^{-6} \text{ S} \times 10}{6283.2 \text{ rad/s}} = 1.5915 \times 10^{-7} \text{ F} $$
-$$ \mathbf{C_2 = 159.2 \text{ nF}} $$
+##### Step 4: Calculate Capacitor C₂
+We start with Design Equation B. First, we substitute the component definitions from the topology ($G_1 = g_{m1} / C_2$ and $G_2 = g_{m2} / g_{m1}$):
+$$ \frac{2\pi f_0}{Q} = \left(\frac{g_{m1}}{C_2}\right) \left(\frac{g_{m2}}{g_{m1}}\right) $$
+The $g_{m1}$ terms cancel, simplifying the equation significantly:
+$$ \frac{2\pi f_0}{Q} = \frac{g_{m2}}{C_2} $$
+Now, we rearrange to solve for $C_2$ and insert the specified values:
+$$ C_2 = \frac{g_{m2} \times Q}{2\pi f_0} = \frac{(100 \times 10^{-6} \text{ S}) \times 10}{2 \pi \times 1000 \text{ Hz}} = \frac{0.001}{6283.2} = 1.5915 \times 10^{-7} \text{ F} $$
+$$ C_2 = 159.2 \text{ nF} $$
 
-Now, we solve the equation for the center frequency to find $C_4$. The equation simplifies to:
-$$ (\omega_0)^2 = \frac{g_{m1}}{C_2} \frac{g_{m4}}{C_4} $$
-We can substitute the term $\frac{g_{m1}}{C_2}$ with $\frac{\omega_0}{Q}$ (since $g_{m1}=g_{m2}$):
-$$ (\omega_0)^2 = \frac{\omega_0}{Q} \frac{g_{m4}}{C_4} \implies \omega_0 Q = \frac{g_{m4}}{C_4} $$
-$$ C_4 = \frac{g_{m4}}{\omega_0 Q} = \frac{100 \times 10^{-6} \text{ S}}{6283.2 \text{ rad/s} \times 10} = 1.5915 \times 10^{-9} \text{ F} $$
-$$ \mathbf{C_4 = 1.59 \text{ nF}} $$
+##### Step 5: Calculate Capacitor C₄
+Next, we use Design Equation A. We substitute the definitions for $G_1$, $G_4$, and $G_5$:
+$$ (2\pi f_0)^2 = \left(\frac{g_{m1}}{C_2}\right) \left(\frac{g_{m3}}{C_4}\right) \left(\frac{g_{m4}}{g_{m3}}\right) $$
+The $g_{m3}$ terms cancel out:
+$$ (2\pi f_0)^2 = \left(\frac{g_{m1}}{C_2}\right) \left(\frac{g_{m4}}{C_4}\right) $$
+From the previous step, we know that $\frac{g_{m1}}{C_2} = \frac{2\pi f_0}{Q}$ (since $g_{m1}=g_{m2}$). Substituting this provides a more elegant path to the solution:
+$$ (2\pi f_0)^2 = \left(\frac{2\pi f_0}{Q}\right) \left(\frac{g_{m4}}{C_4}\right) $$
+Dividing both sides by $2\pi f_0$ and rearranging for $C_4$:
+$$ 2\pi f_0 \times Q = \frac{g_{m4}}{C_4} \implies C_4 = \frac{g_{m4}}{2\pi f_0 \times Q} $$
+Finally, we insert the values:
+$$ C_4 = \frac{100 \times 10^{-6} \text{ S}}{(6283.2 \text{ rad/s}) \times 10} = \frac{100 \times 10^{-6}}{62832} = 1.5915 \times 10^{-9} \text{ F} $$
+$$ C_4 = 1.59 \text{ nF} $$
 
-**Final Design Values**
+##### Final Design Summary
+To implement the low-pass filter, the following component values are required:
+| Component       | Value          | Purpose                                 |
+|-----------------|----------------|-----------------------------------------|
+| $g_{m1,2,3,4}$  | 100 µS         | Sets filter gain and characteristics    |
+| $C_1$           | 0 F (removed)  | Simplifies filter to low-pass response  |
+| $C_2$           | 159.2 nF       | Sets the Q-factor                       |
+| $C_3$           | 0 F (removed)  | Simplifies filter to low-pass response  |
+| $C_4$           | 1.59 nF        | Sets the center frequency, $f_0$        |
 
-| Component | Value        | Purpose                               |
-|:----------|:-------------|:--------------------------------------|
-| $C_1$     | 0 (removed)  | Simplifies filter to low-pass response|
-| $C_2$     | 159.2 nF     | Sets the Q-factor                     |
-| $C_3$     | 0 (removed)  | Simplifies filter to low-pass response|
-| $C_4$     | 1.59 nF      | Sets the center frequency, $f_0$      |
+::: {.callout-note title="A Note on Practicality and Component Values"}
+A critical review of these final component values reveals a significant practical challenge. The calculated capacitors, particularly $C_2 = 159.2 \text{ nF}$, are enormously large for on-chip implementation.
+
+For context, at a typical Metal-Insulator-Metal (MIM) capacitor density for the SG13G2 process (around 1-2 fF/µm²), a 159.2 nF capacitor would occupy an area of roughly 80-160 mm². This is prohibitively large, often exceeding the area of an entire die, and thus is completely impractical for a monolithic integrated circuit.
+
+This issue arises directly from the design specifications: a very low target frequency ($f_0 = 1 \text{ kHz}$) combined with a moderately high transconductance ($g_m = 100 \text{ µS}$). For a production-ready design, a mandatory next step would be to re-evaluate these specifications. The most common approach would be to drastically reduce the OTA's transconductance (e.g., to 1 µS or less), which would proportionally decrease the required capacitance to a manageable level (e.g., $C_2 \approx 1.6 \text{ nF}$).
+
+For the purpose of this academic exercise, we will proceed with the calculated values to demonstrate the correctness of the design methodology and to verify the filter's transfer function in simulation.
+:::
 
 ### Final Implementation and Verification
 
