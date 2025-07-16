@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.29">
+<meta name="generator" content="quarto-1.7.28">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -52,7 +52,7 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-0815c480559380816a4d1ea211a47e91.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-6e5ff12f349f7d7ee99023e5a7f49be9.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
@@ -91,7 +91,7 @@ window.Quarto = {
 </script>
 
 <meta name="citation_title" content="IC Design of a Universal Biquad Filter">
-<meta name="citation_abstract" content="Lorem ipsum
+<meta name="citation_abstract" content="This paper presents the IC design of a universal biquad filter with a 1 kHz corner frequency and Q-factor of 10. The design, initiated with Python behavioral modeling and simulated in Xschem, first explored an ideal op-amp based filter. However, its transistor-level implementation with a 5-transistor OTA failed due to poor OTA performance. This led to a revised design utilizing a more robust Gm-C biquad topology driven by a high-performance, fully differential OTA. While facing challenges in reaching the desired OTA gain, the final Gm-C filter&amp;amp;#039;s simulated low-pass response indicated areas for further optimization in the design approach for mixed-signal applications.
 ">
 <meta name="citation_author" content="Aditya Ranjan Shandilya">
 <meta name="citation_author" content="Merlin Anitha Athisayaraj">
@@ -170,7 +170,7 @@ window.Quarto = {
     <div>
       <div class="abstract">
         <div class="block-title">Abstract</div>
-        <p>Lorem ipsum</p>
+        <p>This paper presents the IC design of a universal biquad filter with a 1 kHz corner frequency and Q-factor of 10. The design, initiated with Python behavioral modeling and simulated in Xschem, first explored an ideal op-amp based filter. However, its transistor-level implementation with a 5-transistor OTA failed due to poor OTA performance. This led to a revised design utilizing a more robust Gm-C biquad topology driven by a high-performance, fully differential OTA. While facing challenges in reaching the desired OTA gain, the final Gm-C filter’s simulated low-pass response indicated areas for further optimization in the design approach for mixed-signal applications.</p>
       </div>
     </div>
 
@@ -234,7 +234,7 @@ window.Quarto = {
   </ul></li>
   </ul></li>
   <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1"><span class="header-section-number">5</span> Conclusion</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
   </ul>
 <div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="content\references-preview.html"><i class="bi bi-journal-code"></i>References</a></li></ul></div></nav>
 </div>
@@ -372,7 +372,7 @@ V_o = - \left( \frac{R_f}{R_a}V_a + \frac{R_f}{R_b}V_b + \frac{R_f}{R_c}V_c \rig
 <p>Our initial approach was to implement a universal second-order biquad filter based on the topology described in Experiment 4 of the Texas Instruments ASLK Pro Manual. This architecture is valuable because it simultaneously provides low-pass (LPF), high-pass (HPF), band-pass (BPF), and band-stop (BSF) outputs from a single circuit.</p>
 <section id="circuit-topology-and-theory" class="level3" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="circuit-topology-and-theory"><span class="header-section-number">4.1.1</span> Circuit Topology and Theory</h3>
-<p>The filter is based on the Tow-Thomas biquad topology, which uses two integrators and an inverter to realize the filter transfer functions. The general schematic is shown in <a href="#fig-ideal-uni" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<p>The filter that we are using, uses two integrators and two inverter to realize the filter transfer functions. The general schematic is shown in <a href="#fig-ideal-uni" class="quarto-xref">Figure&nbsp;1</a>.</p>
 <div id="fig-ideal-uni" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ideal-uni-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -386,7 +386,7 @@ Figure&nbsp;1: Schematic of the ideal universal second-order active filter, base
 </section>
 <section id="ideal-op-amp-model-and-symbol-creation" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="ideal-op-amp-model-and-symbol-creation"><span class="header-section-number">4.1.2</span> Ideal Op-Amp Model and Symbol Creation</h3>
-<p>To simulate the ideal behavior of this circuit, we first required an ideal operational amplifier model. We used a standard single-pole op-amp SPICE model from eCircuit Center, shown in <strong>?@lst-opamp-subckt</strong>.</p>
+<p>To simulate the ideal behavior of this circuit, we first required an ideal operational amplifier model. We used a standard single-pole op-amp SPICE model.</p>
 <p><strong>Implementation Note:</strong> A common pitfall during setup is the path configuration for custom models. Xschem initially searches for model files in the project’s home directory. We had to configure the simulation settings to ensure Xschem could locate the <code>OPAMP1.cir</code> file in our circuit’s working directory.</p>
 </section>
 <section id="simulation-and-results" class="level3" data-number="4.1.3">
@@ -434,7 +434,13 @@ Figure&nbsp;1: Schematic of the ideal universal second-order active filter, base
 <section id="from-an-ideal-model-to-a-transistor-level-circuit" class="level4" data-number="4.2.1.1">
 <h4 data-number="4.2.1.1" class="anchored" data-anchor-id="from-an-ideal-model-to-a-transistor-level-circuit"><span class="header-section-number">4.2.1.1</span> From an Ideal Model to a Transistor-Level Circuit</h4>
 <p>In the initial phase of the project, we used an ideal op-amp, which is a behavioral model in SPICE. It assumes infinite gain, infinite bandwidth, and zero output impedance. This is useful for verifying circuit topology and transfer functions at a conceptual level.</p>
-<p>A real OTA, however, is built from transistors and has inherent physical limitations: * <strong>Finite Gain and Bandwidth</strong>: The voltage gain is limited by the transistor’s output impedance and transconductance. * <strong>Power Consumption</strong>: It draws a finite DC current from the power supply. * <strong>Non-linearities</strong>: Its behavior can deviate from the ideal linear model, especially with large input signals. * <strong>Noise</strong>: The transistors introduce electronic noise into the circuit.</p>
+<p>A real OTA, however, is built from transistors and has inherent physical limitations:</p>
+<ul>
+<li><p><strong>Finite Gain and Bandwidth</strong>: The voltage gain is limited by the transistor’s output impedance and transconductance.</p></li>
+<li><p><strong>Power Consumption</strong>: It draws a finite DC current from the power supply.</p></li>
+<li><p><strong>Non-linearities</strong>: Its behavior can deviate from the ideal linear model, especially with large input signals.</p></li>
+<li><p><strong>Noise</strong>: The transistors introduce electronic noise into the circuit.</p></li>
+</ul>
 <p>Transitioning to a transistor-level OTA is therefore essential for designing a circuit that can be physically manufactured and will perform predictably.</p>
 </section>
 <section id="anatomy-of-a-5t-ota" class="level4" data-number="4.2.1.2">
@@ -450,7 +456,7 @@ Figure&nbsp;2: Basic 5T OTA Schematic
 </figcaption>
 </figure>
 </div>
-<p>In this circuit: - <strong>M1 and M2</strong> form the input differential pair. They operate in the saturation region, where the drain current is controlled by the gate-source voltage (<span class="math inline">\(V_{GS}\)</span>). The differential input voltage (<span class="math inline">\(V_{in,p} - V_{in,n}\)</span>) creates a differential current between the two branches. - <strong>M3 and M4</strong> form a PMOS current mirror that acts as the active load. This configuration provides a high output impedance, which helps achieve a higher voltage gain compared to a simple resistive load. - <strong>M5</strong> is the tail current source, which provides a constant bias current (<span class="math inline">\(I_{tail}\)</span>) to the differential pair. This current is mirrored from a reference current source via M6.</p>
+<p>In this circuit: * <strong>M1 and M2</strong> form the input differential pair. They operate in the saturation region, where the drain current is controlled by the gate-source voltage (<span class="math inline">\(V_{GS}\)</span>). The differential input voltage (<span class="math inline">\(V_{in,p} - V_{in,n}\)</span>) creates a differential current between the two branches. * <strong>M3 and M4</strong> form a PMOS current mirror that acts as the active load. This configuration provides a high output impedance, which helps achieve a higher voltage gain compared to a simple resistive load. * <strong>M5</strong> is the tail current source, which provides a constant bias current (<span class="math inline">\(I_{tail}\)</span>) to the differential pair. This current is mirrored from a reference current source via M6.</p>
 <p>The transconductance (<span class="math inline">\(g_m\)</span>) of the OTA is primarily set by the characteristics of the input pair and its bias current.</p>
 </section>
 <section id="sizing-the-5t-ota-with-the-gmid-methodology" class="level4" data-number="4.2.1.3">
@@ -645,7 +651,11 @@ Figure&nbsp;7: Conceptual schematic of the fully differential OTA from Baker.
 <p>The sizing began with the bandwidth requirement, which sets the needed transconductance. <span class="math display">\[ g_{m1,2} = f_{bw} \times 2\pi C_{load} \times (\text{Safety Factor}) = 10\text{e}6 \times 2\pi \times 50\text{e-15} \times 3 \approx 10 \text{ µS} \]</span> From this, the bias currents for the differential pair and the tail current were calculated: <span class="math display">\[ I_{D1,2} = \frac{g_{m1,2}}{g_m/I_D} = \frac{10 \text{ µS}}{18 \text{ S/A}} \approx 0.52 \text{ µA} \]</span> <span class="math display">\[ I_{tail} = 2 \times I_{D1,2} \approx 1.05 \text{ µA} \]</span></p>
 <p>The crucial step was the DC gain calculation. The gain is set by the input transconductance and the total output resistance (<span class="math inline">\(r_{o,total} = r_{o,nmos} || r_{o,pmos}\)</span>). <span class="math display">\[ A_0 = g_{m1,2} \times (r_{o,1,2} || r_{o,7,8}) \]</span> Using lookup tables to find the intrinsic gain (<code>gm/gds</code>) for each transistor at <code>L=0.5µm</code> and then calculating the output resistances, the analysis yielded a very low result: <span class="math display">\[ A_0 \Rightarrow 20 \log_{10}(A_0) \approx 21.5 \text{ dB} \]</span></p>
 <p><strong>Analysis of Sizing Limitations</strong></p>
-<p>The sizing exercise exposed critical design trade-offs and challenges: 1. <strong>Failure to Meet Gain Target</strong>: The resulting <strong>21.5 dB</strong> of gain falls drastically short of the <strong>60 dB</strong> specification. This is a direct consequence of using a short channel length (<code>L=0.5µm</code>), which severely limits the transistor’s intrinsic gain (<code>gm/gds</code>), making high DC gain unachievable. 2. <strong>Headroom and Output Swing Failure</strong>: The voltage headroom analysis revealed that the design could not support the required output voltage levels, stating explicitly: <code>[WARNING] Output voltage requirement is NOT met!</code>.</p>
+<p>The sizing exercise exposed critical design trade-offs and challenges:</p>
+<ol type="1">
+<li><p><strong>Failure to Meet Gain Target</strong>: The resulting <strong>21.5 dB</strong> of gain falls drastically short of the <strong>60 dB</strong> specification. This is a direct consequence of using a short channel length (<code>L=0.5µm</code>), which severely limits the transistor’s intrinsic gain (<code>gm/gds</code>), making high DC gain unachievable.</p></li>
+<li><p><strong>Headroom and Output Swing Failure</strong>: The voltage headroom analysis revealed that the design could not support the required output voltage levels, stating explicitly: <code>[WARNING] Output voltage requirement is NOT met!</code>.</p></li>
+</ol>
 <p>Despite attempts to rectify this by exploring different <code>gm/ID</code> ratios and longer channel lengths, the 60 dB target remained elusive within the constraints of this specific topology and sizing choices. Faced with these results, we proceeded by implementing the OTA in Xschem using the values calculated from our analysis, acknowledging the known performance limitations.</p>
 <div id="fig-Gm-100u-OTA" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -675,7 +685,12 @@ Figure&nbsp;9: Schematic of the Gm-C Biquad Filter Topology
 <p>This Gm-C biquad structure is essentially a cascade of two integrator blocks with feedback. The first stage (built around gm1, gm2, and associated capacitors) and the second stage (built around gm3, gm4, and capacitors) are interconnected. The feedback from the final output back to the input creates the second-order response necessary for achieving high Q-factors. A primary advantage of this topology is its <strong>electronic tunability</strong>; the filter’s center frequency (<span class="math inline">\(f_0\)</span>) and quality factor (Q) are set by gm and C values. Since the gm can be adjusted by changing bias currents, the filter can be tuned after fabrication, making it ideal for integrated circuits where precise resistor values are difficult to achieve.</p>
 <section id="design-calculations" class="level4" data-number="4.2.5.1">
 <h4 data-number="4.2.5.1" class="anchored" data-anchor-id="design-calculations"><span class="header-section-number">4.2.5.1</span> Design Calculations</h4>
-<p>The design process involves mapping the desired filter characteristics onto the general biquad transfer function and then solving for the specific capacitance values. Our goal is to find the values for capacitors C1, C2, C3, and C4 to create a low-pass filter with the following specifications: * <strong>Center/Cutoff Frequency (<span class="math inline">\(f_0\)</span>)</strong>: 1 kHz * <strong>Quality Factor (Q)</strong>: 10 * <strong>Transconductance (<span class="math inline">\(g_m\)</span>)</strong>: 100 µS for gm1, gm2, gm3, and gm4.</p>
+<p>The design process involves mapping the desired filter characteristics onto the general biquad transfer function and then solving for the specific capacitance values. Our goal is to find the values for capacitors C1, C2, C3, and C4 to create a low-pass filter with the following specifications:</p>
+<ul>
+<li><p><strong>Center/Cutoff Frequency (<span class="math inline">\(f_0\)</span>)</strong>: 1 kHz</p></li>
+<li><p><strong>Quality Factor (Q)</strong>: 10</p></li>
+<li><p><strong>Transconductance (<span class="math inline">\(g_m\)</span>)</strong>: 100 µS for gm1, gm2, gm3, and gm4.</p></li>
+</ul>
 <section id="step-1-start-with-the-general-biquad-transfer-function" class="level5" data-number="4.2.5.1.1">
 <h5 data-number="4.2.5.1.1" class="anchored" data-anchor-id="step-1-start-with-the-general-biquad-transfer-function"><span class="header-section-number">4.2.5.1.1</span> Step 1: Start with the General Biquad Transfer Function</h5>
 <p>The design begins with the general transfer function for the biquad topology, which describes how the filter responds to any frequency <code>s</code>. The numerator of the function defines the filter’s zeroes (frequencies it blocks), and the denominator defines its poles (the natural resonant frequencies that shape the response, like <span class="math inline">\(f_0\)</span> and Q). The general transfer function is given by: <span class="math display">\[ \frac{V_{out}}{V_{in}} = \frac{s^2(G_1 G_3 G_4 G_6) + s(G_1 G_3 G_4 + G_1 G_4 G_6) + G_1 G_4}{s^2 + s(G_1 G_2 + G_1 G_4 G_5 G_6) + G_1 G_4 G_5} \]</span></p>
@@ -686,7 +701,11 @@ Figure&nbsp;9: Schematic of the Gm-C Biquad Filter Topology
 </section>
 <section id="step-3-establish-the-final-design-equations" class="level5" data-number="4.2.5.1.3">
 <h5 data-number="4.2.5.1.3" class="anchored" data-anchor-id="step-3-establish-the-final-design-equations"><span class="header-section-number">4.2.5.1.3</span> Step 3: Establish the Final Design Equations</h5>
-<p>With <span class="math inline">\(G_3=0\)</span> and <span class="math inline">\(G_6=0\)</span>, we can equate the denominators of our simplified transfer function and the ideal low-pass filter. This provides our final design equations: * <strong>Design Equation A (<span class="math inline">\(f_0\)</span>)</strong>: <span class="math inline">\((2\pi f_0)^2 = G_1 G_4 G_5\)</span> * <strong>Design Equation B (Q)</strong>: <span class="math inline">\(\frac{2\pi f_0}{Q} = G_1 G_2\)</span></p>
+<p>With <span class="math inline">\(G_3=0\)</span> and <span class="math inline">\(G_6=0\)</span>, we can equate the denominators of our simplified transfer function and the ideal low-pass filter. This provides our final design equations:</p>
+<ul>
+<li><p><strong>Design Equation A (<span class="math inline">\(f_0\)</span>)</strong>: <span class="math inline">\((2\pi f_0)^2 = G_1 G_4 G_5\)</span></p></li>
+<li><p><strong>Design Equation B (Q)</strong>: <span class="math inline">\(\frac{2\pi f_0}{Q} = G_1 G_2\)</span></p></li>
+</ul>
 </section>
 <section id="step-4-calculate-capacitor-c₂" class="level5" data-number="4.2.5.1.4">
 <h5 data-number="4.2.5.1.4" class="anchored" data-anchor-id="step-4-calculate-capacitor-c₂"><span class="header-section-number">4.2.5.1.4</span> Step 4: Calculate Capacitor C₂</h5>
@@ -698,7 +717,43 @@ Figure&nbsp;9: Schematic of the Gm-C Biquad Filter Topology
 </section>
 <section id="final-design-summary" class="level5" data-number="4.2.5.1.6">
 <h5 data-number="4.2.5.1.6" class="anchored" data-anchor-id="final-design-summary"><span class="header-section-number">4.2.5.1.6</span> Final Design Summary</h5>
-<p>To implement the low-pass filter, the following component values are required: | Component | Value | Purpose | |—————–|—————-|—————————————–| | <span class="math inline">\(g_{m1,2,3,4}\)</span> | 100 µS | Sets filter gain and characteristics | | <span class="math inline">\(C_1\)</span> | 0 F (removed) | Simplifies filter to low-pass response | | <span class="math inline">\(C_2\)</span> | 159.2 nF | Sets the Q-factor | | <span class="math inline">\(C_3\)</span> | 0 F (removed) | Simplifies filter to low-pass response | | <span class="math inline">\(C_4\)</span> | 1.59 nF | Sets the center frequency, <span class="math inline">\(f_0\)</span> |</p>
+<p>To implement the low-pass filter, the following component values are required:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Value</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(g_{m1,2,3,4}\)</span></td>
+<td style="text-align: left;">100 µS</td>
+<td style="text-align: left;">Sets filter gain and characteristics</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(C_1\)</span></td>
+<td style="text-align: left;">0 F (removed)</td>
+<td style="text-align: left;">Simplifies filter to low-pass response</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(C_2\)</span></td>
+<td style="text-align: left;">159.2 nF</td>
+<td style="text-align: left;">Sets the Q-factor</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(C_3\)</span></td>
+<td style="text-align: left;">0 F (removed)</td>
+<td style="text-align: left;">Simplifies filter to low-pass response</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(C_4\)</span></td>
+<td style="text-align: left;">1.59 nF</td>
+<td style="text-align: left;">Sets the center frequency, <span class="math inline">\(f_0\)</span></td>
+</tr>
+</tbody>
+</table>
 <div class="callout callout-style-default callout-note callout-titled" title="A Note on Practicality and Component Values">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -742,17 +797,39 @@ Figure&nbsp;11: Simulated Bode plot of the final low-pass filter.
 </figcaption>
 </figure>
 </div>
-<p>The simulation confirms the filter is operating as designed. The success of the final filter, even with a sub-optimal OTA, demonstrates the robustness of the Gm-C biquad topology. It suggests that while higher OTA gain would improve performance (e.g., Q-factor accuracy), the fundamental design is sound.</p>
+<p>While facing challenges in reaching the desired OTA gain, the final Gm-C filter’s simulated low-pass response indicated areas for further optimization in the design approach for mixed-signal applications.</p>
 </section>
 </section>
 </section>
 <section id="conclusion-1" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Conclusion</h1>
+<p>Our work presented the IC design of a universal biquad filter targeting at 1 kHz corner frequency with a Q-factor of 10. Our design journey began with Python-based behavioral modeling to analyze ideal filter characteristics. We then transitioned to circuit implementation and simulation in Xschem, initially exploring an op-amp based universal biquad. However, its transistor-level realization using a basic 5-transistor Operational Transconductance Amplifier (OTA) proved unsuccessful due to the OTA’s inherent performance limitations, particularly its insufficient DC gain and drive current.</p>
+<p>This significant hurdle necessitated a strategic pivot to a more robust Gm-C biquad filter topology, driven by a newly designed, high-performance fully differential OTA. While the quantitative sizing analysis for this advanced OTA revealed challenges in meeting the ambitious target gain (only achieving 21.5 dB instead of 60 dB) and output swing requirements, we proceeded with its implementation to validate the design methodology.</p>
+<p>Moving forward, a production-ready design would require a re-evaluation of the filter specifications, likely involving a reduction in the OTA’s transconductance to yield manageable on-chip capacitance values. This exercise underscores the intricate trade-offs inherent in mixed-signal IC design, where theoretical ideals must converge with practical fabrication constraints.</p>
 </section>
-<section id="references" class="level1 unnumbered">
-<h1 class="unnumbered">References</h1>
+<section id="references" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> References</h1>
 <div id="refs" role="list">
-
+<ul>
+<li><p>Baker, R. Jacob. <em>CMOS: Circuit Design, Layout, and Simulation</em>. 3rd ed., Wiley-IEEE Press, Oct.&nbsp;2010. <a href="https://doi.org/10.1002/9780470891179">https://doi.org/10.1002/9780470891179</a>.</p></li>
+<li><p>Baker, R. Jacob. <em>CMOSedu</em>. 2015. <a href="http://www.cmosedu.com">http://www.cmosedu.com</a>.</p></li>
+<li><p>Basso, Christophe P. <em>Switch-Mode Power Supplies: SPICE Simulations and Practical Designs</em>. McGraw-Hill, 2008.</p></li>
+<li><p>Carter, Bruce. <em>Op Amps for Everyone</em>. 4th ed., Newnes, 2013. <a href="https://doi.org/10.1016/B978-0-12-391495-8.00001-5">https://doi.org/10.1016/B978-0-12-391495-8.00001-5</a>.</p></li>
+<li><p>Fath, Patrick, Manuel Moser, Georg Zachl, and Harald Pretl. “Open-source design of integrated circuits: Ein quelloffener 1,44-MS/s 703-μW 12-bit nichtbinärer SAR-ADC mit 448-aF Kondensatoren in einem 130-nm CMOS-Prozess.” <em>Elektrotechnik und Informationstechnik</em>, vol.&nbsp;141, no. 1, Jan.&nbsp;2024, pp.&nbsp;76–87. <a href="https://doi.org/10.1007/s00502-023-01195-5">https://doi.org/10.1007/s00502-023-01195-5</a>.</p></li>
+<li><p>Flaherty, Nick. “Tiny Tapeout hit as eFabless closes.” <em>eeNews EUROPE</em>, Mar.&nbsp;2025. <a href="https://www.eenewseurope.com/en/tiny-tapeout-hit-as-efabless-closes/">https://www.eenewseurope.com/en/tiny-tapeout-hit-as-efabless-closes/</a>.</p></li>
+<li><p>Lienig, Jens, and Juergen Scheible. <em>Fundamentals of Layout Design for Electronic Circuits</em>. Springer International Publishing, 2020. <a href="https://doi.org/10.1007/978-3-030-39284-0">https://doi.org/10.1007/978-3-030-39284-0</a>.</p></li>
+<li><p>Lienig, Jens, and Jürgen Scheible. <em>Grundlagen des Layoutentwurfs elektronischer Schaltungen</em>. Springer International Publishing, 2023. <a href="https://doi.org/10.1007/978-3-031-15768-4">https://doi.org/10.1007/978-3-031-15768-4</a>.</p></li>
+<li><p>Mancini, Ron. <em>Op Amps for Everyone</em>. Texas Instruments Incorporation, Aug.&nbsp;2002. <a href="https://web.mit.edu/6.101/www/reference/op_amps_everyone.pdf">https://web.mit.edu/6.101/www/reference/op_amps_everyone.pdf</a>.</p></li>
+<li><p>Michel, Manfred. <em>Leistungselektronik: Einführung in Schaltungen und deren Verhalten</em>. 5th ed., Springer Berlin Heidelberg, 2011. <a href="https://doi.org/10.1007/978-3-642-15984-8">https://doi.org/10.1007/978-3-642-15984-8</a>.</p></li>
+<li><p>Pretl, Harald, Michael Koefinger, and Simon Dorrer. <em>Analog Circuit Design</em>. Dec.&nbsp;2024. <a href="https://doi.org/10.5281/zenodo.14387481">https://doi.org/10.5281/zenodo.14387481</a>. <a href="https://iic-jku.github.io/analog-circuit-design">https://iic-jku.github.io/analog-circuit-design</a>.</p></li>
+<li><p>Pretl, Harald, and Georg Zachl. <em>GitHub repository of the IIC-OSIC-TOOLS</em>. Version 2025.01, Zenodo, Jan.&nbsp;2025. <a href="https://doi.org/10.5281/zenodo.14634518">https://doi.org/10.5281/zenodo.14634518</a>. <a href="https://github.com/iic-jku/IIC-OSIC-TOOLS">https://github.com/iic-jku/IIC-OSIC-TOOLS</a>.</p></li>
+<li><p>Ratschenberger, Jakob, and Harald Pretl. <em>From Code to Chip: Open-Source Automated Analog Layout Design</em>. 1st ed., Springer Cham, 2025. <a href="https://doi.org/10.1007/978-3-031-68562-0">https://doi.org/10.1007/978-3-031-68562-0</a>.</p></li>
+<li><p>Schlienz, Ulrich. <em>Schaltnetzteile und ihre Peripherie: Dimensionierung, Einsatz, EMV</em>. Springer Fachmedien Wiesbaden, 2020. <a href="https://doi.org/10.1007/978-3-658-29490-8">https://doi.org/10.1007/978-3-658-29490-8</a>.</p></li>
+<li><p>Schröder, Dierk, and Rainer Marquardt, editors. <em>Leistungselektronische Schaltungen</em>. Springer Berlin Heidelberg, 2019. <a href="https://doi.org/10.1007/978-3-662-55325-1">https://doi.org/10.1007/978-3-662-55325-1</a>.</p></li>
+<li><p>“Spring 2024.” <em>IEEE Solid-State Circuits Magazine</em>, vol.&nbsp;16, no. 2, 2024, pp.&nbsp;3–4. <a href="https://doi.org/10.1109/mssc.2024.3400568">https://doi.org/10.1109/mssc.2024.3400568</a>.</p></li>
+<li><p>Wicht, Bernhard. “Analog Building Blocks of dc-dc Converters: Examining Fundamental Concepts.” <em>IEEE Solid-State Circuits Magazine</em>, vol.&nbsp;12, no. 3, 2020, pp.&nbsp;42–47. <a href="https://doi.org/10.1109/mssc.2020.3002141">https://doi.org/10.1109/mssc.2020.3002141</a>.</p></li>
+<li><p>Wicht, Bernhard. <em>Design of Power Management Integrated Circuits</em>. Wiley, May 2024. <a href="https://doi.org/10.1002/9781119123095">https://doi.org/10.1002/9781119123095</a>.</p></li>
+</ul>
 </div>
 </section>
 

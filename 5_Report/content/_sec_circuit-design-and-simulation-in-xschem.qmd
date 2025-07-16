@@ -8,7 +8,7 @@ Our initial approach was to implement a universal second-order biquad filter bas
 
 ### Circuit Topology and Theory
 
-The filter is based on the Tow-Thomas biquad topology, which uses two integrators and an inverter to realize the filter transfer functions. The general schematic is shown in @fig-ideal-uni.
+The filter that we are using, uses two integrators and two inverter to realize the filter transfer functions. The general schematic is shown in @fig-ideal-uni.
 
 ![Schematic of the ideal universal second-order active filter, based on the ASLK Pro manual.](images/ideal-biquad-uni.png){#fig-ideal-uni}
 
@@ -74,9 +74,9 @@ The 5T OTA is a cornerstone of analog design due to its simplicity and efficienc
 ![Basic 5T OTA Schematic](images/basic-5T-OTA.png){#fig-Basic-5T-OTA-Schematic}
 
 In this circuit:
--   **M1 and M2** form the input differential pair. They operate in the saturation region, where the drain current is controlled by the gate-source voltage ($V_{GS}$). The differential input voltage ($V_{in,p} - V_{in,n}$) creates a differential current between the two branches.
--   **M3 and M4** form a PMOS current mirror that acts as the active load. This configuration provides a high output impedance, which helps achieve a higher voltage gain compared to a simple resistive load.
--   **M5** is the tail current source, which provides a constant bias current ($I_{tail}$) to the differential pair. This current is mirrored from a reference current source via M6.
+*   **M1 and M2** form the input differential pair. They operate in the saturation region, where the drain current is controlled by the gate-source voltage ($V_{GS}$). The differential input voltage ($V_{in,p} - V_{in,n}$) creates a differential current between the two branches.
+*   **M3 and M4** form a PMOS current mirror that acts as the active load. This configuration provides a high output impedance, which helps achieve a higher voltage gain compared to a simple resistive load.
+*   **M5** is the tail current source, which provides a constant bias current ($I_{tail}$) to the differential pair. This current is mirrored from a reference current source via M6.
 
 The transconductance ($g_m$) of the OTA is primarily set by the characteristics of the input pair and its bias current.
 
@@ -257,13 +257,14 @@ $$ C_4 = 1.59 \text{ nF} $$
 
 ##### Final Design Summary
 To implement the low-pass filter, the following component values are required:
-| Component       | Value          | Purpose                                 |
-|-----------------|----------------|-----------------------------------------|
-| $g_{m1,2,3,4}$  | 100 µS         | Sets filter gain and characteristics    |
-| $C_1$           | 0 F (removed)  | Simplifies filter to low-pass response  |
-| $C_2$           | 159.2 nF       | Sets the Q-factor                       |
-| $C_3$           | 0 F (removed)  | Simplifies filter to low-pass response  |
-| $C_4$           | 1.59 nF        | Sets the center frequency, $f_0$        |
+
+| Component | Value | Purpose |
+|:---|:---|:---|
+| $g_{m1,2,3,4}$ | 100 µS | Sets filter gain and characteristics |
+| $C_1$ | 0 F (removed) | Simplifies filter to low-pass response |
+| $C_2$ | 159.2 nF | Sets the Q-factor |
+| $C_3$ | 0 F (removed) | Simplifies filter to low-pass response |
+| $C_4$ | 1.59 nF | Sets the center frequency, $f_0$ |
 
 ::: {.callout-note title="A Note on Practicality and Component Values"}
 A critical review of these final component values reveals a significant practical challenge. The calculated capacitors, particularly $C_2 = 159.2 \text{ nF}$, are enormously large for on-chip implementation.
