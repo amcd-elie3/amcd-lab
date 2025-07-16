@@ -21,7 +21,7 @@ keyword:
   - IC Design
 
 abstract: |
-    Lorem ipsum 
+    This paper presents the IC design of a universal biquad filter with a 1 kHz corner frequency and Q-factor of 10. The design, initiated with Python behavioral modeling and simulated in Xschem, first explored an ideal op-amp based filter. However, its transistor-level implementation with a 5-transistor OTA failed due to poor OTA performance. This led to a revised design utilizing a more robust Gm-C biquad topology driven by a high-performance, fully differential OTA. While facing challenges in reaching the desired OTA gain, the final Gm-C filter's simulated low-pass response indicated areas for further optimization in the design approach for mixed-signal applications.
 
 date: last-modified
 number-sections: true
