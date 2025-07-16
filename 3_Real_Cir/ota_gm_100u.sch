@@ -99,7 +99,6 @@ N 390 -440 480 -440 {lab=vss}
 N 340 -380 480 -380 {lab=vss}
 N 340 -380 340 -310 {lab=vss}
 N 300 -310 340 -310 {lab=vss}
-C {devices/title.sym} 160 -30 0 0 {name=l5 author="(c) Aditya R. Shandilya"}
 C {sg13g2_pr/sg13_lv_pmos.sym} 590 -590 0 1 {name=M3
 l=0.5u
 w=0.5u

@@ -137,4 +137,3 @@ C {opamp1.sym} -10 0 2 1 {name=x1}
 C {opamp1.sym} 340 30 2 1 {name=x2}
 C {opamp1.sym} 680 60 2 1 {name=x3}
 C {opamp1.sym} 340 300 2 1 {name=x4}
-C {title.sym} -160 510 0 0 {name=l8 author="Aditya Ranjan S., Merlin Anitha A., Varun Kumar C.V."}

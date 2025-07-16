@@ -135,17 +135,14 @@ value="
 .param R=1.6k C=100n RH=R/1.0 RQ=4.7k
 .control
 save all
-ac lin 1000 0.8 2k
-* tran 0.1m 10m 5m
+ac dec 20 10 1G
+*tran 0.1m 10m 5m
 write toplevel.raw
 plot vdb(hpf) vdb(bpf) vdb(lpf) vdb(bsf)
 .endc
 "}
 C {vsource.sym} 110 410 0 1 {name=Vin
-value="
-+ PULSE(-0.2 0.2 0 0.1u 0.1u 0.5m 1m 10)
-+ AC 1
-"}
+value="DC 0.8 AC 1"}
 C {gnd.sym} 110 440 0 0 {name=l5 lab=GND}
 C {opin.sym} 190 -220 0 0 {name=p3 lab=bpf}
 C {opin.sym} 530 -190 0 0 {name=p2 lab=lpf}
@@ -180,9 +177,9 @@ C {devices/code_shown.sym} -500 410 0 0 {name=MODEL only_toplevel=true
 format="tcleval( @value )"
 value="
 .lib cornerMOSlv.lib mos_tt
+.lib cornerRES.lib res_typ
 "}
-C {title.sym} -220 620 0 0 {name=l8 author="Aditya Ranjan S., Merlin Anitha A., Varun Kumar C.V."}
-C {devices/isource.sym} 830 500 0 0 {name=I1 value=20u pwl(0 0 10u 0 11u 20u)"}
+C {devices/isource.sym} 830 500 0 0 {name=I1 value=20u}
 C {devices/lab_pin.sym} 30 -140 0 1 {name=p21 sig_type=std_logic lab=i_bias}
 C {devices/lab_pin.sym} 830 460 0 0 {name=p22 sig_type=std_logic lab=v_dd}
 C {devices/lab_pin.sym} 830 540 0 0 {name=p23 sig_type=std_logic lab=i_bias}
