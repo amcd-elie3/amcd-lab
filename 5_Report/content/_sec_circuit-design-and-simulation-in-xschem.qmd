@@ -15,7 +15,7 @@ The filter is based on the Tow-Thomas biquad topology, which uses two integrator
 
 ### Ideal Op-Amp Model and Symbol Creation
 
-To simulate the ideal behavior of this circuit, we first required an ideal operational amplifier model. We used a standard single-pole op-amp SPICE model from eCircuit Center, shown in @lst-opamp-subckt.
+To simulate the ideal behavior of this circuit, we first required an ideal operational amplifier model. We used a standard single-pole op-amp SPICE model.
 
 **Implementation Note:** A common pitfall during setup is the path configuration for custom models. Xschem initially searches for model files in the project's home directory. We had to configure the simulation settings to ensure Xschem could locate the `OPAMP1.cir` file in our circuit's working directory.
 
@@ -56,9 +56,13 @@ Our first step towards a real circuit was to design and size a fundamental analo
 In the initial phase of the project, we used an ideal op-amp, which is a behavioral model in SPICE. It assumes infinite gain, infinite bandwidth, and zero output impedance. This is useful for verifying circuit topology and transfer functions at a conceptual level.
 
 A real OTA, however, is built from transistors and has inherent physical limitations:
+
 *   **Finite Gain and Bandwidth**: The voltage gain is limited by the transistor's output impedance and transconductance.
+
 *   **Power Consumption**: It draws a finite DC current from the power supply.
+
 *   **Non-linearities**: Its behavior can deviate from the ideal linear model, especially with large input signals.
+
 *   **Noise**: The transistors introduce electronic noise into the circuit.
 
 Transitioning to a transistor-level OTA is therefore essential for designing a circuit that can be physically manufactured and will perform predictably.
@@ -186,7 +190,9 @@ $$ A_0 \Rightarrow 20 \log_{10}(A_0) \approx 21.5 \text{ dB} $$
 **Analysis of Sizing Limitations**
 
 The sizing exercise exposed critical design trade-offs and challenges:
+
 1.  **Failure to Meet Gain Target**: The resulting **21.5 dB** of gain falls drastically short of the **60 dB** specification. This is a direct consequence of using a short channel length (`L=0.5µm`), which severely limits the transistor's intrinsic gain (`gm/gds`), making high DC gain unachievable.
+
 2.  **Headroom and Output Swing Failure**: The voltage headroom analysis revealed that the design could not support the required output voltage levels, stating explicitly: `[WARNING] Output voltage requirement is NOT met!`.
 
 Despite attempts to rectify this by exploring different `gm/ID` ratios and longer channel lengths, the 60 dB target remained elusive within the constraints of this specific topology and sizing choices. Faced with these results, we proceeded by implementing the OTA in Xschem using the values calculated from our analysis, acknowledging the known performance limitations.
@@ -204,8 +210,11 @@ This Gm-C biquad structure is essentially a cascade of two integrator blocks wit
 #### Design Calculations
 
 The design process involves mapping the desired filter characteristics onto the general biquad transfer function and then solving for the specific capacitance values. Our goal is to find the values for capacitors C1, C2, C3, and C4 to create a low-pass filter with the following specifications:
+
 *   **Center/Cutoff Frequency ($f_0$)**: 1 kHz
+
 *   **Quality Factor (Q)**: 10
+
 *   **Transconductance ($g_m$)**: 100 µS for gm1, gm2, gm3, and gm4.
 
 ##### Step 1: Start with the General Biquad Transfer Function
@@ -219,7 +228,9 @@ To make our general equation match this ideal form, we must eliminate the `s` an
 
 ##### Step 3: Establish the Final Design Equations
 With $G_3=0$ and $G_6=0$, we can equate the denominators of our simplified transfer function and the ideal low-pass filter. This provides our final design equations:
+
 *   **Design Equation A ($f_0$)**: $(2\pi f_0)^2 = G_1 G_4 G_5$
+
 *   **Design Equation B (Q)**: $\frac{2\pi f_0}{Q} = G_1 G_2$
 
 ##### Step 4: Calculate Capacitor C₂
@@ -274,4 +285,4 @@ AC analysis was performed, with the expected output being a low-pass response wi
 
 ![Simulated Bode plot of the final low-pass filter.](images/real-biquad_gm_c-output.png){#fig-Final-Bode}
 
-The simulation confirms the filter is operating as designed. The success of the final filter, even with a sub-optimal OTA, demonstrates the robustness of the Gm-C biquad topology. It suggests that while higher OTA gain would improve performance (e.g., Q-factor accuracy), the fundamental design is sound.
+While facing challenges in reaching the desired OTA gain, the final Gm-C filter's simulated low-pass response indicated areas for further optimization in the design approach for mixed-signal applications.
